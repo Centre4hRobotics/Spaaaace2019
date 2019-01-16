@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.commands.DriveWithJoystick;
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
@@ -16,7 +17,7 @@ public class DriveTrain extends Subsystem {
   
     public void Drive(XboxController stick)
     {
-        double speed = -stick.getY(Hand.kLeft);
+        double speed = stick.getY(Hand.kLeft);
         double steer = stick.getX(Hand.kLeft);
         if (speed<0.15 && speed>-0.15) speed = 0;
         if (steer<0.15 && steer>-0.15) steer = 0;
@@ -24,5 +25,6 @@ public class DriveTrain extends Subsystem {
     }
     @Override
     public void initDefaultCommand() {
+        setDefaultCommand(new DriveWithJoystick());
     }
 }
