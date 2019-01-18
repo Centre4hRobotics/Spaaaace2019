@@ -61,6 +61,10 @@ public final class Main {
     public String name;
     public String path;
     public JsonObject config;
+
+    public CameraConfig(){
+      super();
+    }
   }
 
   public static int team;
@@ -68,6 +72,7 @@ public final class Main {
   public static List<CameraConfig> cameraConfigs = new ArrayList<>();
 
   private Main() {
+    super();
   }
 
   /**
@@ -181,7 +186,13 @@ public final class Main {
    * Example pipeline.
    */
   public static class MyPipeline implements VisionPipeline {
+
+
     public int val;
+
+    public MyPipeline(){
+      super();
+    }
 
     @Override
     public void process(Mat mat) {
