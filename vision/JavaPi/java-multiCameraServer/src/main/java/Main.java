@@ -27,6 +27,7 @@ import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
 
 import org.opencv.core.Mat;
+import org.opencv.core.*;
 
 /*
    JSON format:
@@ -202,10 +203,16 @@ public final class Main {
    */
   public static class MyPipeline implements VisionPipeline {
     public int val;
+    private GripPipeline pipeline = new GripPipeline();
 
     @Override
     public void process(Mat mat) {
       val += 1;
+      pipeline.process(mat);
+    }
+    public ArrayList<MatOfPoint> filterContoursOutput() {
+      return pipeline.filterContoursOutput();
+      
     }
   }
 
@@ -221,7 +228,7 @@ public final class Main {
     if (!readConfig()) {
       return;
     }
-
+    System.out.println("Team 4027 Vision Code Starting");
     // start NetworkTables
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     if (server) {
@@ -240,16 +247,16 @@ public final class Main {
 
     // start image processing on camera 0 if present
     if (cameras.size() >= 1) {
+      //VisionThread visionThread = new VisionThread(cameras.get(0),
+         //     new MyPipeline(), pipeline -> {
+        // do something with pipeline results
+     // });
+      // something like this for GRIP:
       VisionThread visionThread = new VisionThread(cameras.get(0),
               new MyPipeline(), pipeline -> {
-        // do something with pipeline results
+       pipeline.filterContoursOutput();
       });
-      /* something like this for GRIP:
-      VisionThread visionThread = new VisionThread(cameras.get(0),
-              new GripPipeline(), pipeline -> {
-        ...
-      });
-       */
+    
       visionThread.start();
     }
 
