@@ -1,3 +1,4 @@
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -22,6 +23,8 @@ import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
@@ -204,11 +207,19 @@ public final class Main {
   public static class MyPipeline implements VisionPipeline {
     public int val;
     private GripPipeline pipeline = new GripPipeline();
+    private NetworkTableInstance ntinst = null;
+
+    public MyPipeline(NetworkTableInstance ntinst) {
+      this.ntinst = ntinst;
+    }
 
     @Override
     public void process(Mat mat) {
       val += 1;
       pipeline.process(mat);
+      NetworkTable table = ntinst.getTable("TestTable");
+      NetworkTableEntry entry = table.getEntry("iteration");
+      entry.setNumber(val);
     }
     public ArrayList<MatOfPoint> filterContoursOutput() {
       return pipeline.filterContoursOutput();
@@ -228,7 +239,7 @@ public final class Main {
     if (!readConfig()) {
       return;
     }
-    System.out.println("Team 4027 Vision Code Starting");
+    System.out.println("Team 4027 Vision Code Starting.");
     // start NetworkTables
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
     if (server) {
@@ -253,7 +264,7 @@ public final class Main {
      // });
       // something like this for GRIP:
       VisionThread visionThread = new VisionThread(cameras.get(0),
-              new MyPipeline(), pipeline -> {
+              new MyPipeline(ntinst), pipeline -> {
        pipeline.filterContoursOutput();
       });
     
