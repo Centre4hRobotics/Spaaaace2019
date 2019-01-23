@@ -31,6 +31,7 @@ import edu.wpi.first.vision.VisionThread;
 
 import org.opencv.core.Mat;
 import org.opencv.core.*;
+import org.opencv.imgproc.*;
 
 /*
    JSON format:
@@ -206,11 +207,32 @@ public final class Main {
    */
   public static class MyPipeline implements VisionPipeline {
     public int val;
-    private GripPipeline pipeline = new GripPipeline();
+    private GripPipelineCargo pipeline = new GripPipelineCargo();
     private NetworkTableInstance ntinst = null;
 
     public MyPipeline(NetworkTableInstance ntinst) {
       this.ntinst = ntinst;
+    }
+
+    public void publishCargo (ArrayList<MatOfPoint> contours) {
+      int foundContour = 0;
+      double xCenter = 0.0;
+      if (contours.size() > 0) {
+        foundContour = 1;
+        double aMax = 0.0;
+        int index = 0;
+        for (int i = 0; i<contours.size(); i++) {
+          Moments m = Imgproc.moments(contours.get(i));
+          if (m.get_m00()>aMax) {
+            aMax = m.get_m00();
+            index = i;
+          }
+        }
+        Moments m = Imgproc.moments(contours.get(index));
+        xCenter = m.get_m10()/m.get_m00();
+      }
+      ntinst.getTable("Datatable").getEntry("Found Contour").setNumber(foundContour);
+      ntinst.getTable("Datatable").getEntry("XCenter").setNumber(xCenter);
     }
 
     @Override
@@ -220,6 +242,7 @@ public final class Main {
       NetworkTable table = ntinst.getTable("TestTable");
       NetworkTableEntry entry = table.getEntry("iteration");
       entry.setNumber(val);
+      publishCargo(pipeline.filterContoursOutput());
     }
     public ArrayList<MatOfPoint> filterContoursOutput() {
       return pipeline.filterContoursOutput();
