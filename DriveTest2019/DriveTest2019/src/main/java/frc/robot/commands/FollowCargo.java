@@ -11,11 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class FollowCargo extends Command {
-  
-  public static final int AREA_GOAL = 15000;
-  public static final double SPEED_MULT = 2.0;
-  public static final double STEER_MULT = 0.02;
-  public static final double CAM_CENTER_X = 120.0;
 
   public FollowCargo() {
     requires(Robot.get().getDriveTrain());
@@ -32,9 +27,9 @@ public class FollowCargo extends Command {
       if (Robot.get().getNTInst().getTable("Datatable").getEntry("Found Contour").getDouble(0.0) == 0) {
         return;
       }
-      double steer = CAM_CENTER_X - Robot.get().getNTInst().getTable("Datatable").getEntry("XCenter").getDouble(0.0);
-      double speed = 1-Robot.get().getNTInst().getTable("Datatable").getEntry("Area").getDouble(0.0)/AREA_GOAL;
-      Robot.get().getDriveTrain().drive(speed*SPEED_MULT,steer*STEER_MULT);
+      double steer = Robot.get().getNTInst().getTable("Datatable").getEntry("Steer").getDouble(0.0);
+      double speed = Robot.get().getNTInst().getTable("Datatable").getEntry("Speed").getDouble(0.0);
+      Robot.get().getDriveTrain().drive(speed,steer);
   }
 
   // Make this return true when this Command no longer needs to run execute()
