@@ -10,12 +10,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * An example command.  You can replace me with your own command.
- */
-public class DriveWithJoystick extends Command {
-  public DriveWithJoystick() {
-    // Use requires() here to declare subsystem dependencies
+public class FollowCargo extends Command {
+  
+  public static final int AREA_GOAL = 15000;
+  public static final double SPEED_MULT = 2.0;
+  public static final double STEER_MULT = 0.02;
+  public static final double CAM_CENTER_X = 120.0;
+
+  public FollowCargo() {
     requires(Robot.get().getDriveTrain());
   }
 
@@ -27,7 +29,12 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.get().getDriveTrain().drive(Robot.get().getOI().getBaseJoystick());
+      if (Robot.get().getNTInst().getTable("Datatable").getEntry("Found Contour").getDouble(0.0) == 0) {
+        return;
+      }
+      double steer = CAM_CENTER_X - Robot.get().getNTInst().getTable("Datatable").getEntry("XCenter").getDouble(0.0);
+      double speed = 1-Robot.get().getNTInst().getTable("Datatable").getEntry("Area").getDouble(0.0)/AREA_GOAL;
+      Robot.get().getDriveTrain().drive(speed*SPEED_MULT,steer*STEER_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()

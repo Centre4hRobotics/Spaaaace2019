@@ -233,6 +233,7 @@ public final class Main {
       }
       ntinst.getTable("Datatable").getEntry("Found Contour").setNumber(foundContour);
       ntinst.getTable("Datatable").getEntry("XCenter").setNumber(xCenter);
+      ntinst.getTable("Datatable").getEntry("Area").setNumber(m.get_m00());
     }
 
     @Override

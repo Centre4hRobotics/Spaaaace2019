@@ -7,12 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.subsystems.DriveTrain;  
+//import edu.wpi.first.networktables.NetworkTableInstance;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +27,7 @@ import frc.robot.subsystems.DriveTrain;
 public class Robot extends TimedRobot {
   private DriveTrain s_driveTrain = new DriveTrain();
   private OI s_oi = new OI();
+  private NetworkTableInstance _ntinst = NetworkTableInstance.getDefault();
   public static Robot _instance = null;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -33,6 +37,10 @@ public class Robot extends TimedRobot {
 
   public static Robot get() {
     return _instance;
+  }
+
+  public NetworkTableInstance getNTInst() {
+    return this._ntinst;
   }
 
   public OI getOI() {
