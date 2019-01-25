@@ -207,8 +207,11 @@ public final class Main {
    */
   public static class MyPipeline implements VisionPipeline {
     public int val;
-    private GripPipelineCargo pipeline = new GripPipelineCargo();
+    private GripPipelineCargoII pipeline = new GripPipelineCargoII();
     private NetworkTableInstance ntinst = null;
+
+    public static final double PIXELS_ACROSS = 320;
+    public static final double TARGET_AREA = 10000;
 
     public MyPipeline(NetworkTableInstance ntinst) {
       this.ntinst = ntinst;
@@ -216,33 +219,39 @@ public final class Main {
 
     public void publishCargo (ArrayList<MatOfPoint> contours) {
       int foundContour = 0;
-      double xCenter = 0.0;
+      double xCenter = PIXELS_ACROSS/2, area = 0.0;
+      
       if (contours.size() > 0) {
         foundContour = 1;
         double aMax = 0.0;
         int index = 0;
+        Moments k = null;
         for (int i = 0; i<contours.size(); i++) {
-          Moments m = Imgproc.moments(contours.get(i));
-          if (m.get_m00()>aMax) {
-            aMax = m.get_m00();
+          k = Imgproc.moments(contours.get(i));
+          if (k.get_m00()>aMax) {
+            aMax = k.get_m00();
             index = i;
           }
         }
         Moments m = Imgproc.moments(contours.get(index));
         xCenter = m.get_m10()/m.get_m00();
+        area = m.get_m00();
       }
       ntinst.getTable("Datatable").getEntry("Found Contour").setNumber(foundContour);
       ntinst.getTable("Datatable").getEntry("XCenter").setNumber(xCenter);
-      ntinst.getTable("Datatable").getEntry("Area").setNumber(m.get_m00());
+      ntinst.getTable("Datatable").getEntry("Area").setNumber(area);
+      ntinst.getTable("Datatable").getEntry("Steer").setNumber(2*xCenter/PIXELS_ACROSS-1.0);
+      double speed = 1-area/TARGET_AREA;
+      if(speed < -1) speed = -1;
+      if (area == 0) speed = 0;
+      ntinst.getTable("Datatable").getEntry("Speed").setNumber(speed);
     }
 
     @Override
     public void process(Mat mat) {
       val += 1;
       pipeline.process(mat);
-      NetworkTable table = ntinst.getTable("TestTable");
-      NetworkTableEntry entry = table.getEntry("iteration");
-      entry.setNumber(val);
+      ntinst.getTable("TestTable").getEntry("iteration").setNumber(val);
       publishCargo(pipeline.filterContoursOutput());
     }
     public ArrayList<MatOfPoint> filterContoursOutput() {

@@ -12,7 +12,11 @@ import frc.robot.Robot;
 
 public class FollowCargo extends Command {
 
+  public static final double STEER_MULT = 0.4;
+  public static final double SPEED_MULT = 0.35;
+
   public FollowCargo() {
+    super("FollowCargo");
     requires(Robot.get().getDriveTrain());
   }
 
@@ -25,11 +29,12 @@ public class FollowCargo extends Command {
   @Override
   protected void execute() {
       if (Robot.get().getNTInst().getTable("Datatable").getEntry("Found Contour").getDouble(0.0) == 0) {
+        Robot.get().getDriveTrain().drive(0,0);
         return;
       }
       double steer = Robot.get().getNTInst().getTable("Datatable").getEntry("Steer").getDouble(0.0);
       double speed = Robot.get().getNTInst().getTable("Datatable").getEntry("Speed").getDouble(0.0);
-      Robot.get().getDriveTrain().drive(speed,steer);
+      Robot.get().getDriveTrain().drive(-1.0*speed*SPEED_MULT,steer*STEER_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,11 +46,13 @@ public class FollowCargo extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.get().getDriveTrain().drive(0,0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.get().getDriveTrain().drive(0,0);
   }
 }
