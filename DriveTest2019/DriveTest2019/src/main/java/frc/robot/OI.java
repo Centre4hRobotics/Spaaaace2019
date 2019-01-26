@@ -9,17 +9,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Button;
-import frc.robot.commands.FollowCargo;
+import frc.robot.commands.*;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
   private XboxController _base = new XboxController(0);
-  private Button _button1 = new JoystickButton(_base, 1);
+  private Button _buttonA = new JoystickButton(_base, 1);
+  private Button _buttonX = new JoystickButton(_base,3);
 
   public OI () {
-    _button1.whileHeld(new FollowCargo());
+    _buttonA.whileHeld(new FollowCargo());
+    _buttonX.whileHeld(new FindTargets());
   }
 
   public XboxController getBaseJoystick() {

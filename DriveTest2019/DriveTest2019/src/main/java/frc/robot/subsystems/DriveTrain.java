@@ -14,14 +14,29 @@ public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
     private final DifferentialDrive _drive = new DifferentialDrive(new PWMVictorSPX(1), new PWMVictorSPX(0));
-  
+    public static final double SLOW_SPEED_MULT = 0.375;
+    public static final double SLOW_STEER_MULT = 0.5;
+    public static final double REDUCE_PERCENT = 0.1;
+    private double lastSpeed = 0.0;
+
     public void drive(XboxController stick)
     {
         double speed = stick.getY(Hand.kLeft);
         double steer = stick.getX(Hand.kLeft);
+
+        double slow_speed = stick.getY(Hand.kRight);
+        double slow_steer = stick.getX(Hand.kRight);
+
         if (speed<0.15 && speed>-0.15) speed = 0;
         if (steer<0.15 && steer>-0.15) steer = 0;
-        drive(speed, steer);
+
+        if (Math.abs(slow_speed) > 0.3 || Math.abs(slow_steer) > 0.3) {
+            speed = slow_speed * SLOW_SPEED_MULT;
+            steer = slow_steer * SLOW_STEER_MULT; 
+        }
+        
+        lastSpeed = REDUCE_PERCENT*speed + (1-REDUCE_PERCENT)*lastSpeed;
+        drive(lastSpeed, steer);
     }
 
     public void drive(double speed, double steer) {
