@@ -1,5 +1,5 @@
 
-package main.java.frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,16 +17,16 @@ public class Gripper extends Subsystem {
     // here. Call these from Commands.
     Spark ballMotor = null;
 
-    public Gripper () {
+    public Gripper() {
         ballMotor = new Spark(0);
     }
 
-    public void Intake(XboxController cont) {
-        ballMotor.set(1.0);
+    public void setSpeed(double speed) {
+        ballMotor.set(speed);
     }
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveWithJoystick());
+        // setDefaultCommand(new DriveWithJoystick());
     }
 }

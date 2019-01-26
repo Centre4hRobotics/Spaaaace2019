@@ -20,6 +20,10 @@ public class OI {
     return this._base;
   }
 
+  public XboxController getBaseBumper() {
+    return this._base;
+  }
+
 
 
   //// CREATING BUTTONS

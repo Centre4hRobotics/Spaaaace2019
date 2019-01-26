@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     return this.s_driveTrain;
   }
 
-  public DriveTrain getGripper() {
+  public Gripper getGripper() {
     return this.s_gripper;
   }
 

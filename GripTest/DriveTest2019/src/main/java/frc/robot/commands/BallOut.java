@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package main.java.frc.robot.commands;
+import frc.robot.commands.*;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -27,7 +27,7 @@ public class BallOut extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getDriveTrain().Drive(Robot.get().getOI().getBaseJoystick());
+        Robot.get().getGripper().setSpeed(-1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -45,5 +45,7 @@ public class BallOut extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
+        Robot.get().getGripper().setSpeed(0.0);
+
     }
 }
