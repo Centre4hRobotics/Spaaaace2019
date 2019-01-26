@@ -1,4 +1,3 @@
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -6,8 +5,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import frc.robot.commands.BallIn;
-import frc.robot.commands.BallOut;
+import frc.robot.commands.*;
 
 /**
  * An example subsystem. You can replace me with your own Subsystem.
@@ -18,6 +16,7 @@ public class Gripper extends Subsystem {
     Spark ballMotor = null;
 
     public Gripper() {
+        super();
         ballMotor = new Spark(0);
     }
 
