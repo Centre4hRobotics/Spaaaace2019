@@ -205,49 +205,142 @@ public final class Main {
   /**
    * Example pipeline.
    */
-  public static class MyPipeline implements VisionPipeline {
+  public static class CargoPipeline implements VisionPipeline {
     public int val;
-    private GripPipelineCargo pipeline = new GripPipelineCargo();
+    private GripPipelineCargoII pipelineCargo = new GripPipelineCargoII();
     private NetworkTableInstance ntinst = null;
 
-    public MyPipeline(NetworkTableInstance ntinst) {
+    public static final double PIXELS_ACROSS = 320;
+    public static final double TARGET_AREA_CARGO = 60000;
+
+    public CargoPipeline(NetworkTableInstance ntinst) {
       this.ntinst = ntinst;
     }
 
     public void publishCargo (ArrayList<MatOfPoint> contours) {
       int foundContour = 0;
-      double xCenter = 0.0;
+      double xCenter = PIXELS_ACROSS/2, area = 0.0;
+      
       if (contours.size() > 0) {
         foundContour = 1;
         double aMax = 0.0;
         int index = 0;
+        Moments k = null;
         for (int i = 0; i<contours.size(); i++) {
-          Moments m = Imgproc.moments(contours.get(i));
-          if (m.get_m00()>aMax) {
-            aMax = m.get_m00();
+          k = Imgproc.moments(contours.get(i));
+          if (k.get_m00()>aMax) {
+            aMax = k.get_m00();
             index = i;
           }
         }
         Moments m = Imgproc.moments(contours.get(index));
         xCenter = m.get_m10()/m.get_m00();
+        area = m.get_m00();
       }
       ntinst.getTable("Datatable").getEntry("Found Contour").setNumber(foundContour);
       ntinst.getTable("Datatable").getEntry("XCenter").setNumber(xCenter);
+      ntinst.getTable("Datatable").getEntry("Area").setNumber(area);
+      ntinst.getTable("Datatable").getEntry("Steer").setNumber(2*xCenter/PIXELS_ACROSS-1.0);
+      double speed = 1-area/TARGET_AREA_CARGO;
+      if(speed < 0) speed = 0;
+      if (area == 0) speed = 0;
+      ntinst.getTable("Datatable").getEntry("Speed").setNumber(speed);
     }
 
     @Override
     public void process(Mat mat) {
       val += 1;
-      pipeline.process(mat);
-      NetworkTable table = ntinst.getTable("TestTable");
-      NetworkTableEntry entry = table.getEntry("iteration");
-      entry.setNumber(val);
-      publishCargo(pipeline.filterContoursOutput());
-    }
-    public ArrayList<MatOfPoint> filterContoursOutput() {
-      return pipeline.filterContoursOutput();
+      //System.out.println("Process begin");
+      pipelineCargo.process(mat);
       
+      ntinst.getTable("TestTable").getEntry("iteration cargo").setNumber(val);
+      publishCargo(pipelineCargo.filterContoursOutput());
+      /*
+      System.out.println("Drawing Line");
+      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(0, 255, 0), 3);
+      System.out.println("Line Drawn");
+      */
     }
+
+    /*public ArrayList<MatOfPoint> filterContoursOutputCargo() {
+      return pipelineCargo.filterContoursOutput();
+    }
+
+    public ArrayList<MatOfPoint> filterContoursOutputTarget() {
+      return pipelineTarget.filterContoursOutput();
+    }*/
+  }
+
+  public static class TargetPipeline implements VisionPipeline {
+    public int val;
+    private GripPipelineTarget pipelineTarget = new GripPipelineTarget();
+    private NetworkTableInstance ntinst = null;
+
+    public static final double PIXELS_ACROSS = 320;
+    public static final double TARGET_AREA_TARGET = 3000;
+
+    public TargetPipeline(NetworkTableInstance ntinst) {
+      this.ntinst = ntinst;
+    }
+
+    public void publishTargets (ArrayList<MatOfPoint> contours) {
+      int foundContour = contours.size();
+      double xCenter = PIXELS_ACROSS/2, area1 = 0.0, area2 = 0.0, xCenter1 = 0.0, xCenter2 = 0.0;
+      if (foundContour == 1) {
+        area1 = Imgproc.moments(contours.get(0)).get_m00();
+      } else if (foundContour > 1) {
+        int index1 = 0, index2 = 0;
+        Moments k = null;
+        for (int i = 0; i<contours.size(); i++) {
+          k=Imgproc.moments(contours.get(i));
+          if (k.get_m00()>area1) {
+            area2 = area1;
+            area1 = k.get_m00();
+            index2 = index1;
+            index1 = i;
+          } else if (k.get_m00()>area2) {
+            area2 = k.get_m00();
+            index2 = i;
+          }
+        }
+        Moments m1 = Imgproc.moments(contours.get(index1)), m2 = Imgproc.moments(contours.get(index2));
+        xCenter1 = m1.get_m10();
+        xCenter2 = m2.get_m10();
+        xCenter = (xCenter1/area1+xCenter2/area2)*0.5;
+      }
+      ntinst.getTable("Vision Targets").getEntry("Contours Found").setNumber(foundContour);
+      ntinst.getTable("Vision Targets").getEntry("XCenter").setNumber(xCenter);
+      ntinst.getTable("Vision Targets").getEntry("XCenter1").setNumber(xCenter1/area1);
+      ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter2/area2);
+      ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area1);
+      ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area2);
+      ntinst.getTable("Vision Targets").getEntry("Steer").setNumber(2*xCenter/PIXELS_ACROSS-1.0);
+      double speed = 1-area1/TARGET_AREA_TARGET;
+      if(speed < -1) speed = -1;
+      if (area1 == 0 || area2 == 0) speed = 0;
+      ntinst.getTable("Vision Targets").getEntry("Speed").setNumber(speed);
+    }
+
+    @Override
+    public void process(Mat mat) {
+      val += 1;
+      //System.out.println("Process begin");
+      pipelineTarget.process(mat);
+      ntinst.getTable("TestTable").getEntry("iteration target").setNumber(val);
+      publishTargets(pipelineTarget.filterContoursOutput());      /*
+      System.out.println("Drawing Line");
+      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(0, 255, 0), 3);
+      System.out.println("Line Drawn");
+      */
+    }
+
+    /*public ArrayList<MatOfPoint> filterContoursOutputCargo() {
+      return pipelineCargo.filterContoursOutput();
+    }
+
+    public ArrayList<MatOfPoint> filterContoursOutputTarget() {
+      return pipelineTarget.filterContoursOutput();
+    }*/
   }
 
   /**
@@ -281,17 +374,19 @@ public final class Main {
 
     // start image processing on camera 0 if present
     if (cameras.size() >= 1) {
-      //VisionThread visionThread = new VisionThread(cameras.get(0),
-         //     new MyPipeline(), pipeline -> {
+      VisionThread visionThreadTarget = new VisionThread(cameras.get(0),
+              new TargetPipeline(ntinst), pipeline -> {});
         // do something with pipeline results
-     // });
+      //});
       // something like this for GRIP:
-      VisionThread visionThread = new VisionThread(cameras.get(0),
-              new MyPipeline(ntinst), pipeline -> {
-       pipeline.filterContoursOutput();
+      VisionThread visionThreadCargo = new VisionThread(cameras.get(1),
+              new CargoPipeline(ntinst), pipeline -> {
+       /*pipelineCargo.filterContoursOutputCargo();
+       pipelineTarget.filterContoursOutputTarget();*/
       });
     
-      visionThread.start();
+      visionThreadCargo.start();
+      visionThreadTarget.start();
     }
 
     // loop forever

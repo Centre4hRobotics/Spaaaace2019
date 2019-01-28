@@ -10,12 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-/**
- * An example command.  You can replace me with your own command.
- */
-public class DriveWithJoystick extends Command {
-  public DriveWithJoystick() {
-    // Use requires() here to declare subsystem dependencies
+public class FindTargets extends Command {
+
+  public static final double STEER_MULT = 0.4;
+  public static final double SPEED_MULT = 0.35;
+
+  public FindTargets() {
+    super("FindTargets");
     requires(Robot.get().getDriveTrain());
   }
 
@@ -27,7 +28,13 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.get().getDriveTrain().drive(Robot.get().getOI().getBaseJoystick());
+      if (Robot.get().getNTInst().getTable("Vision Targets").getEntry("Contours Found").getDouble(0.0) < 2) {
+        Robot.get().getDriveTrain().drive(0,0);
+        return;
+      }
+      double steer = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Steer").getDouble(0.0);
+      double speed = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Speed").getDouble(0.0);
+      Robot.get().getDriveTrain().drive(-1.0*speed*SPEED_MULT,steer*STEER_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -39,11 +46,13 @@ public class DriveWithJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.get().getDriveTrain().drive(0,0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.get().getDriveTrain().drive(0,0);
   }
 }

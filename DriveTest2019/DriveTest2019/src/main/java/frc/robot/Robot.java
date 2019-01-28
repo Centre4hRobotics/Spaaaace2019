@@ -7,12 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.subsystems.DriveTrain;  
+//import edu.wpi.first.networktables.NetworkTableInstance;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,17 +25,28 @@ import frc.robot.subsystems.DriveTrain;
  * project.
  */
 public class Robot extends TimedRobot {
-  private DriveTrain s_driveTrain = new DriveTrain();
-  private OI s_oi = new OI();
+  private DriveTrain s_driveTrain = null;
+  private OI s_oi = null;
+  private NetworkTableInstance _ntinst = null;
   public static Robot _instance = null;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_chooser = null;
 
   public Robot () {
     _instance = this;
+    s_driveTrain = new DriveTrain();
+    _ntinst = NetworkTableInstance.getDefault();
+    m_chooser = new SendableChooser<>();
   }
 
   public static Robot get() {
+    if (_instance == null) {
+      _instance = new Robot();
+    }
     return _instance;
+  }
+
+  public NetworkTableInstance getNTInst() {
+    return this._ntinst;
   }
 
   public OI getOI() {
@@ -48,10 +62,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //m_oi = new OI();
     m_chooser.setDefaultOption("Default (Drive)", new DriveWithJoystick());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    //SmartDashboard.putData("Auto mode", m_chooser);
+    s_oi = new OI();
   }
 
   /**
@@ -64,6 +76,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
   }
 
   /**
