@@ -257,7 +257,7 @@ public final class Main {
       ArrayList<MatOfPoint> contours = pipelineCargo.filterContoursOutput();
       publishCargo(contours);
       for (int i = 0; i<contours.size(); i++) {
-        Imgproc.drawContours(mat, contours, i, new Scalar(148,0,211), 2);
+        Imgproc.drawContours(mat, contours, i, new Scalar(211,0,148), 2);
       }
       /*System.out.println("Drawing Line");
       Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(0, 255, 0), 3);
@@ -320,7 +320,9 @@ public final class Main {
       ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter2/area2);
       ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area1);
       ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area2);
-      ntinst.getTable("Vision Targets").getEntry("Steer").setNumber(2*xCenter/PIXELS_ACROSS-1.0);
+      double steer = 2*xCenter/PIXELS_ACROSS-1.0+.1;
+      if (steer > 1.0) steer = 1.0;
+      ntinst.getTable("Vision Targets").getEntry("Steer").setNumber(steer);
       double speed = 1-area1/TARGET_AREA_TARGET;
       if(speed < -1) speed = -1;
       if (area1 == 0 || area2 == 0) speed = 0;
@@ -334,13 +336,11 @@ public final class Main {
       ArrayList<MatOfPoint> contours = pipelineTarget.filterContoursOutput();
       publishTargets(contours);
       for (int i = 0; i<contours.size(); i++) {
-        Imgproc.drawContours(mat, contours, i, new Scalar(76,203,255), 2);
+        Imgproc.drawContours(mat, contours, i, new Scalar(255,203,76), 2);
       }
       int xCenter = ntinst.getTable("Vision Targets").getEntry("XCenter").getNumber(0.0).intValue();
       Imgproc.line(mat, new Point(xCenter, 121), new Point(xCenter, 120), new Scalar(203,255,76), 2);
-      /*System.out.println("Drawing Line");
-      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(0, 255, 0), 3);
-      System.out.println("Line Drawn");*/
+      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(255, 203, 76), 3);
       outputStream.putFrame(mat);
     }
 
