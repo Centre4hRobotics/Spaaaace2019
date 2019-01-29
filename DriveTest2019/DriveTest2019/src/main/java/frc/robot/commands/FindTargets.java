@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class FindTargets extends Command {
 
-  public static final double STEER_MULT = 0.4;
+  public static final double STEER_MULT = 0.6;
   public static final double SPEED_MULT = 0.35;
 
   public FindTargets() {
