@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.DriveWithJoystick;
-import frc.robot.subsystems.DriveTrain;  
+import frc.robot.subsystems.*;  
 //import edu.wpi.first.networktables.NetworkTableInstance;
 
 
@@ -27,6 +27,7 @@ import frc.robot.subsystems.DriveTrain;
 public class Robot extends TimedRobot {
   private DriveTrain s_driveTrain = null;
   private OI s_oi = null;
+  private Gripper s_gripper = null;
   private NetworkTableInstance _ntinst = null;
   public static Robot _instance = null;
   SendableChooser<Command> m_chooser = null;
@@ -34,6 +35,7 @@ public class Robot extends TimedRobot {
   public Robot () {
     _instance = this;
     s_driveTrain = new DriveTrain();
+    s_gripper = new Gripper();
     _ntinst = NetworkTableInstance.getDefault();
     m_chooser = new SendableChooser<>();
   }
@@ -56,6 +58,11 @@ public class Robot extends TimedRobot {
   public DriveTrain getDriveTrain() {
     return this.s_driveTrain;
   }
+
+  public Gripper getGripper() {
+    return this.s_gripper;
+  }
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
