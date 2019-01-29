@@ -27,8 +27,8 @@ public class DriveTrain extends Subsystem {
         double slow_speed = stick.getY(Hand.kRight);
         double slow_steer = stick.getX(Hand.kRight);
 
-        if (speed<0.15 && speed>-0.15) speed = 0;
-        if (steer<0.15 && steer>-0.15) steer = 0;
+        if (Math.abs(speed)<0.07) speed = 0;
+        if (Math.abs(steer)<0.07) steer = 0;
 
         if (Math.abs(slow_speed) > 0.3 || Math.abs(slow_steer) > 0.3) {
             speed = slow_speed * SLOW_SPEED_MULT;
