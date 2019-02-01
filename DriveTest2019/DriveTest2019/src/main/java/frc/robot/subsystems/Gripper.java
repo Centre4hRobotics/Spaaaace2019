@@ -15,8 +15,8 @@ public class Gripper extends Subsystem {
 
     public Gripper() {
         super();
-        ballMotor = new Spark(0);
-        hatchMotor = new Spark(1);
+        ballMotor = new Spark(18);
+        hatchMotor = new Spark(19);
     }
 
     public void setBallSpeed(double speed) {

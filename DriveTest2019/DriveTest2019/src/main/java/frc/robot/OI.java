@@ -17,11 +17,15 @@ import frc.robot.commands.*;
 public class OI {
   private XboxController _base = new XboxController(0);
   private Button _buttonA = new JoystickButton(_base, 1);
+  private Button _buttonB = new JoystickButton(_base, 2);
   private Button _buttonX = new JoystickButton(_base,3);
+  private Button _buttonY = new JoystickButton(_base,4);
 
   public OI () {
     _buttonA.whileHeld(new FollowCargo());
+    _buttonB.whenPressed(new GroundLift());
     _buttonX.whileHeld(new FindTargets());
+    _buttonY.whenPressed(new LiftHeight(20));
   }
 
   public XboxController getBaseJoystick() {
