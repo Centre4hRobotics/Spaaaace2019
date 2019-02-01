@@ -6,28 +6,30 @@ import edu.wpi.first.wpilibj.PWMTalonSRX;;
 public class Climber extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    PWMTalonSRX motor0 = null;
-    PWMTalonSRX motor1 = null;
-    PWMTalonSRX motor2 = null;
-    PWMTalonSRX motor3 = null;
+    PWMTalonSRX motorFR = null;
+    PWMTalonSRX motorFL = null;
+    PWMTalonSRX motorBR = null;
+    PWMTalonSRX motorBL = null;
     
 
 
     public Climber() {
         super();
-        motor0 = new PWMTalonSRX(0);
-        motor1 = new PWMTalonSRX(1);
-        motor2 = new PWMTalonSRX(2);
-        motor3 = new PWMTalonSRX(3);
+        motorFR = new PWMTalonSRX(0);
+        motorFL = new PWMTalonSRX(1);
+        motorBR = new PWMTalonSRX(2);
+        motorBL = new PWMTalonSRX(3);
 
     }
 
-    public void setClimbSpeed(double speed) {
-        motor0.set(speed);
-        motor1.set(speed);
-        motor2.set(speed);
-        motor3.set(speed);
+    public void setFrontSpeed(double speed) {
+        motorFR.set(speed);
+        motorFL.set(speed);
+    }
 
+    public void setBackSpeed(double speed) {
+        motorBR.set(speed);
+        motorBL.set(speed);
     }
 
     @Override

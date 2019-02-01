@@ -13,8 +13,8 @@ import frc.robot.Robot;
 /**
  * An example command. You can replace me with your own command.
  */
-public class ClimbDown extends Command {
-    public ClimbDown() {
+public class FrontDown extends Command {
+    public FrontDown() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.get().getClimber());
     }
@@ -27,7 +27,7 @@ public class ClimbDown extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getClimber().setClimbSpeed(-1.0);
+        Robot.get().getClimber().setFrontSpeed(-1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -45,6 +45,6 @@ public class ClimbDown extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.get().getClimber().setClimbSpeed(0.0);
+        Robot.get().getClimber().setFrontSpeed(0.0);
     }
 }
