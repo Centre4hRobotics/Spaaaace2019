@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   private DriveTrain s_driveTrain = null;
   private OI s_oi = null;
   private Gripper s_gripper = null;
+  private Climber s_climber = null;
   private NetworkTableInstance _ntinst = null;
   public static Robot _instance = null;
   SendableChooser<Command> m_chooser = null;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
     _instance = this;
     s_driveTrain = new DriveTrain();
     s_gripper = new Gripper();
+    s_climber = new Climber();
     _ntinst = NetworkTableInstance.getDefault();
     m_chooser = new SendableChooser<>();
   }
@@ -61,6 +63,10 @@ public class Robot extends TimedRobot {
 
   public Gripper getGripper() {
     return this.s_gripper;
+  }
+
+  public Climber getClimber() {
+    return this.s_climber;
   }
 
   /**

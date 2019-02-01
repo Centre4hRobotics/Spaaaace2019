@@ -26,7 +26,7 @@ public class ClimbUp extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getGripper().setClimbSpeed(1.0);
+        Robot.get().getClimber().setClimbSpeed(1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -44,6 +44,6 @@ public class ClimbUp extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.get().getGripper().setClimbSpeed(0.0);
+        Robot.get().getClimber().setClimbSpeed(0.0);
     }
 }
