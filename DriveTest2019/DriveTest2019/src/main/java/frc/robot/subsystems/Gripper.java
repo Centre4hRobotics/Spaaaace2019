@@ -10,13 +10,24 @@ import frc.robot.MotorConstants;
 public class Gripper extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    Spark ballMotor = null;
-    Spark hatchMotor = null;
+    private Spark ballMotor = null;
+    private Spark hatchMotor = null;
+
+    //true is up, false is down
+    private boolean hatchState = true;
 
     public Gripper() {
         super();
         ballMotor = new Spark(MotorConstants.GRIPPER_BALL_MOTOR);
         hatchMotor = new Spark(MotorConstants.GRIPPER_HATCH_MOTOR);
+    }
+
+    public boolean getHatchState() {
+        return hatchState;
+    }
+
+    public void setHatchState(boolean state) {
+        hatchState = state;
     }
 
     public void setBallSpeed(double speed) {

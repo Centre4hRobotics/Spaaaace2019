@@ -7,16 +7,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class GroundLift extends Command {
-  public GroundLift() {
+public class SetArmSpeed extends Command {
+  public SetArmSpeed() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.get().getLifter());
+    requires(Robot.get().getLifterArm());
   }
 
   // Called just before this Command runs the first time
@@ -27,15 +28,14 @@ public class GroundLift extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.get().getLifter().setHeightInches(0);;
+      double speed = Robot.get().getOI().getFnJoystick().getY(Hand.kRight);
+      if (Math.abs(speed*0.2)<0.3) speed = 0;
+      Robot.get().getLifterArm().setSpeed(speed*0.2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (Robot.get().getLifter().getHeightInches() < 0.1) {
-        return true;
-    }
     return false;
   }
 
@@ -48,6 +48,6 @@ public class GroundLift extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getLifter().setSpeed(0);
+    Robot.get().getLifterArm().setSpeed(0);
   }
 }

@@ -13,45 +13,51 @@ import frc.robot.Robot;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class LiftHeight extends Command {
-    private double height;
-  public LiftHeight(double height) {
+public class HatchToggle extends Command {
+    private boolean endState;
+    private long startTime;
+
+  public HatchToggle() {
     // Use requires() here to declare subsystem dependencies
-    this.height = height;
-    requires(Robot.get().getLifter());
+    requires(Robot.get().getGripper());
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+      startTime = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.get().getLifter().setHeightInches(height);
+    if (Robot.get().getGripper().getHatchState()) {
+        Robot.get().getGripper().setHatchSpeed(1);
+        endState = false;
+    } else {
+        Robot.get().getGripper().setHatchSpeed(-1);
+        endState = true;
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    /*if (Robot.get().getLifter().getHeightInches()-height < 0.1) {
-      Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightInches());
-      return true;
-    }*/
+    if (System.currentTimeMillis()-startTime < 1000) {
+        return false;
+    }
+    Robot.get().getGripper().setHatchState(endState);
     return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    //Robot.get().getLifter().setSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getLifter().setSpeed(0);
   }
 }

@@ -6,8 +6,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.MotorConstants;
 import frc.robot.commands.DriveWithJoystick;
+import frc.robot.Robot;
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
@@ -43,6 +45,14 @@ public class DriveTrain extends Subsystem {
     }
 
     public void drive(double speed, double steer) {
+        if (steer>0) {
+            Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 1.0);
+        } else if (steer < 0) {
+            Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 1.0);
+        } else {
+            Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 1.0);
+            Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 1.0);
+        }
         _drive.arcadeDrive(speed, steer, false);
     } 
 

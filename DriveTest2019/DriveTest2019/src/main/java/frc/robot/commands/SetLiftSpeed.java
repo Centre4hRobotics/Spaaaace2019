@@ -7,17 +7,16 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class LiftHeight extends Command {
-    private double height;
-  public LiftHeight(double height) {
+public class SetLiftSpeed extends Command {
+  public SetLiftSpeed() {
     // Use requires() here to declare subsystem dependencies
-    this.height = height;
     requires(Robot.get().getLifter());
   }
 
@@ -29,29 +28,26 @@ public class LiftHeight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.get().getLifter().setHeightInches(height);
+      double speed = Robot.get().getOI().getFnJoystick().getY(Hand.kLeft);
+      if (Math.abs(speed*0.2)<0.3) speed = 0;
+      Robot.get().getLifterArm().setSpeed(speed*0.2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    /*if (Robot.get().getLifter().getHeightInches()-height < 0.1) {
-      Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightInches());
-      return true;
-    }*/
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    //Robot.get().getLifter().setSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getLifter().setSpeed(0);
+    Robot.get().getLifterArm().setSpeed(0);
   }
 }

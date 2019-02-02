@@ -1,35 +1,29 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.PWMTalonSRX;;
+import frc.robot.MotorConstants;
+import edu.wpi.first.wpilibj.PWMVictorSPX;;
 
 public class Climber extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    PWMTalonSRX motorFR = null;
-    PWMTalonSRX motorFL = null;
-    PWMTalonSRX motorBR = null;
-    PWMTalonSRX motorBL = null;
-    
+
+    private PWMVictorSPX motorFront = null;
+    private PWMVictorSPX motorBack = null;
 
 
     public Climber() {
         super();
-        motorFR = new PWMTalonSRX(0);
-        motorFL = new PWMTalonSRX(1);
-        motorBR = new PWMTalonSRX(2);
-        motorBL = new PWMTalonSRX(3);
-
+        motorFront = new PWMVictorSPX(MotorConstants.CLIMBER_FRONT_MOTOR);
+        motorBack = new PWMVictorSPX(MotorConstants.CLIMBER_BACK_MOTOR);
     }
 
     public void setFrontSpeed(double speed) {
-        motorFR.set(speed);
-        motorFL.set(speed);
+        motorFront.set(speed);
     }
 
     public void setBackSpeed(double speed) {
-        motorBR.set(speed);
-        motorBL.set(speed);
+        motorBack.set(speed);
     }
 
     @Override

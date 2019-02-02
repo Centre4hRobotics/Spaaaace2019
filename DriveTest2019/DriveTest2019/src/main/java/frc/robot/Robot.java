@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   private OI s_oi = null;
   private Gripper s_gripper = null;
   private Lifter s_lifter = null;
+  private LifterArm s_lifterArm = null;
   private Climber s_climber = null;
   private NetworkTableInstance _ntinst = null;
   public static Robot _instance = null;
@@ -40,6 +41,7 @@ public class Robot extends TimedRobot {
     s_gripper = new Gripper();
     s_lifter = new Lifter();
     s_climber = new Climber();
+    s_lifterArm = new LifterArm();
     _ntinst = NetworkTableInstance.getDefault();
     m_chooser = new SendableChooser<>();
   }
@@ -70,6 +72,10 @@ public class Robot extends TimedRobot {
   public Lifter getLifter() {
     return this.s_lifter;
   }
+
+  public LifterArm getLifterArm() {
+    return this.s_lifterArm;
+  }
   
   public Climber getClimber() {
     return this.s_climber;
@@ -95,7 +101,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    
+    getLifter().publishValues(getNTInst());
+    getLifterArm().publishValues(getNTInst());
   }
 
   /**
