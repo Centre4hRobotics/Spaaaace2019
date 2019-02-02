@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.MotorConstants;
 import frc.robot.commands.DriveWithJoystick;
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
@@ -13,7 +14,9 @@ import frc.robot.commands.DriveWithJoystick;
 public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-    private final DifferentialDrive _drive = new DifferentialDrive(new PWMVictorSPX(1), new PWMVictorSPX(0));
+    private final DifferentialDrive _drive = 
+        new DifferentialDrive(new PWMVictorSPX(MotorConstants.DRIVE_MOTOR_LEFT),
+        new PWMVictorSPX(MotorConstants.DRIVE_MOTOR_RIGHT));
     public static final double SLOW_SPEED_MULT = 0.375;
     public static final double SLOW_STEER_MULT = 0.5;
     public static final double REDUCE_PERCENT = 0.1;

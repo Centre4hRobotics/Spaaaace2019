@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Spark;
-
+import frc.robot.MotorConstants;
 
 /**
  * An example subsystem. You can replace me with your own Subsystem.
@@ -15,8 +15,8 @@ public class Gripper extends Subsystem {
 
     public Gripper() {
         super();
-        ballMotor = new Spark(18);
-        hatchMotor = new Spark(19);
+        ballMotor = new Spark(MotorConstants.GRIPPER_BALL_MOTOR);
+        hatchMotor = new Spark(MotorConstants.GRIPPER_HATCH_MOTOR);
     }
 
     public void setBallSpeed(double speed) {

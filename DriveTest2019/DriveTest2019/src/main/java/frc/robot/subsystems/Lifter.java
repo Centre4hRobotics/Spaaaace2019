@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import frc.robot.MotorConstants;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.revrobotics.CANEncoder;
@@ -16,7 +17,6 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Lifter extends Subsystem {
-  private static final int motorID = 3, followID = 2;
   private CANSparkMax m_motor, m_followMotor;
   private CANPIDController m_pidController;
   private CANEncoder m_encoder;
@@ -28,8 +28,8 @@ public class Lifter extends Subsystem {
     super();
     
     // initialize motor
-    m_motor = new CANSparkMax(motorID, MotorType.kBrushless);
-    m_followMotor = new CANSparkMax(followID, MotorType.kBrushless);
+    m_motor = new CANSparkMax(MotorConstants.LIFTER_MASTER_MOTOR , MotorType.kBrushless);
+    m_followMotor = new CANSparkMax(MotorConstants. LIFTER_FOLLOWER_MOTOR, MotorType.kBrushless);
     m_followMotor.follow(m_motor);
 
     m_pidController = m_motor.getPIDController();
