@@ -11,40 +11,36 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * An example command. You can replace me with your own command.
+ * A command to eject the cargo
  */
 public class BallOut extends Command {
     public BallOut() {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.get().getGripper());
+        requires(Robot.get().getCargoGripper());
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    // Sets the speed of the motor to maximum
     @Override
     protected void execute() {
-        Robot.get().getGripper().setBallSpeed(-1.0);
+        Robot.get().getCargoGripper().setBallSpeed(-1.0);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // Never finished, but can be interrupted.
     @Override
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
     @Override
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    // Stops the motor when interrupted
     @Override
     protected void interrupted() {
-        Robot.get().getGripper().setBallSpeed(0.0);
+        Robot.get().getCargoGripper().setBallSpeed(0.0);
     }
 }

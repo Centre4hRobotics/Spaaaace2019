@@ -1,8 +1,8 @@
 package frc.robot;
 
 public final class MotorConstants {
-    public static final int DRIVE_MOTOR_RIGHT = 0;
-    public static final int DRIVE_MOTOR_LEFT = 1;  
+    public static final int DRIVE_MOTOR_RIGHT = 1;
+    public static final int DRIVE_MOTOR_LEFT = 0;  
     public static final int LIFTER_MASTER_MOTOR = 2;
     public static final int LIFTER_FOLLOWER_MOTOR = 3;
     public static final int LIFTER_ARM_MOTOR = 4;

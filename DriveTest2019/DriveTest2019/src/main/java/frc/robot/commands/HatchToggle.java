@@ -11,52 +11,55 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * An example command.  You can replace me with your own command.
+ * A command that toggles the state of the hatch input.
  */
 public class HatchToggle extends Command {
     private boolean endState;
     private long startTime;
 
   public HatchToggle() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.get().getGripper());
+    requires(Robot.get().getHatchGripper());
   }
 
-  // Called just before this Command runs the first time
+  // Gets the time as it starts to run
   @Override
   protected void initialize() {
       startTime = System.currentTimeMillis();
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  /**
+   *  Sets the speed to 1 or -1 based on current hatch state (goes other way). 
+   *  EndState is basically a current update on what state the hatch is trying to go to.
+   */
+  
   @Override
   protected void execute() {
-    if (Robot.get().getGripper().getHatchState()) {
-        Robot.get().getGripper().setHatchSpeed(1);
+    if (Robot.get().getHatchGripper().getHatchState()) {
+        Robot.get().getHatchGripper().setHatchSpeed(1);
         endState = false;
     } else {
-        Robot.get().getGripper().setHatchSpeed(-1);
+        Robot.get().getHatchGripper().setHatchSpeed(-1);
         endState = true;
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /** 
+   * Finishes after 1 second (long enough to trip limit switch on robot)
+   */
   @Override
   protected boolean isFinished() {
     if (System.currentTimeMillis()-startTime < 1000) {
         return false;
-    }
-    Robot.get().getGripper().setHatchState(endState);
+    } 
     return true;
   }
 
-  // Called once after isFinished returns true
+  // Puts the current state into the HatchGripper subsystem just before it finishes.
   @Override
   protected void end() {
+    Robot.get().getHatchGripper().setHatchState(endState);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }

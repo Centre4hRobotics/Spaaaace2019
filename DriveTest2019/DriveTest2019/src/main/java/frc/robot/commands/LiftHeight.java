@@ -11,28 +11,27 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * An example command.  You can replace me with your own command.
+ * A command to lift to a height parameter as a position.
  */
 public class LiftHeight extends Command {
     private double height;
+
   public LiftHeight(double height) {
-    // Use requires() here to declare subsystem dependencies
     this.height = height;
     requires(Robot.get().getLifter());
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  //Sets the lift height to the passed-in parameter
   @Override
   protected void execute() {
       Robot.get().getLifter().setHeightInches(height);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  // This finishes immediately because it only happens once (just sets the setpoint and then quits)
   @Override
   protected boolean isFinished() {
     /*if (Robot.get().getLifter().getHeightInches()-height < 0.1) {
@@ -42,14 +41,11 @@ public class LiftHeight extends Command {
     return true;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     //Robot.get().getLifter().setSpeed(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     Robot.get().getLifter().setSpeed(0);

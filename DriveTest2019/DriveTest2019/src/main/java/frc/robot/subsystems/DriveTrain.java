@@ -45,14 +45,15 @@ public class DriveTrain extends Subsystem {
     }
 
     public void drive(double speed, double steer) {
-        if (steer>0) {
+        //ARE YOU READY TO RUMBLE
+        /*if (steer>0) {
             Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 1.0);
         } else if (steer < 0) {
             Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 1.0);
         } else {
             Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 1.0);
             Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 1.0);
-        }
+        }*/
         _drive.arcadeDrive(speed, steer, false);
     } 
 

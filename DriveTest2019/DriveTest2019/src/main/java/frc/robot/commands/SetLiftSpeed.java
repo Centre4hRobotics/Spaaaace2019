@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * An example command.  You can replace me with your own command.
+ * A testing command that uses an xbox joystick to control the lift speed
  */
 public class SetLiftSpeed extends Command {
   public SetLiftSpeed() {

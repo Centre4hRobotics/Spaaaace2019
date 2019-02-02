@@ -33,6 +33,7 @@ public class Lifter extends Subsystem {
     m_followMotor = new CANSparkMax(MotorConstants. LIFTER_FOLLOWER_MOTOR, MotorType.kBrushless);
     m_followMotor.follow(m_motor);
 
+    //initialize PID and encoder stuff
     m_pidController = m_motor.getPIDController();
     m_encoder = m_motor.getEncoder();
     initialEncoderVal = m_encoder.getPosition();
@@ -55,6 +56,7 @@ public class Lifter extends Subsystem {
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
   }
 
+  //Returns the current height in inches (converts from encoder value)
   public double getHeightInches() {
       return (m_encoder.getPosition()-initialEncoderVal)/rotationsPerInch;
   }
@@ -63,10 +65,17 @@ public class Lifter extends Subsystem {
     ntinst.getTable("Lifter Arm").getEntry("Height Inches").setNumber(this.getHeightInches());
   }
 
+  /**
+   * Gives the height setpoint to PID as a position.
+   */
+
   public void setHeightInches(double height) {
     m_pidController.setReference(height*rotationsPerInch+initialEncoderVal, ControlType.kPosition);
   }
 
+  /** 
+   * Sets lifter motor speed.
+  */
   public void setSpeed (double speed) {
     m_pidController.setReference(speed, ControlType.kVelocity);
   }

@@ -27,7 +27,8 @@ import frc.robot.subsystems.*;
 public class Robot extends TimedRobot {
   private DriveTrain s_driveTrain = null;
   private OI s_oi = null;
-  private Gripper s_gripper = null;
+  private CargoGripper s_cargoGripper = null;
+  private HatchGripper s_hatchGripper = null;
   private Lifter s_lifter = null;
   private LifterArm s_lifterArm = null;
   private Climber s_climber = null;
@@ -35,10 +36,15 @@ public class Robot extends TimedRobot {
   public static Robot _instance = null;
   SendableChooser<Command> m_chooser = null;
 
+  /**
+   * Constructor instantiates all subsytems (except OI), the network table, and the command runner.
+   * This is done before OI is instantiated to prevent dependency errors.
+   */
   public Robot () {
     _instance = this;
     s_driveTrain = new DriveTrain();
-    s_gripper = new Gripper();
+    s_cargoGripper = new CargoGripper();
+    s_hatchGripper = new HatchGripper();
     s_lifter = new Lifter();
     s_climber = new Climber();
     s_lifterArm = new LifterArm();
@@ -53,6 +59,10 @@ public class Robot extends TimedRobot {
     return _instance;
   }
 
+  /**
+   * Subsystem getters - returns subsystem of robot instance that called
+   * @return
+   */
   public NetworkTableInstance getNTInst() {
     return this._ntinst;
   }
@@ -65,8 +75,12 @@ public class Robot extends TimedRobot {
     return this.s_driveTrain;
   }
 
-  public Gripper getGripper() {
-    return this.s_gripper;
+  public CargoGripper getCargoGripper() {
+    return this.s_cargoGripper;
+  }
+
+  public HatchGripper getHatchGripper() {
+    return this.s_hatchGripper;
   }
 
   public Lifter getLifter() {
@@ -98,6 +112,8 @@ public class Robot extends TimedRobot {
    *
    * <p>This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
+   * 
+   * Publishing values from lifter and lifterArm
    */
   @Override
   public void robotPeriodic() {
