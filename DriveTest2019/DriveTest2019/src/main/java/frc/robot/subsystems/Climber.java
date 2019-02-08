@@ -1,9 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.MotorConstants;
+import frc.robot.RobotConstants;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.Spark;;
+import edu.wpi.first.wpilibj.Spark;
 
 public class Climber extends Subsystem {
     // Put methods for controlling this subsystem
@@ -15,11 +15,11 @@ public class Climber extends Subsystem {
 
     public Climber() {
         super();
-        motorFL = new Spark(19);
-        motorFR = new Spark(18);
-        motorBL = new Spark(17);
-        motorBR = new Spark(16);
-        motorWheel = new PWMVictorSPX(15);
+        motorFL = new Spark(RobotConstants.CLIMBER_FL_MOTOR);
+        motorFR = new Spark(RobotConstants.CLIMBER_FR_MOTOR);
+        motorBL = new Spark(RobotConstants.CLIMBER_BL_MOTOR);
+        motorBR = new Spark(RobotConstants.CLIMBER_BR_MOTOR);
+        motorWheel = new PWMVictorSPX(RobotConstants.CLIMBER_WHEEL_MOTOR);
     }
 
     public void setFrontSpeed(double speed) {

@@ -10,6 +10,7 @@ package frc.robot.commands.lifter;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 /**
  * A testing command that uses an xbox joystick to control the lift speed
@@ -38,8 +39,8 @@ public class SetLiftSpeed extends Command {
   @Override
   protected void execute() {
       double speed = Robot.get().getOI().getFn1Joystick().getY();
-      if (Math.abs(speed*0.2)<0.3||!heightRestrict(speed)) speed = 0;
-      Robot.get().getLifterArm().setSpeed(speed*0.2);
+      if (Math.abs(speed*RobotConstants.LIFT_SPEED_MULT)<0.3||!heightRestrict(speed)) speed = 0;
+      Robot.get().getLifterArm().setSpeed(speed*RobotConstants.LIFT_SPEED_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()

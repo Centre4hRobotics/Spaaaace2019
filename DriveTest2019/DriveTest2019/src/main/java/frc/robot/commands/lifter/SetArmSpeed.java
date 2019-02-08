@@ -10,6 +10,7 @@ package frc.robot.commands.lifter;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 /**
  * An example command.  You can replace me with your own command.
@@ -38,8 +39,8 @@ public class SetArmSpeed extends Command {
   @Override
   protected void execute() {
       double speed = Robot.get().getOI().getFn2Joystick().getY();
-      if (Math.abs(speed*0.2)<0.3||!heightRestrict(speed)) speed = 0;
-      Robot.get().getLifterArm().setSpeed(speed*0.2);
+      if (Math.abs(speed*RobotConstants.ARM_SPEED_MULT)<0.3||!heightRestrict(speed)) speed = 0;
+      Robot.get().getLifterArm().setSpeed(speed*RobotConstants.ARM_SPEED_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()

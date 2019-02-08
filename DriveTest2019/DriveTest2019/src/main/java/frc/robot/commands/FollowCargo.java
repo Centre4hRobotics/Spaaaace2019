@@ -9,11 +9,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 public class FollowCargo extends Command {
-
-  public static final double STEER_MULT = 0.4;
-  public static final double SPEED_MULT = 0.35;
 
   public FollowCargo() {
     super("FollowCargo");
@@ -34,7 +32,7 @@ public class FollowCargo extends Command {
       }
       double steer = Robot.get().getNTInst().getTable("Datatable").getEntry("Steer").getDouble(0.0);
       double speed = Robot.get().getNTInst().getTable("Datatable").getEntry("Speed").getDouble(0.0);
-      Robot.get().getDriveTrain().drive(-1.0*speed*SPEED_MULT,steer*STEER_MULT);
+      Robot.get().getDriveTrain().drive(-1.0*speed*RobotConstants.CARGO_SPEED_MULT,steer*RobotConstants.CARGO_STEER_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()

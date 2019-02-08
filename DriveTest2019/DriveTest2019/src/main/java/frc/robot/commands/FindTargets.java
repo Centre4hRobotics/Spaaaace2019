@@ -9,11 +9,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 public class FindTargets extends Command {
-
-  public static final double STEER_MULT = 0.6;
-  public static final double SPEED_MULT = 0.35;
 
   public FindTargets() {
     super("FindTargets");
@@ -34,7 +32,7 @@ public class FindTargets extends Command {
       }
       double steer = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Steer").getDouble(0.0);
       double speed = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Speed").getDouble(0.0);
-      Robot.get().getDriveTrain().drive(-1.0*speed*SPEED_MULT,steer*STEER_MULT);
+      Robot.get().getDriveTrain().drive(-1.0*speed*RobotConstants.TARGET_SPEED_MULT,steer*RobotConstants.TARGET_STEER_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()

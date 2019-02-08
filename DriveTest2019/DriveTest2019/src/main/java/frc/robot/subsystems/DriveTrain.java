@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import frc.robot.MotorConstants;
+import frc.robot.RobotConstants;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.Robot;
 /**
@@ -16,13 +16,15 @@ import frc.robot.Robot;
 public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-    private final DifferentialDrive _drive = 
-        new DifferentialDrive(new PWMVictorSPX(MotorConstants.DRIVE_MOTOR_LEFT),
-        new PWMVictorSPX(MotorConstants.DRIVE_MOTOR_RIGHT));
-    public static final double SLOW_SPEED_MULT = 0.375;
-    public static final double SLOW_STEER_MULT = 0.5;
-    public static final double REDUCE_PERCENT = 0.1;
-    private double lastSpeed = 0.0;
+    private DifferentialDrive _drive = null;
+    private double lastSpeed;
+
+    public DriveTrain () {
+        super();
+        this._drive = new DifferentialDrive(new PWMVictorSPX(RobotConstants.DRIVE_MOTOR_LEFT),
+        new PWMVictorSPX(RobotConstants.DRIVE_MOTOR_RIGHT));
+        lastSpeed = 0.0;
+    }
 
     public void drive(XboxController stick)
     {
@@ -36,11 +38,11 @@ public class DriveTrain extends Subsystem {
         if (Math.abs(steer)<0.07) steer = 0;
 
         if (Math.abs(slow_speed) > 0.3 || Math.abs(slow_steer) > 0.3) {
-            speed = slow_speed * SLOW_SPEED_MULT;
-            steer = slow_steer * SLOW_STEER_MULT; 
+            speed = slow_speed * RobotConstants.SLOW_SPEED_MULT;
+            steer = slow_steer * RobotConstants.SLOW_STEER_MULT; 
         }
         
-        lastSpeed = REDUCE_PERCENT*speed + (1-REDUCE_PERCENT)*lastSpeed;
+        lastSpeed = RobotConstants.REDUCE_PERCENT*speed + (1-RobotConstants.REDUCE_PERCENT)*lastSpeed;
         drive(lastSpeed, steer);
     }
 

@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.MotorConstants;
+import frc.robot.RobotConstants;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Robot;
@@ -25,14 +25,13 @@ public class Lifter extends Subsystem {
   private CANEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private double initialEncoderVal;
-  public static double rotationsPerInch = 1.196*20/17.625;
 
   public Lifter() {
     super();
     
     // initialize motor
-    m_motor = new CANSparkMax(MotorConstants.LIFTER_MASTER_MOTOR , MotorType.kBrushless);
-    m_followMotor = new CANSparkMax(MotorConstants. LIFTER_FOLLOWER_MOTOR, MotorType.kBrushless);
+    m_motor = new CANSparkMax(RobotConstants.LIFTER_MASTER_MOTOR , MotorType.kBrushless);
+    m_followMotor = new CANSparkMax(RobotConstants. LIFTER_FOLLOWER_MOTOR, MotorType.kBrushless);
     m_followMotor.follow(m_motor);
 
     //initialize PID and encoder stuff
@@ -60,7 +59,7 @@ public class Lifter extends Subsystem {
 
   //Returns the current height in inches (converts from encoder value)
   public double getHeightInches() {
-      return (m_encoder.getPosition()-initialEncoderVal)/rotationsPerInch;
+      return (m_encoder.getPosition()-initialEncoderVal)/RobotConstants.ROTATIONS_PER_INCH;
   }
 
   public void publishValues(NetworkTableInstance ntinst) {
@@ -72,7 +71,7 @@ public class Lifter extends Subsystem {
    */
 
   public void setHeightInches(double height) {
-      m_pidController.setReference(height*rotationsPerInch+initialEncoderVal, ControlType.kPosition);
+      m_pidController.setReference(height*RobotConstants.ROTATIONS_PER_INCH+initialEncoderVal, ControlType.kPosition);
   }
 
   /** 

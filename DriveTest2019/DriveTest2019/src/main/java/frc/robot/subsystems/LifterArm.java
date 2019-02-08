@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.MotorConstants;
+import frc.robot.RobotConstants;
 import frc.robot.commands.lifter.SetArmSpeed;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -24,16 +24,14 @@ public class LifterArm extends Subsystem {
   private CANEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
   private double initialEncoderVal;
-  public static double degreesPerRotation = 360/212.5;
-  public static double degreeStart = 70;
-  public static double armLength = 21.0;
+  public static double armLength = RobotConstants.ARM_LENGTH;
   public static final double ARM_LIMIT = 19.0;
 
   public LifterArm() {
     super();
     
     // initialize motor
-    m_motor = new CANSparkMax(MotorConstants.LIFTER_ARM_MOTOR , MotorType.kBrushless);
+    m_motor = new CANSparkMax(RobotConstants.LIFTER_ARM_MOTOR , MotorType.kBrushless);
 
     m_pidController = m_motor.getPIDController();
     m_encoder = m_motor.getEncoder();
@@ -59,7 +57,7 @@ public class LifterArm extends Subsystem {
 
   //0 is middle of arc
   public double getDegree() {
-    return (m_encoder.getPosition()-initialEncoderVal)*degreesPerRotation+degreeStart;
+    return (m_encoder.getPosition()-initialEncoderVal)*RobotConstants.DEGREES_PER_ROTATION+RobotConstants.DEGREE_START;
   }
 
   //0 is middle of wrist arc
@@ -82,7 +80,7 @@ public class LifterArm extends Subsystem {
   }
 
   private void setDegree(double degree) {
-      m_pidController.setReference((degree+initialEncoderVal-degreeStart)/degreesPerRotation, ControlType.kPosition);
+      m_pidController.setReference((degree+initialEncoderVal-RobotConstants.DEGREE_START)/RobotConstants.DEGREES_PER_ROTATION, ControlType.kPosition);
   }
 
   public void setSpeed (double speed) {
