@@ -1,7 +1,7 @@
 package frc.robot;
 
 public final class MotorConstants {
-    //Motor Constants:
+    //Motor IDs:
     public static final int DRIVE_MOTOR_RIGHT = 1;
     public static final int DRIVE_MOTOR_LEFT = 0;  
     public static final int LIFTER_MASTER_MOTOR = 2;
@@ -9,14 +9,19 @@ public final class MotorConstants {
     public static final int LIFTER_ARM_MOTOR = 4;
     public static final int GRIPPER_BALL_MOTOR = 18;
     public static final int GRIPPER_HATCH_MOTOR = 19;
-    public static final int CLIMBER_FRONT_MOTOR = 17;
-    public static final int CLIMBER_BACK_MOTOR = 16;
+    public static final int CLIMBER_FL_MOTOR = 17;
+    public static final int CLIMBER_FR_MOTOR = 12;
+    public static final int CLIMBER_BL_MOTOR = 16;
+    public static final int CLIMBER_BR_MOTOR = 13;
 
     //DriveTrain:
     public static final double SLOW_SPEED_MULT = 0.375;
     public static final double SLOW_STEER_MULT = 0.5;
     public static final double REDUCE_PERCENT = 0.1;
 
+    //Climber:
+    public static final double CLIMBER_SPEED_MULT = 0.1337;
+    
     //Lifter:
     public static double rotationsPerInch = 1.196*20/17.625;
     public static double LIFT_SPEED_MULT = 0.2;
@@ -34,5 +39,5 @@ public final class MotorConstants {
     //FollowCargo:
     public static final double CARGO_STEER_MULT = 0.4;
     public static final double CARGO_SPEED_MULT = 0.35;
-
+    
 }
