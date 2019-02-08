@@ -5,16 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
+package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
  * An example command. You can replace me with your own command.
  */
-public class BackDown extends Command {
-    public BackDown() {
+public class FrontUp extends Command {
+    public FrontUp() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.get().getClimber());
     }
@@ -27,7 +26,7 @@ public class BackDown extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getClimber().setBackSpeed(-1.0);
+        Robot.get().getClimber().setFrontSpeed(1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -45,6 +44,6 @@ public class BackDown extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.get().getClimber().setBackSpeed(0.0);
+        Robot.get().getClimber().setFrontSpeed(0.0);
     }
 }

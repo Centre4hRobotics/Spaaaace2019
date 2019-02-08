@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.MotorConstants;
-import frc.robot.commands.SetArmSpeed;
+import frc.robot.commands.lifter.SetArmSpeed;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -27,6 +27,7 @@ public class LifterArm extends Subsystem {
   public static double degreesPerRotation = 360/212.5;
   public static double degreeStart = 70;
   public static double armLength = 21.0;
+  public static final double ARM_LIMIT = 19.0;
 
   public LifterArm() {
     super();
@@ -66,13 +67,18 @@ public class LifterArm extends Subsystem {
     return armLength*Math.sin(getDegree());
   }
 
+  public boolean willBeInsideFramePerimeter(double height) {
+    return Math.sqrt(Math.pow(armLength, 2) - Math.pow(height,2))<20;
+  }
+
   public void publishValues(NetworkTableInstance ntinst) {
       ntinst.getTable("Lifter Arm").getEntry("Height Inches").setNumber(this.getHeightInches());
       ntinst.getTable("Lifter Arm").getEntry("Degrees").setNumber(this.getDegree());
   }
 
   public void setHeightInches(double height) {
-    setDegree(Math.asin(height/armLength));
+    if (Math.abs(height)<ARM_LIMIT)
+      setDegree(Math.asin(height/armLength));
   }
 
   private void setDegree(double degree) {

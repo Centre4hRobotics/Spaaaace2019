@@ -5,41 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climber;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * A command to intake the cargo
+ * An example command. You can replace me with your own command.
  */
-public class BallIn extends Command {
-    public BallIn() {
-        requires(Robot.get().getCargoGripper());
+public class BackDown extends Command {
+    public BackDown() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.get().getClimber());
     }
 
+    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
     }
 
-    // Sets motor speed to maximum as long as it runs
+    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getCargoGripper().setBallSpeed(1.0);
+        Robot.get().getClimber().setBackSpeed(-1.0);
     }
 
-    // Never finished, but interruptable
+    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
     }
 
+    // Called once after isFinished returns true
     @Override
     protected void end() {
     }
 
-    // Stops the motor when interrupted
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.get().getCargoGripper().setBallSpeed(0.0);
+        Robot.get().getClimber().setBackSpeed(0.0);
     }
 }

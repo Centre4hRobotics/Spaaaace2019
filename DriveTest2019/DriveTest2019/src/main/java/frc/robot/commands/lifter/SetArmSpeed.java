@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.lifter;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * A testing command that uses an xbox joystick to control the lift speed
+ * An example command.  You can replace me with your own command.
  */
-public class SetLiftSpeed extends Command {
-  public SetLiftSpeed() {
+public class SetArmSpeed extends Command {
+  public SetArmSpeed() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.get().getLifter());
+    requires(Robot.get().getLifterArm());
   }
 
   // Called just before this Command runs the first time
@@ -25,11 +25,20 @@ public class SetLiftSpeed extends Command {
   protected void initialize() {
   }
 
+  //True means its fine, false means it will not work
+  private boolean heightRestrict (double speed) {
+    double aHeight = Robot.get().getLifterArm().getHeightInches();
+    double lHeight = Robot.get().getLifter().getHeightInches();
+    if (((Robot.get().getLifterArm().willBeInsideFramePerimeter(aHeight)&&lHeight+aHeight<3)||lHeight+aHeight<-4)&&speed<0) 
+        return false;
+    return true;
+  }
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      double speed = Robot.get().getOI().getFnJoystick().getY(Hand.kLeft);
-      if (Math.abs(speed*0.2)<0.3) speed = 0;
+      double speed = Robot.get().getOI().getFn2Joystick().getY();
+      if (Math.abs(speed*0.2)<0.3||!heightRestrict(speed)) speed = 0;
       Robot.get().getLifterArm().setSpeed(speed*0.2);
   }
 

@@ -7,17 +7,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 
 /**
- * An example command.  You can replace me with your own command.
+ * A testing command that uses an xbox joystick to control the lift speed
  */
-public class SetArmSpeed extends Command {
-  public SetArmSpeed() {
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.get().getLifterArm());
+public class TestPrint extends Command {
+  public TestPrint() {
   }
 
   // Called just before this Command runs the first time
@@ -28,15 +24,13 @@ public class SetArmSpeed extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      double speed = Robot.get().getOI().getFnJoystick().getY(Hand.kRight);
-      if (Math.abs(speed*0.2)<0.3) speed = 0;
-      Robot.get().getLifterArm().setSpeed(speed*0.2);
+      System.out.println("Test Print executed");
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -48,6 +42,5 @@ public class SetArmSpeed extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getLifterArm().setSpeed(0);
   }
 }

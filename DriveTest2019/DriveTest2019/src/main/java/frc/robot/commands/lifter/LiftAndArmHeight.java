@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.lifter;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -13,12 +13,21 @@ import frc.robot.Robot;
 /**
  * A command to lift to a height parameter as a position.
  */
-public class LiftHeight extends Command {
-    private double height;
+public class LiftAndArmHeight extends Command {
+    private double liftHeight, armHeight;
 
-  public LiftHeight(double height) {
-    this.height = height;
+  public LiftAndArmHeight(double liftHeight, double armHeight) {
+    this.liftHeight = liftHeight;
+    this.armHeight = armHeight;
     requires(Robot.get().getLifter());
+    requires(Robot.get().getLifterArm());
+  }
+  
+  //True means its fine, false means it will not work
+  private boolean heightRestrict (double lHeight, double aHeight) {
+    if ((Robot.get().getLifterArm().willBeInsideFramePerimeter(aHeight)&&lHeight+aHeight<3)||lHeight+aHeight<-4) 
+        return false;
+    return true;
   }
 
   @Override
@@ -28,7 +37,10 @@ public class LiftHeight extends Command {
   //Sets the lift height to the passed-in parameter
   @Override
   protected void execute() {
-      Robot.get().getLifter().setHeightInches(height);
+      if(heightRestrict(liftHeight,armHeight)) {
+        Robot.get().getLifter().setHeightInches(liftHeight);
+        Robot.get().getLifterArm().setHeightInches(armHeight);
+      }
   }
 
   // This finishes immediately because it only happens once (just sets the setpoint and then quits)
@@ -49,5 +61,6 @@ public class LiftHeight extends Command {
   @Override
   protected void interrupted() {
     Robot.get().getLifter().setSpeed(0);
+    Robot.get().getLifterArm().setSpeed(0);
   }
 }

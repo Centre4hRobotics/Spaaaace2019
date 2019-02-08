@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import frc.robot.MotorConstants;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Robot;
+import frc.robot.commands.lifter.SetLiftSpeed;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -70,7 +72,7 @@ public class Lifter extends Subsystem {
    */
 
   public void setHeightInches(double height) {
-    m_pidController.setReference(height*rotationsPerInch+initialEncoderVal, ControlType.kPosition);
+      m_pidController.setReference(height*rotationsPerInch+initialEncoderVal, ControlType.kPosition);
   }
 
   /** 
@@ -82,6 +84,6 @@ public class Lifter extends Subsystem {
 
   @Override
     public void initDefaultCommand() {
-        setDefaultCommand(null);
+        setDefaultCommand(new SetLiftSpeed());
     }
 }
