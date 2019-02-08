@@ -2,13 +2,13 @@ package frc.robot;
 
 public final class RobotConstants {
     //Motor IDs:
-    public static final int DRIVE_MOTOR_RIGHT = 1;
-    public static final int DRIVE_MOTOR_LEFT = 0;  
-    public static final int LIFTER_MASTER_MOTOR = 2;
-    public static final int LIFTER_FOLLOWER_MOTOR = 3;
-    public static final int LIFTER_ARM_MOTOR = 4;
-    public static final int GRIPPER_BALL_MOTOR = 18;
-    public static final int GRIPPER_HATCH_MOTOR = 19;
+    public static final int DRIVE_MOTOR_RIGHT = 9;
+    public static final int DRIVE_MOTOR_LEFT = 10;  
+    public static final int LIFTER_MASTER_MOTOR = 8;
+    public static final int LIFTER_FOLLOWER_MOTOR = 14;
+    public static final int LIFTER_ARM_MOTOR = 15;
+    public static final int GRIPPER_BALL_MOTOR = 0;
+    public static final int GRIPPER_HATCH_MOTOR = 18;
     public static final int CLIMBER_FL_MOTOR = 17;
     public static final int CLIMBER_FR_MOTOR = 12;
     public static final int CLIMBER_BL_MOTOR = 16;

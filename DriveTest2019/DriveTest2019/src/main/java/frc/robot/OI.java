@@ -62,7 +62,9 @@ public class OI {
 
     
     floorHeight.whenPressed(new TestPrint());
-
+    cargoIn.whileHeld(new BallIn());
+    cargoOut.whileHeld(new BallOut());
+    hatch.whenPressed(new HatchToggle());
 
     /*_buttonfLB.whileHeld(new BackDown());
     _buttonfRB.whileHeld(new FrontDown());

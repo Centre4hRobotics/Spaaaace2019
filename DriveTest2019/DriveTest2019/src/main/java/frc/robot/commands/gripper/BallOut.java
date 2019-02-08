@@ -25,7 +25,7 @@ public class BallOut extends Command {
     // Sets the speed of the motor to maximum
     @Override
     protected void execute() {
-        Robot.get().getCargoGripper().setBallSpeed(-1.0);
+        Robot.get().getCargoGripper().setBallSpeed(1.0);
     }
 
     // Never finished, but can be interrupted.
