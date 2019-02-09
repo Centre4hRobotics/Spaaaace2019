@@ -80,7 +80,7 @@ public class Lifter extends Subsystem {
   public void setSpeed (double speed) {
     m_pidController.setReference(speed, ControlType.kVelocity);
   }
-
+ 
   @Override
     public void initDefaultCommand() {
         setDefaultCommand(new SetLiftSpeed());

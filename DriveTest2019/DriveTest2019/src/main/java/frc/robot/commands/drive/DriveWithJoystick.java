@@ -5,15 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 /**
- * A testing command that uses an xbox joystick to control the lift speed
+ * An example command.  You can replace me with your own command.
  */
-public class TestPrint extends Command {
-  public TestPrint() {
+public class DriveWithJoystick extends Command {
+  public DriveWithJoystick() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.get().getDriveTrain());
   }
 
   // Called just before this Command runs the first time
@@ -24,13 +27,13 @@ public class TestPrint extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      System.out.println("Test Print executed");
+      Robot.get().getDriveTrain().drive(Robot.get().getOI().getBaseJoystick());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

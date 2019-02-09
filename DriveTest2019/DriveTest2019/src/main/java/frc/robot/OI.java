@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.commands.lifter.*;
 import frc.robot.commands.gripper.*;
 import frc.robot.commands.climber.*;
-
-import frc.robot.commands.*;
+import frc.robot.commands.vision.*;
+import frc.robot.commands.drive.*;
 
 public class OI {
   private XboxController base = new XboxController(0);
@@ -24,6 +24,10 @@ public class OI {
   private Button buttonbX = new JoystickButton(base,3);
   private Button buttonbY = new JoystickButton(base,4);
 
+  //Test Controller:
+  private XboxController test = new XboxController(3);
+  
+  
   /*private XboxController _fn = new XboxController(1);
   private Button _buttonfA = new JoystickButton(_fn, 1);
   private Button _buttonfB = new JoystickButton(_fn, 2);
@@ -61,7 +65,6 @@ public class OI {
     buttonbY.whenPressed(new LiftHeight(20));
 
     
-    floorHeight.whenPressed(new TestPrint());
     cargoIn.whileHeld(new BallIn());
     cargoOut.whileHeld(new BallOut());
     hatch.whenPressed(new HatchToggle());
@@ -85,5 +88,9 @@ public class OI {
 
   public Joystick getFn2Joystick() {
     return this.fn2;
+  }
+
+  public XboxController getTestJoystick() {
+    return this.test;
   }
 }

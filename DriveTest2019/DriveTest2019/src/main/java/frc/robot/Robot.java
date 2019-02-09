@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.DriveWithJoystick;
+import frc.robot.commands.drive.DriveWithJoystick;
 import frc.robot.subsystems.*;  
 //import edu.wpi.first.networktables.NetworkTableInstance;
 

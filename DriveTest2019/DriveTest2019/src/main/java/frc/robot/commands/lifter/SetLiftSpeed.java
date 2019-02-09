@@ -38,9 +38,15 @@ public class SetLiftSpeed extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      double speed = Robot.get().getOI().getFn1Joystick().getY();
-      if (Math.abs(speed*RobotConstants.LIFT_SPEED_MULT)<0.3||!heightRestrict(speed)) speed = 0;
-      Robot.get().getLifterArm().setSpeed(speed*RobotConstants.LIFT_SPEED_MULT);
+    //double speed = Robot.get().getOI().getFn2Joystick().getY();  
+    double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
+      if (Math.abs(speed) < 0.07) {
+        speed = 0;
+      }
+       /*if (Math.abs(speed*RobotConstants.LIFT_SPEED_MULT)<0.3||!heightRestrict(speed)) {
+        speed = 0;
+      }*/
+      Robot.get().getLifter().setSpeed(speed*RobotConstants.LIFT_SPEED_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -58,6 +64,6 @@ public class SetLiftSpeed extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getLifterArm().setSpeed(0);
+    Robot.get().getLifter().setSpeed(0);
   }
 }

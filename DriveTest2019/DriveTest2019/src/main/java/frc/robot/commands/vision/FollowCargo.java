@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
 
-public class FindTargets extends Command {
+public class FollowCargo extends Command {
 
-  public FindTargets() {
-    super("FindTargets");
+  public FollowCargo() {
+    super("FollowCargo");
     requires(Robot.get().getDriveTrain());
   }
 
@@ -26,13 +26,13 @@ public class FindTargets extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      if (Robot.get().getNTInst().getTable("Vision Targets").getEntry("Contours Found").getDouble(0.0) < 2) {
+      if (Robot.get().getNTInst().getTable("Datatable").getEntry("Found Contour").getDouble(0.0) == 0) {
         Robot.get().getDriveTrain().drive(0,0);
         return;
       }
-      double steer = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Steer").getDouble(0.0);
-      double speed = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Speed").getDouble(0.0);
-      Robot.get().getDriveTrain().drive(-1.0*speed*RobotConstants.TARGET_SPEED_MULT,steer*RobotConstants.TARGET_STEER_MULT);
+      double steer = Robot.get().getNTInst().getTable("Datatable").getEntry("Steer").getDouble(0.0);
+      double speed = Robot.get().getNTInst().getTable("Datatable").getEntry("Speed").getDouble(0.0);
+      Robot.get().getDriveTrain().drive(-1.0*speed*RobotConstants.CARGO_SPEED_MULT,steer*RobotConstants.CARGO_STEER_MULT);
   }
 
   // Make this return true when this Command no longer needs to run execute()
