@@ -6,16 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands.climber;
-
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 /**
  * An example command. You can replace me with your own command.
  */
-public class BackDown extends Command {
-    public BackDown() {
+public class DriveFullClimber extends Command {
+    private int dir;
+    public DriveFullClimber(int direction) {
         // Use requires() here to declare subsystem dependencies
+        this.dir = direction;
         requires(Robot.get().getClimber());
     }
 
@@ -27,7 +29,13 @@ public class BackDown extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getClimber().setBackSpeed(-1.0);
+        double fl = Robot.get().getClimber().getEncoderFL().getDistance(), fr = Robot.get().getClimber().getEncoderFR().getDistance(),
+               bl = Robot.get().getClimber().getEncoderBL().getDistance(), br = Robot.get().getClimber().getEncoderBR().getDistance();
+        double avg = 0.25*(fl+fr+bl+br);
+        Robot.get().getClimber().setFLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fl)));
+        Robot.get().getClimber().setFRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fr)));
+        Robot.get().getClimber().setBLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-bl)));
+        Robot.get().getClimber().setBRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-br)));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -45,6 +53,9 @@ public class BackDown extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.get().getClimber().setBackSpeed(0.0);
+        Robot.get().getClimber().setFLSpeed(0.0);
+        Robot.get().getClimber().setFRSpeed(0.0);
+        Robot.get().getClimber().setBLSpeed(0.0);
+        Robot.get().getClimber().setBRSpeed(0.0);
     }
 }

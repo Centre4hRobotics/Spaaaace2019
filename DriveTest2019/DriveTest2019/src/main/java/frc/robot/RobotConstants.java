@@ -24,12 +24,20 @@ public final class RobotConstants {
 
     //Climber:
     public static final double CLIMBER_SPEED_MULT = 0.1337;
+
+    //DriveFront(/Back)Climber
+    public static final double CLIMBER_BASE_SPEED = 0.85;
+    public static final double CLIMBER_ADJUST_SPEED = 0.1;
+    public static final double CLIMBER_DISTANCE_PER_PULSE = 1;
     
     //Lifter:
     public static final double ROTATIONS_PER_INCH = 1.196*20/17.625;
 
     //SetLiftSpeed
     public static final double LIFT_SPEED_MULT = 0.5;
+
+    //MoveLiftSetpoint
+    public static final double LIFT_MANUAL_DELTA = 0.01;
 
     //LifterArm:
     public static final double DEGREES_PER_ROTATION = 360/212.5;
@@ -39,6 +47,9 @@ public final class RobotConstants {
     //SetArmSpeed
     public static final double ARM_SPEED_MULT = 0.5;
 
+    //MoveArmSetpoint
+    public static final double ARM_MANUAL_DELTA = 0.01;
+
     //FindTargets:
     public static final double TARGET_STEER_MULT = 0.6;
     public static final double TARGET_SPEED_MULT = 0.35;
@@ -46,5 +57,4 @@ public final class RobotConstants {
     //FollowCargo:
     public static final double CARGO_STEER_MULT = 0.4;
     public static final double CARGO_SPEED_MULT = 0.35;
-    
 }

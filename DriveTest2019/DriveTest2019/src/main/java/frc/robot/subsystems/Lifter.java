@@ -78,7 +78,8 @@ public class Lifter extends Subsystem {
    * Sets lifter motor speed.
   */
   public void setSpeed (double speed) {
-    m_pidController.setReference(speed, ControlType.kVelocity);
+    //m_pidController.setReference(speed, ControlType.kVelocity);
+    m_motor.set(speed);
   }
  
   @Override

@@ -84,7 +84,8 @@ public class LifterArm extends Subsystem {
   }
 
   public void setSpeed (double speed) {
-    m_pidController.setReference(speed, ControlType.kVelocity);
+    //m_pidController.setReference(speed, ControlType.kVelocity);
+    m_motor.set(speed);
   }
 
   @Override

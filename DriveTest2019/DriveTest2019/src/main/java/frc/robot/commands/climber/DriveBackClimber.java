@@ -8,28 +8,31 @@
 package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 /**
  * An example command. You can replace me with your own command.
  */
-public class BackUp extends Command {
-    public BackUp() {
+public class DriveBackClimber extends Command {
+    private int dir;
+    public DriveBackClimber(int direction) {
         // Use requires() here to declare subsystem dependencies
+        this.dir = direction;
         requires(Robot.get().getClimber());
     }
 
-    // Called just before this Command runs the first time
     @Override
     protected void initialize() {
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.get().getClimber().setBackSpeed(1.0);
+        //diff is right minus left
+        double diff = Robot.get().getClimber().getEncoderBR().getDistance()-Robot.get().getClimber().getEncoderBL().getDistance();
+        Robot.get().getClimber().setBLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+        Robot.get().getClimber().setBRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED));
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
         return false;
@@ -44,6 +47,7 @@ public class BackUp extends Command {
     // subsystems is scheduled to run
     @Override
     protected void interrupted() {
-        Robot.get().getClimber().setBackSpeed(0.0);
+        Robot.get().getClimber().setBLSpeed(0.0);
+        Robot.get().getClimber().setBRSpeed(0.0);
     }
 }
