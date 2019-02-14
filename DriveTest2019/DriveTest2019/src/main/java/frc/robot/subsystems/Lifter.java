@@ -11,6 +11,7 @@ import frc.robot.RobotConstants;
 import edu.wpi.first.wpilibj.command.Subsystem; 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Robot;
+import frc.robot.commands.lifter.MoveLiftSetpoint;
 import frc.robot.commands.lifter.SetLiftSpeed;
 
 import com.revrobotics.CANEncoder;
@@ -24,13 +25,13 @@ public class Lifter extends Subsystem {
   private CANPIDController m_pidController;
   private CANEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-  private double initialEncoderVal;
+  private double initialEncoderVal, point = 0;
 
   public Lifter() {
     super();
     
     // initialize motor
-    m_motor = new CANSparkMax(RobotConstants.LIFTER_MASTER_MOTOR , MotorType.kBrushless);
+    m_motor = new CANSparkMax(RobotConstants.LIFTER_MASTER_MOTOR, MotorType.kBrushless);
     m_followMotor = new CANSparkMax(RobotConstants. LIFTER_FOLLOWER_MOTOR, MotorType.kBrushless);
     m_followMotor.follow(m_motor);
 
@@ -40,13 +41,13 @@ public class Lifter extends Subsystem {
     initialEncoderVal = m_encoder.getPosition();
 
     // PID coefficients
-    kP = 0.025; 
+    kP = 0.18; 
     kI = 0;//1e-4;
     kD = 0;//.5; 
     kIz = 0; 
     kFF = 0; 
     kMaxOutput = 0.5; 
-    kMinOutput = -0.5;
+    kMinOutput = -0.2;
 
     // set PID coefficients
     m_pidController.setP(kP);
@@ -62,8 +63,16 @@ public class Lifter extends Subsystem {
       return (m_encoder.getPosition()-initialEncoderVal)/RobotConstants.ROTATIONS_PER_INCH;
   }
 
+  public double getHeightSetpoint() {
+    return point;
+  }
+
   public void publishValues(NetworkTableInstance ntinst) {
-    ntinst.getTable("Lifter Arm").getEntry("Height Inches").setNumber(this.getHeightInches());
+    ntinst.getTable("Lifter").getEntry("Height Inches").setNumber(this.getHeightInches());
+    ntinst.getTable("Lifter").getEntry("Current setpoint").setNumber(point);
+    ntinst.getTable("Lifter").getEntry("BusVoltage").setNumber(m_motor.getBusVoltage());
+    ntinst.getTable("Lifter").getEntry("AppliedOutput").setNumber(m_motor.getAppliedOutput());
+    ntinst.getTable("Lifter").getEntry("OutputCurrent").setNumber(m_motor.getOutputCurrent());
   }
 
   /**
@@ -72,6 +81,7 @@ public class Lifter extends Subsystem {
 
   public void setHeightInches(double height) {
       m_pidController.setReference(height*RobotConstants.ROTATIONS_PER_INCH+initialEncoderVal, ControlType.kPosition);
+      point = height;
   }
 
   /** 
@@ -79,11 +89,11 @@ public class Lifter extends Subsystem {
   */
   public void setSpeed (double speed) {
     //m_pidController.setReference(speed, ControlType.kVelocity);
-    m_motor.set(speed);
+    m_motor.set(-1*speed);
   }
  
   @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new SetLiftSpeed());
+        setDefaultCommand(new MoveLiftSetpoint());
     }
 }

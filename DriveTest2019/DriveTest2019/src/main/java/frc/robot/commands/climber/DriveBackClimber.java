@@ -29,8 +29,8 @@ public class DriveBackClimber extends Command {
     protected void execute() {
         //diff is right minus left
         double diff = Robot.get().getClimber().getEncoderBR().getDistance()-Robot.get().getClimber().getEncoderBL().getDistance();
-        Robot.get().getClimber().setBLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
-        Robot.get().getClimber().setBRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+        Robot.get().getClimber().setBLSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED);
+        Robot.get().getClimber().setBRSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED);
     }
 
     @Override

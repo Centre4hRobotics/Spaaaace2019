@@ -33,7 +33,7 @@ public class OI {
   private Button _buttonfB = new JoystickButton(_fn, 2);
   private Button _buttonfX = new JoystickButton(_fn,3);
   private Button _buttonfY = new JoystickButton(_fn,4);
-  private Button _buttonfLB = new JoystickButton(_fn, 5);
+  private Button _buttonfLB = new JoystickButton(_fn, 5); 
   private Button _buttonfRB = new JoystickButton(_fn,6);
   private Button _buttonfBack = new JoystickButton(_fn,7);
   private Button _buttonfStart = new JoystickButton(_fn,8);*/
@@ -60,9 +60,9 @@ public class OI {
 
   public OI () {
     buttonbA.whileHeld(new FollowCargo());
-    buttonbB.whenPressed(new LiftHeight(0));
+    buttonbB.whenPressed(new ArmDegree(0));
     buttonbX.whileHeld(new FindTargets());
-    buttonbY.whenPressed(new LiftHeight(20));
+    buttonbY.whenPressed(new ArmDegree(RobotConstants.DEGREE_START));
 
     
     cargoIn.whileHeld(new BallIn());

@@ -32,10 +32,10 @@ public class DriveFullClimber extends Command {
         double fl = Robot.get().getClimber().getEncoderFL().getDistance(), fr = Robot.get().getClimber().getEncoderFR().getDistance(),
                bl = Robot.get().getClimber().getEncoderBL().getDistance(), br = Robot.get().getClimber().getEncoderBR().getDistance();
         double avg = 0.25*(fl+fr+bl+br);
-        Robot.get().getClimber().setFLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fl)));
-        Robot.get().getClimber().setFRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fr)));
-        Robot.get().getClimber().setBLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-bl)));
-        Robot.get().getClimber().setBRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-br)));
+        Robot.get().getClimber().setFLSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fl));
+        Robot.get().getClimber().setFRSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fr));
+        Robot.get().getClimber().setBLSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-bl));
+        Robot.get().getClimber().setBRSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-br));
     }
 
     // Make this return true when this Command no longer needs to run execute()

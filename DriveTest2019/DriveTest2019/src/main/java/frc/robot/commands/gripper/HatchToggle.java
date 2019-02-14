@@ -48,7 +48,7 @@ public class HatchToggle extends Command {
    */
   @Override
   protected boolean isFinished() {
-    if (System.currentTimeMillis()-startTime < 1000) {
+    if (System.currentTimeMillis()-startTime < 750) {
         return false;
     } 
     return true;

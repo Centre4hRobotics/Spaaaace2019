@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotConstants;
+import frc.robot.commands.lifter.MoveArmSetpoint;
 import frc.robot.commands.lifter.SetArmSpeed;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -23,13 +24,13 @@ public class LifterArm extends Subsystem {
   private CANPIDController m_pidController;
   private CANEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-  private double initialEncoderVal;
+  private double initialEncoderVal, point;
   public static double armLength = RobotConstants.ARM_LENGTH;
   public static final double ARM_LIMIT = 19.0;
 
   public LifterArm() {
     super();
-    
+    point = RobotConstants.DEGREE_START;
     // initialize motor
     m_motor = new CANSparkMax(RobotConstants.LIFTER_ARM_MOTOR , MotorType.kBrushless);
 
@@ -43,8 +44,8 @@ public class LifterArm extends Subsystem {
     kD = 0;//.5; 
     kIz = 0; 
     kFF = 0; 
-    kMaxOutput = 0.5; 
-    kMinOutput = -0.5;
+    kMaxOutput = 0.4; 
+    kMinOutput = -0.4;
 
     // set PID coefficients
     m_pidController.setP(kP);
@@ -60,6 +61,10 @@ public class LifterArm extends Subsystem {
     return (m_encoder.getPosition()-initialEncoderVal)*RobotConstants.DEGREES_PER_ROTATION+RobotConstants.DEGREE_START;
   }
 
+  public double getDegreeSetpoint() {
+    return point;
+  }
+
   //0 is middle of wrist arc
   public double getHeightInches() {
     return armLength*Math.sin(getDegree());
@@ -72,6 +77,11 @@ public class LifterArm extends Subsystem {
   public void publishValues(NetworkTableInstance ntinst) {
       ntinst.getTable("Lifter Arm").getEntry("Height Inches").setNumber(this.getHeightInches());
       ntinst.getTable("Lifter Arm").getEntry("Degrees").setNumber(this.getDegree());
+      ntinst.getTable("Lifter Arm").getEntry("Encoder Val").setNumber(m_encoder.getPosition());
+      ntinst.getTable("Lifter Arm").getEntry("Current setpoint").setNumber(point);
+      ntinst.getTable("Lifter Arm").getEntry("Applied Output").setNumber(m_motor.getAppliedOutput());
+      ntinst.getTable("Lifter Arm").getEntry("Bus Voltage").setNumber(m_motor.getBusVoltage());
+      ntinst.getTable("Lifter Arm").getEntry("Output Current").setNumber(m_motor.getOutputCurrent());
   }
 
   public void setHeightInches(double height) {
@@ -79,17 +89,18 @@ public class LifterArm extends Subsystem {
       setDegree(Math.asin(height/armLength));
   }
 
-  private void setDegree(double degree) {
+  public void setDegree(double degree) {
       m_pidController.setReference((degree+initialEncoderVal-RobotConstants.DEGREE_START)/RobotConstants.DEGREES_PER_ROTATION, ControlType.kPosition);
+      point = degree;
   }
 
   public void setSpeed (double speed) {
     //m_pidController.setReference(speed, ControlType.kVelocity);
-    m_motor.set(speed);
+    m_motor.set(-1*speed);
   }
 
   @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new SetArmSpeed());
+        setDefaultCommand(new MoveArmSetpoint());
     }
 }

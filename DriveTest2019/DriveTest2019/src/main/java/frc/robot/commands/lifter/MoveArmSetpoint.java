@@ -37,15 +37,14 @@ public class MoveArmSetpoint extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //double speed = Robot.get().getOI().getFn2Joystick().getY();  
-    double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
-      if (Math.abs(speed) < 0.07) {
-        speed = 0;
-      }
+    double speed = Robot.get().getOI().getFn2Joystick().getY();  
+    if (Math.abs(speed)>0.4) {
+    //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
        /*if (Math.abs(speed*RobotConstants.LIFT_SPEED_MULT)<0.3||!heightRestrict(Robot.get().getLifter().getHeightInches()+speed*RobotConstants.LIFT_MANUAL_DELTA)) {
         speed = 0;
       }*/
-      Robot.get().getLifterArm().setHeightInches(Robot.get().getLifterArm().getHeightInches()+speed*RobotConstants.ARM_MANUAL_DELTA);
+      Robot.get().getLifterArm().setDegree(Robot.get().getLifterArm().getDegreeSetpoint()+speed*RobotConstants.ARM_MANUAL_DELTA);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

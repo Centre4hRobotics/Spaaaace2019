@@ -37,15 +37,11 @@ public class MoveLiftSetpoint extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //double speed = Robot.get().getOI().getFn2Joystick().getY();  
-    double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
-      if (Math.abs(speed) < 0.07) {
-        speed = 0;
+    double speed = Robot.get().getOI().getFn1Joystick().getY();  
+    //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
+      if (Math.abs(speed) > 0.5) {
+        Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightSetpoint()+speed*RobotConstants.LIFT_MANUAL_DELTA);
       }
-       /*if (Math.abs(speed*RobotConstants.LIFT_SPEED_MULT)<0.3||!heightRestrict(Robot.get().getLifter().getHeightInches()+speed*RobotConstants.LIFT_MANUAL_DELTA)) {
-        speed = 0;
-      }*/
-      Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightInches()+speed*RobotConstants.LIFT_MANUAL_DELTA);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -63,6 +59,6 @@ public class MoveLiftSetpoint extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightInches());
+    //Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightInches());
   }
 }

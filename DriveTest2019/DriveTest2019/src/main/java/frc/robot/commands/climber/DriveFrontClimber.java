@@ -31,8 +31,8 @@ public class DriveFrontClimber extends Command {
     protected void execute() {
         //diff is right minus left
         double diff = Robot.get().getClimber().getEncoderFR().getDistance()-Robot.get().getClimber().getEncoderFL().getDistance();
-        Robot.get().getClimber().setFLSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
-        Robot.get().getClimber().setFRSpeed(dir*(RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+        Robot.get().getClimber().setFLSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED);
+        Robot.get().getClimber().setFRSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()

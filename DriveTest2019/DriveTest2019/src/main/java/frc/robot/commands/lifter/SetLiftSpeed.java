@@ -40,7 +40,7 @@ public class SetLiftSpeed extends Command {
   protected void execute() {
     //double speed = Robot.get().getOI().getFn2Joystick().getY();  
     double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
-      if (Math.abs(speed) < 0.07) {
+      if (Math.abs(speed) < 0.3) {
         speed = 0;
       }
        /*if (Math.abs(speed*RobotConstants.LIFT_SPEED_MULT)<0.3||!heightRestrict(speed)) {

@@ -31,24 +31,24 @@ public final class RobotConstants {
     public static final double CLIMBER_DISTANCE_PER_PULSE = 1;
     
     //Lifter:
-    public static final double ROTATIONS_PER_INCH = 1.196*20/17.625;
+    public static final double ROTATIONS_PER_INCH = 1.262;//1.196*20/17.625*20/21.5;
 
     //SetLiftSpeed
     public static final double LIFT_SPEED_MULT = 0.5;
 
     //MoveLiftSetpoint
-    public static final double LIFT_MANUAL_DELTA = 0.01;
+    public static final double LIFT_MANUAL_DELTA = 0.2;
 
     //LifterArm:
     public static final double DEGREES_PER_ROTATION = 360/212.5;
-    public static final double DEGREE_START = 70;
+    public static final double DEGREE_START = 71.15;
     public static final double ARM_LENGTH = 21.0;
 
     //SetArmSpeed
     public static final double ARM_SPEED_MULT = 0.5;
 
     //MoveArmSetpoint
-    public static final double ARM_MANUAL_DELTA = 0.01;
+    public static final double ARM_MANUAL_DELTA = 0.6;
 
     //FindTargets:
     public static final double TARGET_STEER_MULT = 0.6;
