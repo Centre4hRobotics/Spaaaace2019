@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     getLifter().publishValues(getNTInst());
     getLifterArm().publishValues(getNTInst());
+    getClimber().publishValues(getNTInst());
   }
 
   /**

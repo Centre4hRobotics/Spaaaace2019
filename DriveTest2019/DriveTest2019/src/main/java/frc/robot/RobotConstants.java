@@ -22,8 +22,8 @@ public final class RobotConstants {
     public static final double SLOW_STEER_MULT = 0.5;
     public static final double REDUCE_PERCENT = 0.1;
 
-    //Climber:
-    public static final double CLIMBER_SPEED_MULT = 0.1337;
+    //Climber: 
+    public static final double CLIMBER_SPEED_MULT = .7;
 
     //DriveFront(/Back)Climber
     public static final double CLIMBER_BASE_SPEED = 0.85;
@@ -32,17 +32,22 @@ public final class RobotConstants {
     
     //Lifter:
     public static final double ROTATIONS_PER_INCH = 1.262;//1.196*20/17.625*20/21.5;
+    public static final double MAX_LIFT_HEIGHT = 54; //value from testing was 54.6
+    public static final double MIN_LIFT_HEIGHT = 0;
 
     //SetLiftSpeed
     public static final double LIFT_SPEED_MULT = 0.5;
 
     //MoveLiftSetpoint
-    public static final double LIFT_MANUAL_DELTA = 0.2;
+    public static final double LIFT_MANUAL_DELTA = 0.25;
 
     //LifterArm:
     public static final double DEGREES_PER_ROTATION = 360/212.5;
-    public static final double DEGREE_START = 71.15;
+    public static final double DEGREE_START = 0;//71.15;
+    public static final double ARM_FLOOR_DEGREE = -80;
     public static final double ARM_LENGTH = 21.0;
+    public static final double MIN_ARM_DEGREE = -100;
+    public static final double MAX_ARM_DEGREE = 0;
 
     //SetArmSpeed
     public static final double ARM_SPEED_MULT = 0.5;

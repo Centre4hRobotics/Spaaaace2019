@@ -7,46 +7,40 @@
 
 package frc.robot.commands.lifter;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.RobotConstants;
 
 /**
- * A command to lift to a height parameter as a position.
+ * A command to reset the arm angle
  */
-public class LiftHeight extends Command {
-    private double height;
-    private long initTime;
-
-  public LiftHeight(double height) {
-    this.height = height;
-    this.initTime = System.currentTimeMillis();
-    requires(Robot.get().getLifter());
+public class ArmOverride extends Command {
+  public ArmOverride() {
+    requires(Robot.get().getLifterArm());
   }
 
   @Override
   protected void initialize() {
   }
 
-  //Sets the lift height to the passed-in parameter
   @Override
   protected void execute() {
-      Robot.get().getLifter().setHeightInches(height);
+    if (Robot.get().getOI().getBaseJoystick().getStartButton()&&Robot.get().getOI().getBaseJoystick().getBackButton()) {
+        Robot.get().getLifterArm().overrideAngle(RobotConstants.DEGREE_START);
+    }
   }
 
-  // This finishes immediately because it only happens once (just sets the setpoint and then quits)
   @Override
   protected boolean isFinished() {
-    if (System.currentTimeMillis()-initTime>5000) return true;
-    return Math.abs(Robot.get().getLifter().getHeightInches()-height) < 1.5;
+    return true;
   }
 
   @Override
   protected void end() {
-    Robot.get().getLifter().setSpeed(0);
   }
 
   @Override
   protected void interrupted() {
-    end();
   }
 }

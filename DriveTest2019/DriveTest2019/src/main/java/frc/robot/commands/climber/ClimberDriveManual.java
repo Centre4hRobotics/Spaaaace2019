@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.lifter;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,12 +13,12 @@ import frc.robot.Robot;
 import frc.robot.RobotConstants;
 
 /**
- * A testing command that uses an xbox joystick to control the lift speed
+ * An example command.  You can replace me with your own command.
  */
-public class MoveArmSetpoint extends Command {
-  public MoveArmSetpoint() {
+public class ClimberDriveManual extends Command {
+  public ClimberDriveManual() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.get().getLifterArm());
+    requires(Robot.get().getClimber());
   }
 
   // Called just before this Command runs the first time
@@ -26,22 +26,18 @@ public class MoveArmSetpoint extends Command {
   protected void initialize() {
   }
 
-  //True means its fine, false means it will not work
-  private boolean heightRestrict (double height) {
-    double lHeight = Robot.get().getLifter().getHeightInches();
-    if (((Robot.get().getLifterArm().willBeInsideFramePerimeter(height)&&lHeight+height<3)||lHeight+height<-4)) 
-        return false;
-    return true;
-  }
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = Robot.get().getOI().getFn2Joystick().getY();  
-    //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
-    if (Math.abs(speed)>0.3 &&!Robot.get().getClimber().isClimbMode()) {
-      Robot.get().getLifterArm().setDegree(Robot.get().getLifterArm().getDegreeSetpoint()+speed*RobotConstants.ARM_MANUAL_DELTA);
-    }
+      double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);//Robot.get().getOI().getFn1Joystick().getX();
+      double bSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);//Robot.get().getOI().getFn2Joystick().getX();
+      if (Math.abs(fSpeed) < 0.3) fSpeed = 0;
+      if (Math.abs(bSpeed) < 0.3) bSpeed = 0;
+
+      Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT);
+      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT);
+      Robot.get().getClimber().setBLSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT);
+      Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.3);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -59,6 +55,9 @@ public class MoveArmSetpoint extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    //Robot.get().getLifterArm().setHeightInches(Robot.get().getLifterArm().getHeightInches());
+    Robot.get().getClimber().setFLSpeed(0);
+    Robot.get().getClimber().setFRSpeed(0);
+    Robot.get().getClimber().setBLSpeed(0);
+    Robot.get().getClimber().setBRSpeed(0);
   }
 }

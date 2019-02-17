@@ -8,11 +8,11 @@
 package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.commands.lifter.*;
 import frc.robot.commands.gripper.*;
+import frc.robot.commandgroups.*;
 import frc.robot.commands.climber.*;
 import frc.robot.commands.vision.*;
 import frc.robot.commands.drive.*;
@@ -23,30 +23,38 @@ public class OI {
   private Button buttonbB = new JoystickButton(base, 2);
   private Button buttonbX = new JoystickButton(base,3);
   private Button buttonbY = new JoystickButton(base,4);
+  private Button buttonbStart = new JoystickButton(base,8);
 
   //Test Controller:
   private XboxController test = new XboxController(3);
+  private Button buttontA = new JoystickButton(test, 1);
+  private Button buttontB = new JoystickButton(test, 2);
+  private Button buttontX = new JoystickButton(test, 3);
+  private Button buttontY = new JoystickButton(test, 4);
+  private Button buttontLB = new JoystickButton(test, 5);
+  private Button buttontRB = new JoystickButton(test,6);
   
   
   /*private XboxController _fn = new XboxController(1);
-  private Button _buttonfA = new JoystickButton(_fn, 1);
-  private Button _buttonfB = new JoystickButton(_fn, 2);
-  private Button _buttonfX = new JoystickButton(_fn,3);
-  private Button _buttonfY = new JoystickButton(_fn,4);
-  private Button _buttonfLB = new JoystickButton(_fn, 5); 
-  private Button _buttonfRB = new JoystickButton(_fn,6);
-  private Button _buttonfBack = new JoystickButton(_fn,7);
-  private Button _buttonfStart = new JoystickButton(_fn,8);*/
+  private Button buttonfA = new JoystickButton(_fn, 1);
+  private Button buttonfB = new JoystickButton(_fn, 2);
+  private Button buttonfX = new JoystickButton(_fn,3);
+  private Button buttonfY = new JoystickButton(_fn,4);
+  private Button buttonfLB = new JoystickButton(_fn, 5); 
+  private Button buttonfRB = new JoystickButton(_fn,6);
+  private Button buttonfBack = new JoystickButton(_fn,7);
+  private Button buttonfStart = new JoystickButton(_fn,8);*/
 
   //fn1 does heights and elevator movement
   private Joystick fn1 = new Joystick(1);
   private Button floorHeight = new JoystickButton(fn1, 1);
-  private Button hatchHeight1 = new JoystickButton(fn1, 2);
-  private Button cargoHeight1 = new JoystickButton(fn1, 3);
-  private Button hatchHeight2 = new JoystickButton(fn1, 4);
-  private Button cargoHeight2 = new JoystickButton(fn1, 5);
-  private Button hatchHeight3 = new JoystickButton(fn1, 6);
-  private Button cargoHeight3 = new JoystickButton(fn1, 7);
+  private Button hatch1 = new JoystickButton(fn1, 2);
+  private Button cargo1 = new JoystickButton(fn1, 3);
+  private Button hatch2 = new JoystickButton(fn1, 4);
+  private Button cargo2 = new JoystickButton(fn1, 5);
+  private Button hatch3 = new JoystickButton(fn1, 6);
+  private Button cargo3 = new JoystickButton(fn1, 7);
+  private Button stow = new JoystickButton(fn1, 8);
 
   //fn2 does climb, gripper stuff, and arm movement
   //private Joystick _fn2 = new Joystick(2);
@@ -60,22 +68,34 @@ public class OI {
 
   public OI () {
     buttonbA.whileHeld(new FollowCargo());
-    buttonbB.whenPressed(new ArmDegree(0));
     buttonbX.whileHeld(new FindTargets());
-    buttonbY.whenPressed(new ArmDegree(RobotConstants.DEGREE_START));
+    buttonbB.whileHeld(new DriveStraight(0.4));
+    buttonbStart.whenPressed(new ArmOverride());
 
-    
     cargoIn.whileHeld(new BallIn());
     cargoOut.whileHeld(new BallOut());
     hatch.whenPressed(new HatchToggle());
 
-    /*_buttonfLB.whileHeld(new BackDown());
-    _buttonfRB.whileHeld(new FrontDown());
-    _buttonfBack.whileHeld(new BackUp());
-    _buttonfStart.whileHeld(new FrontUp());
-    _buttonfX.whileHeld(new BallIn());
-    _buttonfA.whileHeld(new BallOut());
-    _buttonfY.whenPressed(new HatchToggle());*/
+    /*buttontB.whenPressed(new ArmDegree(0));
+    buttontY.whenPressed(new ArmDegree(RobotConstants.DEGREE_START));*/
+    buttontLB.whileHeld(new DriveClimberWheel(1.0));
+    buttontRB.whileHeld(new DriveClimberWheel(-1.0));
+
+    /*buttonfLB.whenPressed(new HatchToggle());
+    buttonfRB.whileHeld(new FrontDown());
+    /*buttonfBack.whileHeld(new BackUp());
+    buttonfStart.whileHeld(new FrontUp());
+    buttonfX.whileHeld(new BallIn());
+    buttonfA.whileHeld(new BallOut());
+    buttonfY.whenPressed(new HatchToggle());*/
+    floorHeight.whenPressed(new LiftAndArm(0, RobotConstants.ARM_FLOOR_DEGREE));
+    hatch1.whenPressed(new LiftThenArm(0, -66.6));
+    hatch2.whenPressed(new LiftThenArm(0,0));
+    hatch3.whenPressed(new LiftThenArm(35.25,-36));
+    cargo1.whenPressed(new LiftThenArm(0,0));
+    cargo2.whenPressed(new LiftThenArm(28,0));
+    cargo3.whenPressed(new LiftThenArm(41.75,0));
+    stow.whenPressed(new LiftAndArm(0,0));
   }
 
   public XboxController getBaseJoystick() {

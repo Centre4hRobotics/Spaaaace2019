@@ -39,7 +39,7 @@ public class MoveLiftSetpoint extends Command {
   protected void execute() {
     double speed = Robot.get().getOI().getFn1Joystick().getY();  
     //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
-      if (Math.abs(speed) > 0.5) {
+      if (Math.abs(speed) > 0.3 &&!Robot.get().getClimber().isClimbMode()) {
         Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightSetpoint()+speed*RobotConstants.LIFT_MANUAL_DELTA);
       }
   }

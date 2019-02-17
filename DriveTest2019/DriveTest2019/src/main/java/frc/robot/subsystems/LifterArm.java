@@ -44,8 +44,8 @@ public class LifterArm extends Subsystem {
     kD = 0;//.5; 
     kIz = 0; 
     kFF = 0; 
-    kMaxOutput = 0.4; 
-    kMinOutput = -0.4;
+    kMaxOutput = 0.6; 
+    kMinOutput = -0.6;
 
     // set PID coefficients
     m_pidController.setP(kP);
@@ -54,6 +54,12 @@ public class LifterArm extends Subsystem {
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+
+    this.setDegree(point);
+  }
+
+  public void resetInitialPosition() {
+    initialEncoderVal = m_encoder.getPosition();
   }
 
   //0 is middle of arc
@@ -68,6 +74,10 @@ public class LifterArm extends Subsystem {
   //0 is middle of wrist arc
   public double getHeightInches() {
     return armLength*Math.sin(getDegree());
+  }
+
+  public void overrideAngle(double angleSet) {
+    initialEncoderVal = angleSet;
   }
 
   public boolean willBeInsideFramePerimeter(double height) {

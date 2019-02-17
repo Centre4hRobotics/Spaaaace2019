@@ -80,6 +80,8 @@ public class Lifter extends Subsystem {
    */
 
   public void setHeightInches(double height) {
+      if (height>RobotConstants.MAX_LIFT_HEIGHT) height = RobotConstants.MAX_LIFT_HEIGHT;
+      if (height<RobotConstants.MIN_LIFT_HEIGHT) height = RobotConstants.MIN_LIFT_HEIGHT;
       m_pidController.setReference(height*RobotConstants.ROTATIONS_PER_INCH+initialEncoderVal, ControlType.kPosition);
       point = height;
   }

@@ -24,7 +24,11 @@ public class BallIn extends Command {
     // Sets motor speed to maximum as long as it runs
     @Override
     protected void execute() {
-        Robot.get().getCargoGripper().setBallSpeed(-1.0);
+        if (Robot.get().getCargoGripper().isSwitchTriggered()) {
+            Robot.get().getCargoGripper().setBallSpeed(0.0);
+        } else {
+            Robot.get().getCargoGripper().setBallSpeed(-1.0);
+        }  
     }
 
     // Never finished, but interruptable

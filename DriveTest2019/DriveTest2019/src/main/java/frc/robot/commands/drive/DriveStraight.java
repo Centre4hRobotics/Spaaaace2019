@@ -5,48 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.lifter;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * A command to lift to a height parameter as a position.
+ * An example command.  You can replace me with your own command.
  */
-public class LiftHeight extends Command {
-    private double height;
-    private long initTime;
-
-  public LiftHeight(double height) {
-    this.height = height;
-    this.initTime = System.currentTimeMillis();
-    requires(Robot.get().getLifter());
+public class DriveStraight extends Command {
+    private double speed;
+  public DriveStraight(double speed) {
+      this.speed = speed;
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.get().getDriveTrain());
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
-  //Sets the lift height to the passed-in parameter
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      Robot.get().getLifter().setHeightInches(height);
+      Robot.get().getDriveTrain().drive(speed, 0);
   }
 
-  // This finishes immediately because it only happens once (just sets the setpoint and then quits)
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (System.currentTimeMillis()-initTime>5000) return true;
-    return Math.abs(Robot.get().getLifter().getHeightInches()-height) < 1.5;
+    return false;
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.get().getLifter().setSpeed(0);
   }
 
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
+      Robot.get().getDriveTrain().drive(0,0);
   }
 }

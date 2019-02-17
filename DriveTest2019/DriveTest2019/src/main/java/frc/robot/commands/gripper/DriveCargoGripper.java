@@ -5,20 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.lifter;
+package frc.robot.commands.gripper;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotConstants;
 
 /**
- * A testing command that uses an xbox joystick to control the lift speed
+ * An example command.  You can replace me with your own command.
  */
-public class MoveArmSetpoint extends Command {
-  public MoveArmSetpoint() {
+public class DriveCargoGripper extends Command {
+  public DriveCargoGripper() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.get().getLifterArm());
+    requires(Robot.get().getClimber());
   }
 
   // Called just before this Command runs the first time
@@ -26,22 +25,16 @@ public class MoveArmSetpoint extends Command {
   protected void initialize() {
   }
 
-  //True means its fine, false means it will not work
-  private boolean heightRestrict (double height) {
-    double lHeight = Robot.get().getLifter().getHeightInches();
-    if (((Robot.get().getLifterArm().willBeInsideFramePerimeter(height)&&lHeight+height<3)||lHeight+height<-4)) 
-        return false;
-    return true;
-  }
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = Robot.get().getOI().getFn2Joystick().getY();  
-    //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
-    if (Math.abs(speed)>0.3 &&!Robot.get().getClimber().isClimbMode()) {
-      Robot.get().getLifterArm().setDegree(Robot.get().getLifterArm().getDegreeSetpoint()+speed*RobotConstants.ARM_MANUAL_DELTA);
-    }
+      double speed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kLeft);
+      if (speed<Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)) {
+          speed = -1*Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight);
+      }
+
+      if (Math.abs(speed)<0.3 || Robot.get().getClimber().isClimbMode()) speed = 0;
+      Robot.get().getCargoGripper().setBallSpeed(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -53,12 +46,13 @@ public class MoveArmSetpoint extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.get().getCargoGripper().setBallSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    //Robot.get().getLifterArm().setHeightInches(Robot.get().getLifterArm().getHeightInches());
+      end();
   }
 }
