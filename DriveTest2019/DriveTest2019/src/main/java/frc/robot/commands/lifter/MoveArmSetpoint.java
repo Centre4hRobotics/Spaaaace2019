@@ -26,19 +26,13 @@ public class MoveArmSetpoint extends Command {
   protected void initialize() {
   }
 
-  //True means its fine, false means it will not work
-  private boolean heightRestrict (double height) {
-    double lHeight = Robot.get().getLifter().getHeightInches();
-    if (((Robot.get().getLifterArm().willBeInsideFramePerimeter(height)&&lHeight+height<3)||lHeight+height<-4)) 
-        return false;
-    return true;
-  }
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     double speed = Robot.get().getOI().getFn2Joystick().getY();  
-    //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
+    /*if (speed < Robot.get().getOI().getTestJoystick().getY(Hand.kRight))
+      speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);*/
+
     if (Math.abs(speed)>0.3 &&!Robot.get().getClimber().isClimbMode()) {
       Robot.get().getLifterArm().setDegree(Robot.get().getLifterArm().getDegreeSetpoint()+speed*RobotConstants.ARM_MANUAL_DELTA);
     }

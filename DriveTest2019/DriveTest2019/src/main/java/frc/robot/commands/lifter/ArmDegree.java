@@ -15,16 +15,15 @@ import frc.robot.Robot;
  */
 public class ArmDegree extends Command {
     private double degree;
-    private long initTime;
 
   public ArmDegree(double degree) {
     this.degree = degree;
-    this.initTime = System.currentTimeMillis();
     requires(Robot.get().getLifterArm());
   }
 
   @Override
   protected void initialize() {
+    setTimeout(3);
   }
 
   //Sets the lift degree to the passed-in parameter
@@ -36,17 +35,15 @@ public class ArmDegree extends Command {
   // This finishes immediately because it only happens once (just sets the setpoint and then quits)
   @Override
   protected boolean isFinished() {
-    if (System.currentTimeMillis()-initTime>3000) return true;
-    return Math.abs(Robot.get().getLifterArm().getDegree()-degree)<1;
+    System.out.println("Setpoint: " + degree + "\nDegree: " + Robot.get().getLifterArm().getDegree());
+    return isTimedOut()||Math.abs(Robot.get().getLifterArm().getDegree()-degree)<3;
   }
 
   @Override
   protected void end() {
-    Robot.get().getLifterArm().setSpeed(0);
   }
 
   @Override
   protected void interrupted() {
-    end();
   }
 }

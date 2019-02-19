@@ -17,12 +17,14 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  */
 public class LiftThenArmToggle extends CommandGroup {
   public LiftThenArmToggle(double height1, double degree1, double height2, double degree2) {
-    if (Robot.get().getOI().getTestJoystick().getBumper(Hand.kLeft)) {
+    /*if (Robot.get().getOI().getTestJoystick().getBumper(Hand.kLeft)) {
+        addParallel(new ArmDegree(0));
         addSequential(new LiftHeight(height2));
         addSequential(new ArmDegree(degree2));
     } else {
+        addParallel(new ArmDegree(0));
         addSequential(new LiftHeight(height1));
         addSequential(new ArmDegree(degree1));
-    }
+    }*/
   }
 }

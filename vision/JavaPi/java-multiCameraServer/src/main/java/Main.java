@@ -289,12 +289,12 @@ public final class Main {
       this.outputStream = CameraServer.getInstance().putVideo("TargetCV", cam.getVideoMode().width, cam.getVideoMode().height);
     }
 
-    public double findSlopeOfLine (Mat mat) {
+    /*public double findSlopeOfLine (Mat mat) {
       Mat lineList = new Mat(mat, new Range(0,mat.rows()), new Range(0,mat.cols()));
       int[] vals = new int[4];
       Imgproc.fitLine(mat,lineList, 4, 0, 0.01, 0.01);
       
-    }
+    }*/
 
     public void publishTargets (ArrayList<MatOfPoint> contours) {
       int foundContour = contours.size();

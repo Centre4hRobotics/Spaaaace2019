@@ -29,19 +29,19 @@ public class DriveFrontClimber extends Command {
     protected void execute() {
         //diff is right minus left
         double mult = 1;
-        if (Robot.get().getClimber().getEncoderFL().getDistance()-height>0) mult = -1;
-        if (Math.abs(Robot.get().getClimber().getEncoderFL().getDistance()-height)<2) {
+        if (Robot.get().getClimber().getEncoderFL()-height>0) mult = -1;
+        if (Math.abs(Robot.get().getClimber().getEncoderFL()-height)<2) {
             mult*=.3;
         }
-        double diff = Robot.get().getClimber().getEncoderFR().getDistance()-Robot.get().getClimber().getEncoderFL().getDistance();
+        double diff = Robot.get().getClimber().getEncoderFR()-Robot.get().getClimber().getEncoderFL();
         Robot.get().getClimber().setFLSpeed(mult*RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED);
         Robot.get().getClimber().setFRSpeed(mult*RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED);
     }
 
     @Override
     protected boolean isFinished() {
-        if (Math.abs(Robot.get().getClimber().getEncoderFL().getDistance()-height) < 0.2 
-            && Math.abs(Robot.get().getClimber().getEncoderFR().getDistance()-height)<0.2) 
+        if (Math.abs(Robot.get().getClimber().getEncoderFL()-height) < 0.2 
+            && Math.abs(Robot.get().getClimber().getEncoderFR()-height)<0.2) 
                 return true;
         return false;
     }

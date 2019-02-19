@@ -31,13 +31,22 @@ public class ClimberDriveManual extends Command {
   protected void execute() {
       double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);//Robot.get().getOI().getFn1Joystick().getX();
       double bSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);//Robot.get().getOI().getFn2Joystick().getX();
+      double wSpeed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kLeft);
+      if (wSpeed < Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)) {
+        wSpeed = -1*Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight);
+      }
       if (Math.abs(fSpeed) < 0.3) fSpeed = 0;
       if (Math.abs(bSpeed) < 0.3) bSpeed = 0;
+      if (Math.abs(wSpeed) < 0.3) wSpeed = 0;
+      if (fSpeed>0) fSpeed/=2;
+      if (bSpeed>0) bSpeed/=2;
 
-      Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT);
-      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT);
+      Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.1);
+      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*-1.1);
       Robot.get().getClimber().setBLSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT);
-      Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.3);
+      Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT*-1);
+      Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMBER_SPEED_MULT);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

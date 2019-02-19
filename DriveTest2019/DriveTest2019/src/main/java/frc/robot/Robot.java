@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.drive.DriveWithJoystick;
 import frc.robot.subsystems.*;  
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 //import edu.wpi.first.networktables.NetworkTableInstance;
 
 
@@ -120,6 +121,13 @@ public class Robot extends TimedRobot {
     getLifter().publishValues(getNTInst());
     getLifterArm().publishValues(getNTInst());
     getClimber().publishValues(getNTInst());
+    if (getClimber().isClimbMode()) {
+      getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 0.2);
+      get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0.2);
+    } else {
+      Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 0);
+      Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0);
+    }
   }
 
   /**

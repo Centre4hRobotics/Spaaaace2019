@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotConstants;
 import frc.robot.commands.lifter.MoveArmSetpoint;
-import frc.robot.commands.lifter.SetArmSpeed;
+//import frc.robot.commands.lifter.SetArmSpeed;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
@@ -58,10 +58,6 @@ public class LifterArm extends Subsystem {
     this.setDegree(point);
   }
 
-  public void resetInitialPosition() {
-    initialEncoderVal = m_encoder.getPosition();
-  }
-
   //0 is middle of arc
   public double getDegree() {
     return (m_encoder.getPosition()-initialEncoderVal)*RobotConstants.DEGREES_PER_ROTATION+RobotConstants.DEGREE_START;
@@ -77,7 +73,7 @@ public class LifterArm extends Subsystem {
   }
 
   public void overrideAngle(double angleSet) {
-    initialEncoderVal = angleSet;
+    initialEncoderVal = m_encoder.getPosition() + angleSet/RobotConstants.DEGREES_PER_ROTATION;
   }
 
   public boolean willBeInsideFramePerimeter(double height) {
@@ -105,7 +101,6 @@ public class LifterArm extends Subsystem {
   }
 
   public void setSpeed (double speed) {
-    //m_pidController.setReference(speed, ControlType.kVelocity);
     m_motor.set(-1*speed);
   }
 

@@ -38,10 +38,12 @@ public class MoveLiftSetpoint extends Command {
   @Override
   protected void execute() {
     double speed = Robot.get().getOI().getFn1Joystick().getY();  
-    //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
-      if (Math.abs(speed) > 0.3 &&!Robot.get().getClimber().isClimbMode()) {
-        Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightSetpoint()+speed*RobotConstants.LIFT_MANUAL_DELTA);
-      }
+    /*if (speed < Robot.get().getOI().getTestJoystick().getY(Hand.kLeft))
+      speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);*/
+
+    if (Math.abs(speed) > 0.3 &&!Robot.get().getClimber().isClimbMode()) {
+      Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightSetpoint()+speed*RobotConstants.LIFT_MANUAL_DELTA);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

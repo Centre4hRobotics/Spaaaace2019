@@ -7,7 +7,6 @@
 
 package frc.robot.commands.lifter;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
@@ -33,7 +32,7 @@ public class ArmOverride extends Command {
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   @Override

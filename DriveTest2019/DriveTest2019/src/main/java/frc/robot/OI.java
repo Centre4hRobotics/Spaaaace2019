@@ -33,6 +33,8 @@ public class OI {
   private Button buttontY = new JoystickButton(test, 4);
   private Button buttontLB = new JoystickButton(test, 5);
   private Button buttontRB = new JoystickButton(test,6);
+  private Button buttontBack = new JoystickButton(test,7);
+  private Button buttontStart = new JoystickButton(test,8);
   
   
   /*private XboxController _fn = new XboxController(1);
@@ -70,14 +72,14 @@ public class OI {
     buttonbA.whileHeld(new FollowCargo());
     buttonbX.whileHeld(new FindTargets());
     buttonbB.whileHeld(new DriveStraight(0.4));
-    buttonbStart.whenPressed(new ArmOverride());
+    buttonbStart.whileHeld(new ArmOverride());
 
     cargoIn.whileHeld(new BallIn());
     cargoOut.whileHeld(new BallOut());
     hatch.whenPressed(new HatchToggle());
 
     /*buttontB.whenPressed(new ArmDegree(0));
-    buttontY.whenPressed(new ArmDegree(RobotConstants.DEGREE_START));*/
+    buttontY.whenPressed(new ArmDegree(RobotConstants.DEGREE_START));
     buttontLB.whileHeld(new DriveClimberWheel(1.0));
     buttontRB.whileHeld(new DriveClimberWheel(-1.0));
 
@@ -88,14 +90,23 @@ public class OI {
     buttonfX.whileHeld(new BallIn());
     buttonfA.whileHeld(new BallOut());
     buttonfY.whenPressed(new HatchToggle());*/
-    floorHeight.whenPressed(new LiftAndArm(0, RobotConstants.ARM_FLOOR_DEGREE));
+    floorHeight.whenPressed(new LiftThenArm(0, RobotConstants.ARM_FLOOR_DEGREE));
     hatch1.whenPressed(new LiftThenArm(0, -66.6));
-    hatch2.whenPressed(new LiftThenArm(0,0));
-    hatch3.whenPressed(new LiftThenArm(35.25,-36));
+    hatch2.whenPressed(new LiftThenArm(16.25,-36));
+    hatch3.whenPressed(new LiftThenArm(38/*35.25*/,-36));
     cargo1.whenPressed(new LiftThenArm(0,0));
     cargo2.whenPressed(new LiftThenArm(28,0));
     cargo3.whenPressed(new LiftThenArm(41.75,0));
     stow.whenPressed(new LiftAndArm(0,0));
+
+    hab2Climb.whenPressed(new DriveFullClimber(6));
+
+    buttontA.whenPressed(new LiftThenArmToggle(0,0,0,-66.6));
+    buttontX.whenPressed(new LiftThenArmToggle(28,0,16.25,-36));
+    buttontY.whenPressed(new LiftThenArmToggle(41.75,0,38,-36));
+    buttontB.whenPressed(new LiftThenArmToggle(0,RobotConstants.ARM_FLOOR_DEGREE, 13.5,0));
+    buttontBack.whenPressed(new LiftAndArm(0,0));
+    buttontRB.whenPressed(new HatchToggle());
   }
 
   public XboxController getBaseJoystick() {

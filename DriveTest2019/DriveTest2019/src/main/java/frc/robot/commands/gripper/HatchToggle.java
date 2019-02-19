@@ -15,7 +15,6 @@ import frc.robot.Robot;
  */
 public class HatchToggle extends Command {
     private boolean endState;
-    private long startTime;
 
   public HatchToggle() {
     requires(Robot.get().getHatchGripper());
@@ -24,7 +23,7 @@ public class HatchToggle extends Command {
   // Gets the time as it starts to run
   @Override
   protected void initialize() {
-      startTime = System.currentTimeMillis();
+      setTimeout(0.4);
   }
 
   /**
@@ -44,14 +43,11 @@ public class HatchToggle extends Command {
   }
 
   /** 
-   * Finishes after 1 second (long enough to trip limit switch on robot)
+   * Finishes after 0.4 seconds (long enough to trip limit switch on robot)
    */
   @Override
   protected boolean isFinished() {
-    if (System.currentTimeMillis()-startTime < 500) {
-        return false;
-    } 
-    return true;
+    return isTimedOut();
   }
 
   // Puts the current state into the HatchGripper subsystem just before it finishes.

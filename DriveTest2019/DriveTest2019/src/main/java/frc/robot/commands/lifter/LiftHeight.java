@@ -15,16 +15,15 @@ import frc.robot.Robot;
  */
 public class LiftHeight extends Command {
     private double height;
-    private long initTime;
 
   public LiftHeight(double height) {
     this.height = height;
-    this.initTime = System.currentTimeMillis();
     requires(Robot.get().getLifter());
   }
 
   @Override
   protected void initialize() {
+    setTimeout(5);
   }
 
   //Sets the lift height to the passed-in parameter
@@ -36,17 +35,14 @@ public class LiftHeight extends Command {
   // This finishes immediately because it only happens once (just sets the setpoint and then quits)
   @Override
   protected boolean isFinished() {
-    if (System.currentTimeMillis()-initTime>5000) return true;
-    return Math.abs(Robot.get().getLifter().getHeightInches()-height) < 1.5;
+    return isTimedOut()||Math.abs(Robot.get().getLifter().getHeightInches()-height) < 2;
   }
 
   @Override
   protected void end() {
-    Robot.get().getLifter().setSpeed(0);
   }
 
   @Override
   protected void interrupted() {
-    end();
   }
 }
