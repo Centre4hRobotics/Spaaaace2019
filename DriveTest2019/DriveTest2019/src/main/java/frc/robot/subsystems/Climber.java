@@ -25,6 +25,9 @@ public class Climber extends Subsystem {
         motorBL = new Spark(RobotConstants.CLIMBER_BL_MOTOR);
         motorBR = new Spark(RobotConstants.CLIMBER_BR_MOTOR);
 
+        motorFR.setInverted(true);
+        motorBR.setInverted(true);
+        
         encoderFL = new Encoder(4,5,false);
         encoderFR = new Encoder(2,3,false);
         encoderBL = new Encoder(8,9,false);
@@ -34,10 +37,10 @@ public class Climber extends Subsystem {
         encoderFR.reset();
         encoderBL.reset();
         encoderBR.reset();
-        encoderFL.setDistancePerPulse(RobotConstants.CLIMBER_ENCODER_DPP_FL);
-        encoderFR.setDistancePerPulse(RobotConstants.CLIMBER_ENCODER_DPP_FR);
-        encoderBL.setDistancePerPulse(RobotConstants.CLIMBER_ENCODER_DPP_BL);
-        encoderBR.setDistancePerPulse(RobotConstants.CLIMBER_ENCODER_DPP_BR);
+        encoderFL.setDistancePerPulse(RobotConstants.CLIMBER_DPP);
+        encoderFR.setDistancePerPulse(RobotConstants.CLIMBER_DPP);
+        encoderBL.setDistancePerPulse(RobotConstants.CLIMBER_DPP);
+        encoderBR.setDistancePerPulse(RobotConstants.CLIMBER_DPP);
         
 
         motorWheel = new PWMVictorSPX(RobotConstants.CLIMBER_WHEEL_MOTOR);

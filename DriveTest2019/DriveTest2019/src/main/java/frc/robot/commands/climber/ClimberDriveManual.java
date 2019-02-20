@@ -42,9 +42,9 @@ public class ClimberDriveManual extends Command {
       if (bSpeed>0) bSpeed/=2;
 
       Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.1);
-      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*-1.1);
+      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.1);
       Robot.get().getClimber().setBLSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT);
-      Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT*-1);
+      Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT*1);
       Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMBER_SPEED_MULT);
 
   }

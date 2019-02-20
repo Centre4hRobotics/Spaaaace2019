@@ -15,7 +15,9 @@ import frc.robot.RobotConstants;
  */
 public class DriveFullClimber extends Command {
     private double height, avg;
+    private double[] speeds, adjusts, dists;
     private int dir;
+
     public DriveFullClimber(double height) {
         // Use requires() here to declare subsystem dependencies
         this.height = height;
@@ -25,29 +27,46 @@ public class DriveFullClimber extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        double fl = Robot.get().getClimber().getEncoderFL(), fr = Robot.get().getClimber().getEncoderFR(),
-               bl = Robot.get().getClimber().getEncoderBL(), br = Robot.get().getClimber().getEncoderBR();
-        avg = 0.25*(fl+fr+bl+br);
+        dists = new double[4];
+        dists[0] = Robot.get().getClimber().getEncoderFL();
+        dists[1] = Robot.get().getClimber().getEncoderFR();
+        dists[2] = Robot.get().getClimber().getEncoderBL(); 
+        dists[3] = Robot.get().getClimber().getEncoderBR();
+        avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
+        speeds = new double[4];
+        for (int i = 0; i<4; i++) speeds[i] = 1;
+        adjusts = new double[4];
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double fl = Robot.get().getClimber().getEncoderFL(), fr = Robot.get().getClimber().getEncoderFR(),
-               bl = Robot.get().getClimber().getEncoderBL(), br = Robot.get().getClimber().getEncoderBR();
-        avg = 0.25*(fl+fr+bl+br);
+        dists[0] = Robot.get().getClimber().getEncoderFL();
+        dists[1] = Robot.get().getClimber().getEncoderFR();
+        dists[2] = Robot.get().getClimber().getEncoderBL(); 
+        dists[3] = Robot.get().getClimber().getEncoderBR();
+        avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
         if (height<avg) dir = 1;
-        Robot.get().getClimber().setFLSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fl)/avg);
-        Robot.get().getClimber().setFRSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-fr)/avg);
-        Robot.get().getClimber().setBLSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-bl)/avg);
-        Robot.get().getClimber().setBRSpeed(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*(avg-br)/avg);
+        else dir = -1;
+        //pos 0 is fl, pos 1 is fr, pos 2 is bl, pos 3 is br
+        for (int i = 0; i<4; i++) {
+            if (Math.abs(dists[i]-height)<2) speeds[i]=0.5;
+            if (Math.abs(dists[i]-height)<0.2) speeds[i] = 0;
+            adjusts[i] = Math.max(Math.min(avg-dists[i], 1), -1);
+        }
+        
+        Robot.get().getClimber().setFLSpeed(speeds[0]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[0]));
+        Robot.get().getClimber().setFRSpeed(speeds[1]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[1]));
+        Robot.get().getClimber().setBLSpeed(speeds[2]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[2]));
+        Robot.get().getClimber().setBRSpeed(speeds[3]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[3]));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if (Math.abs(avg-height)<0.4) return true;
-        return false;
+        for (int i = 0; i<4; i++) {
+            if (Math.abs(dists[i]-height)>0.2) return false;
+        }
+        return true;
     }
 
     // Called once after isFinished returns true

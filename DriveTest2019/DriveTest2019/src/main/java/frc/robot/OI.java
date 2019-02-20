@@ -99,7 +99,8 @@ public class OI {
     cargo3.whenPressed(new LiftThenArm(41.75,0));
     stow.whenPressed(new LiftAndArm(0,0));
 
-    hab2Climb.whenPressed(new DriveFullClimber(6));
+    hab2Climb.whileHeld(new DriveFullClimber(6));
+    hab2Exit.whileHeld(new DriveFullClimber(0));
 
     buttontA.whenPressed(new LiftThenArmToggle(0,0,0,-66.6));
     buttontX.whenPressed(new LiftThenArmToggle(28,0,16.25,-36));
