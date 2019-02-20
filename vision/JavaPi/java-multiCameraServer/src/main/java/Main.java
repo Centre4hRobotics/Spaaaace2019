@@ -282,7 +282,7 @@ public final class Main {
     private CvSource outputStream = null;
 
     public static final double PIXELS_ACROSS = 320;
-    public static final double TARGET_AREA_TARGET = 3000;
+    public static final double TARGET_AREA_TARGET = 1000;
 
     public TargetPipeline(NetworkTableInstance ntinst, VideoSource cam) {
       this.ntinst = ntinst;
@@ -390,7 +390,7 @@ public final class Main {
     }
 
     // start image processing on camera 0 if present
-    if (cameras.size() >= 1) {
+    if (cameras.size() > 1) {
       VisionThread visionThreadTarget = new VisionThread(cameras.get(0),
               new TargetPipeline(ntinst, cameras.get(0)), pipeline -> {});
         // do something with pipeline results

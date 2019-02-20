@@ -34,10 +34,10 @@ public class HatchToggle extends Command {
   @Override
   protected void execute() {
     if (Robot.get().getHatchGripper().getHatchState()) {
-        Robot.get().getHatchGripper().setHatchSpeed(1);
+        Robot.get().getHatchGripper().setHatchSpeed(-1);
         endState = false;
     } else {
-        Robot.get().getHatchGripper().setHatchSpeed(-1);
+        Robot.get().getHatchGripper().setHatchSpeed(1);
         endState = true;
     }
   }

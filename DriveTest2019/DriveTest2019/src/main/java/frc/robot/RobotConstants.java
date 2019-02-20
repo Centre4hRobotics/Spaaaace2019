@@ -60,7 +60,7 @@ public final class RobotConstants {
     public static final double ARM_MANUAL_DELTA = 0.6;
 
     //FindTargets:
-    public static final double TARGET_STEER_MULT = 0.6;
+    public static final double TARGET_STEER_MULT = 0.4;
     public static final double TARGET_SPEED_MULT = 0.35;
 
     //FollowCargo:

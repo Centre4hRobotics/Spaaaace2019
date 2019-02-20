@@ -122,11 +122,11 @@ public class Robot extends TimedRobot {
     getLifterArm().publishValues(getNTInst());
     getClimber().publishValues(getNTInst());
     if (getClimber().isClimbMode()) {
-      getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 0.2);
-      get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0.2);
+      getOI().getTestJoystick().setRumble(RumbleType.kLeftRumble, 0.2);
+      get().getOI().getTestJoystick().setRumble(RumbleType.kRightRumble, 0.2);
     } else {
-      Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kLeftRumble, 0);
-      Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0);
+      Robot.get().getOI().getTestJoystick().setRumble(RumbleType.kLeftRumble, 0);
+      Robot.get().getOI().getTestJoystick().setRumble(RumbleType.kRightRumble, 0);
     }
   }
 

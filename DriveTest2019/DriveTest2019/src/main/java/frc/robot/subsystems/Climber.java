@@ -27,7 +27,7 @@ public class Climber extends Subsystem {
 
         motorFR.setInverted(true);
         motorBR.setInverted(true);
-        
+
         encoderFL = new Encoder(4,5,false);
         encoderFR = new Encoder(2,3,false);
         encoderBL = new Encoder(8,9,false);
@@ -71,11 +71,11 @@ public class Climber extends Subsystem {
     }
 
     public double getEncoderFL () {
-        return encoderFL.getDistance();
+        return encoderFL.getDistance()-1;
     }
 
     public double getEncoderFR () {
-        return encoderFR.getDistance();
+        return encoderFR.getDistance()-1;
     }
 
     public double getEncoderBL () {

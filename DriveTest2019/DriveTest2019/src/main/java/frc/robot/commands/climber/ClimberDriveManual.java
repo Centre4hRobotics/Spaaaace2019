@@ -35,9 +35,13 @@ public class ClimberDriveManual extends Command {
       if (wSpeed < Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)) {
         wSpeed = -1*Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight);
       }
-      if (Math.abs(fSpeed) < 0.3) fSpeed = 0;
-      if (Math.abs(bSpeed) < 0.3) bSpeed = 0;
-      if (Math.abs(wSpeed) < 0.3) wSpeed = 0;
+
+      /*if (Robot.get().getOI().getTestJoystick().getStartButtonPressed())
+        Robot.get().getClimber().toggleClimbMode();*/
+
+      if (Math.abs(fSpeed) < 0.3/*||!Robot.get().getClimber().isClimbMode()*/) fSpeed = 0;
+      if (Math.abs(bSpeed) < 0.3/*||!Robot.get().getClimber().isClimbMode()*/) bSpeed = 0;
+      if (Math.abs(wSpeed) < 0.3/*||!Robot.get().getClimber().isClimbMode()*/) wSpeed = 0;
       if (fSpeed>0) fSpeed/=2;
       if (bSpeed>0) bSpeed/=2;
 

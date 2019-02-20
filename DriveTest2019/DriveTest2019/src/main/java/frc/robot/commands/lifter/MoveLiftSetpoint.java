@@ -26,14 +26,6 @@ public class MoveLiftSetpoint extends Command {
   protected void initialize() {
   }
 
-  //True means its fine, false means it will not work
-  private boolean heightRestrict (double height) {
-    double aHeight = Robot.get().getLifterArm().getHeightInches();
-    if (((Robot.get().getLifterArm().willBeInsideFramePerimeter(aHeight)&&height+aHeight<3)||height+aHeight<-4)) 
-        return false;
-    return true;
-  }
-
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {

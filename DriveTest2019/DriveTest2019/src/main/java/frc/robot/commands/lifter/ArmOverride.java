@@ -25,9 +25,8 @@ public class ArmOverride extends Command {
 
   @Override
   protected void execute() {
-    if (Robot.get().getOI().getBaseJoystick().getStartButton()&&Robot.get().getOI().getBaseJoystick().getBackButton()) {
-        Robot.get().getLifterArm().overrideAngle(RobotConstants.DEGREE_START);
-    }
+    if (Robot.get().getOI().getBaseJoystick().getStartButton()&&Robot.get().getOI().getBaseJoystick().getBackButton())
+      Robot.get().getLifterArm().overrideAngle(RobotConstants.DEGREE_START);
   }
 
   @Override

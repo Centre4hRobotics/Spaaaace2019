@@ -96,7 +96,7 @@ public class LifterArm extends Subsystem {
   }
 
   public void setDegree(double degree) {
-      m_pidController.setReference((degree+initialEncoderVal-RobotConstants.DEGREE_START)/RobotConstants.DEGREES_PER_ROTATION, ControlType.kPosition);
+      m_pidController.setReference((degree-RobotConstants.DEGREE_START)/RobotConstants.DEGREES_PER_ROTATION+initialEncoderVal, ControlType.kPosition);
       point = degree;
   }
 

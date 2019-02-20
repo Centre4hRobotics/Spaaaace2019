@@ -15,7 +15,12 @@ import frc.robot.RobotConstants;
  */
 public class DriveFullClimber extends Command {
     private double height, avg;
-    private double[] speeds, adjusts, dists;
+    /**Mults is either 1,0.5, or zero for each
+     * adjusts is the adjustment value for each motor from -1 to 1
+     * dists is the current encoder readings
+     * inputs is what is going into setSpeed
+     */
+    private double[] mults, adjusts, dists, inputs;
     private int dir;
 
     public DriveFullClimber(double height) {
@@ -33,9 +38,10 @@ public class DriveFullClimber extends Command {
         dists[2] = Robot.get().getClimber().getEncoderBL(); 
         dists[3] = Robot.get().getClimber().getEncoderBR();
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
-        speeds = new double[4];
-        for (int i = 0; i<4; i++) speeds[i] = 1;
+        mults = new double[4];
+        for (int i = 0; i<4; i++) mults[i] = 1;
         adjusts = new double[4];
+        inputs = new double[4];
     }
 
     @Override
@@ -49,15 +55,20 @@ public class DriveFullClimber extends Command {
         else dir = -1;
         //pos 0 is fl, pos 1 is fr, pos 2 is bl, pos 3 is br
         for (int i = 0; i<4; i++) {
-            if (Math.abs(dists[i]-height)<2) speeds[i]=0.5;
-            if (Math.abs(dists[i]-height)<0.2) speeds[i] = 0;
-            adjusts[i] = Math.max(Math.min(avg-dists[i], 1), -1);
+            if (Math.abs(dists[i]-height)<1) mults[i]=0.5;
+            if (Math.abs(dists[i]-height)<0.2) mults[i] = 0;
+            adjusts[i] = Math.max(Math.min(dists[i]-avg, 1), -1);
+            inputs[i] = mults[i]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[i]);
+            Robot.get().getNTInst().getTable("Climber Test").getEntry("Mult " + i).setNumber(mults[i]);
+            Robot.get().getNTInst().getTable("Climber Test").getEntry("Input " + i).setNumber(inputs[i]);
+            Robot.get().getNTInst().getTable("Climber Test").getEntry("Adjust " + i).setNumber(adjusts[i]);
         }
-        
-        Robot.get().getClimber().setFLSpeed(speeds[0]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[0]));
-        Robot.get().getClimber().setFRSpeed(speeds[1]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[1]));
-        Robot.get().getClimber().setBLSpeed(speeds[2]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[2]));
-        Robot.get().getClimber().setBRSpeed(speeds[3]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[3]));
+        Robot.get().getNTInst().getTable("Climber Test").getEntry("Dir").setNumber(dir);
+
+        Robot.get().getClimber().setFLSpeed(inputs[0]);
+        Robot.get().getClimber().setFRSpeed(inputs[1]);
+        Robot.get().getClimber().setBLSpeed(inputs[2]);
+        Robot.get().getClimber().setBRSpeed(inputs[3]);
     }
 
     // Make this return true when this Command no longer needs to run execute()

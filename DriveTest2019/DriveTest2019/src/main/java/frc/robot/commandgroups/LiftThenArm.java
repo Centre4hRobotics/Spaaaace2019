@@ -9,12 +9,14 @@ package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.lifter.*;
+import frc.robot.RobotConstants;
 
 /**
  * A command to lift to a height parameter as a position and then the arm as a degree.
  */
 public class LiftThenArm extends CommandGroup {
   public LiftThenArm(double height, double degree) {
+    //addSequential(new ArmDegree(RobotConstants.DEGREE_START));
     addSequential(new LiftHeight(height));
     addSequential(new ArmDegree(degree));
   }

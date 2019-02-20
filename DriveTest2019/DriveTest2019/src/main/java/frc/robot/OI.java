@@ -69,9 +69,9 @@ public class OI {
   private Button hab2Exit = new JoystickButton (fn2, 6);
 
   public OI () {
-    buttonbA.whileHeld(new FollowCargo());
-    buttonbX.whileHeld(new FindTargets());
-    buttonbB.whileHeld(new DriveStraight(0.4));
+    //buttonbA.whileHeld(new FollowCargo());
+    buttonbA.whileHeld(new FindTargets());
+    buttonbB.whileHeld(new DriveStraight(-0.3));
     buttonbStart.whileHeld(new ArmOverride());
 
     cargoIn.whileHeld(new BallIn());
@@ -92,22 +92,23 @@ public class OI {
     buttonfY.whenPressed(new HatchToggle());*/
     floorHeight.whenPressed(new LiftThenArm(0, RobotConstants.ARM_FLOOR_DEGREE));
     hatch1.whenPressed(new LiftThenArm(0, -66.6));
-    hatch2.whenPressed(new LiftThenArm(16.25,-36));
+    hatch2.whenPressed(new LiftThenArm(18.5,-36));
     hatch3.whenPressed(new LiftThenArm(38/*35.25*/,-36));
     cargo1.whenPressed(new LiftThenArm(0,0));
-    cargo2.whenPressed(new LiftThenArm(28,0));
-    cargo3.whenPressed(new LiftThenArm(41.75,0));
+    cargo2.whenPressed(new LiftThenArm(26,0));
+    cargo3.whenPressed(new LiftThenArm(43,0));
     stow.whenPressed(new LiftAndArm(0,0));
 
-    hab2Climb.whileHeld(new DriveFullClimber(6));
+    hab3Climb.whileHeld(new DriveFullClimber(20));
+    hab2Climb.whileHeld(new DriveFullClimber(9));
     hab2Exit.whileHeld(new DriveFullClimber(0));
 
-    buttontA.whenPressed(new LiftThenArmToggle(0,0,0,-66.6));
+    /*buttontA.whenPressed(new LiftThenArmToggle(0,0,0,-66.6));
     buttontX.whenPressed(new LiftThenArmToggle(28,0,16.25,-36));
     buttontY.whenPressed(new LiftThenArmToggle(41.75,0,38,-36));
     buttontB.whenPressed(new LiftThenArmToggle(0,RobotConstants.ARM_FLOOR_DEGREE, 13.5,0));
     buttontBack.whenPressed(new LiftAndArm(0,0));
-    buttontRB.whenPressed(new HatchToggle());
+    buttontRB.whenPressed(new HatchToggle());*/
   }
 
   public XboxController getBaseJoystick() {
