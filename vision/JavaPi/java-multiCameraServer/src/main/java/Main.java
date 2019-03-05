@@ -217,7 +217,7 @@ public final class Main {
 
     public CargoPipeline(NetworkTableInstance ntinst, VideoSource cam) {
       this.ntinst = ntinst;
-      this.outputStream = CameraServer.getInstance().putVideo("CargoCV", cam.getVideoMode().width, cam.getVideoMode().height);
+      //this.outputStream = CameraServer.getInstance().putVideo("CargoCV", cam.getVideoMode().width, cam.getVideoMode().height);
     }
 
     public void publishCargo (ArrayList<MatOfPoint> contours) {
@@ -252,7 +252,7 @@ public final class Main {
 
     @Override
     public void process(Mat mat) {
-      pipelineCargo.process(mat);
+      /*pipelineCargo.process(mat);
       ntinst.getTable("TestTable").getEntry("iteration cargo").setNumber(++val);
       ArrayList<MatOfPoint> contours = pipelineCargo.filterContoursOutput();
       publishCargo(contours);
@@ -281,12 +281,13 @@ public final class Main {
     private NetworkTableInstance ntinst = null;
     private CvSource outputStream = null;
 
-    public static final double PIXELS_ACROSS = 320;
-    public static final double TARGET_AREA_TARGET = 1000;
+    public static double PIXELS_ACROSS, PIXELS_HEIGHT;
 
     public TargetPipeline(NetworkTableInstance ntinst, VideoSource cam) {
       this.ntinst = ntinst;
       this.outputStream = CameraServer.getInstance().putVideo("TargetCV", cam.getVideoMode().width, cam.getVideoMode().height);
+      PIXELS_ACROSS = cam.getVideoMode().width;
+      PIXELS_HEIGHT = cam.getVideoMode().height;
     }
 
     /*public double findSlopeOfLine (Mat mat) {
@@ -296,9 +297,15 @@ public final class Main {
       
     }*/
 
+    private double computeContourQuality(Moments k) {
+      double area = k.get_m00();
+      double dist = 1-Math.abs(k.get_m10()/area-PIXELS_ACROSS/2)*2/PIXELS_ACROSS;
+      return area*dist;
+    }
+
     public void publishTargets (ArrayList<MatOfPoint> contours) {
       int foundContour = contours.size();
-      double xCenter = PIXELS_ACROSS/2, area1 = 0.0, area2 = 0.0, xCenter1 = 0.0, xCenter2 = 0.0;
+      double xCenter = PIXELS_ACROSS/2, area1 = 0.0, area2 = 0.0, xCenter1 = 0.0, xCenter2 = 0.0, qual1 = 0.0, qual2 = 0.0;
       if (foundContour == 1) {
         area1 = Imgproc.moments(contours.get(0)).get_m00();
       } else if (foundContour > 1) {
@@ -306,34 +313,37 @@ public final class Main {
         Moments k = null;
         for (int i = 0; i<contours.size(); i++) {
           k=Imgproc.moments(contours.get(i));
-          if (k.get_m00()>area1) {
+          if (computeContourQuality(k)>qual1) {
+            qual2 = qual1;
+            qual1 = computeContourQuality(k);
             area2 = area1;
             area1 = k.get_m00();
             index2 = index1;
             index1 = i;
-          } else if (k.get_m00()>area2) {
+          } else if (computeContourQuality(k)>qual2) {
+            qual2 = computeContourQuality(k);
             area2 = k.get_m00();
             index2 = i;
           }
         }
         Moments m1 = Imgproc.moments(contours.get(index1)), m2 = Imgproc.moments(contours.get(index2));
-        xCenter1 = m1.get_m10();
-        xCenter2 = m2.get_m10();
-        xCenter = (xCenter1/area1+xCenter2/area2)*0.5;
+        xCenter1 = m1.get_m10()/area1;
+        xCenter2 = m2.get_m10()/area2;
+        xCenter = (xCenter1+xCenter2)*0.5;
       }
       ntinst.getTable("Vision Targets").getEntry("Contours Found").setNumber(foundContour);
-      ntinst.getTable("Vision Targets").getEntry("XCenter").setNumber(xCenter);
-      ntinst.getTable("Vision Targets").getEntry("XCenter1").setNumber(xCenter1/area1);
-      ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter2/area2);
-      ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area1);
-      ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area2);
-      double steer = 2*xCenter/PIXELS_ACROSS-1.0+.1;
+      ntinst.getTable("Vision Targets").getEntry("XCenter").setNumber(xCenter/PIXELS_ACROSS);
+      ntinst.getTable("Vision Targets").getEntry("XCenter1").setNumber(xCenter1/PIXELS_ACROSS);
+      ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter2/PIXELS_ACROSS);
+      ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area1/(PIXELS_ACROSS*PIXELS_HEIGHT));
+      ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area2/(PIXELS_ACROSS*PIXELS_HEIGHT));
+      /*double steer = 2*xCenter/PIXELS_ACROSS-1.0+.1;
       if (steer > 1.0) steer = 1.0;
       ntinst.getTable("Vision Targets").getEntry("Steer").setNumber(steer);
       double speed = 1-area1/TARGET_AREA_TARGET;
       if(speed < -1) speed = -1;
       if (area1 == 0 || area2 == 0) speed = 0;
-      ntinst.getTable("Vision Targets").getEntry("Speed").setNumber(speed);
+      ntinst.getTable("Vision Targets").getEntry("Speed").setNumber(speed);*/
     }
 
     @Override
