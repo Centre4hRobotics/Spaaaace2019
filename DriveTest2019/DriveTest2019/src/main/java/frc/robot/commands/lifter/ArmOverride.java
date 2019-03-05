@@ -17,16 +17,20 @@ import frc.robot.RobotConstants;
 public class ArmOverride extends Command {
   public ArmOverride() {
     requires(Robot.get().getLifterArm());
+    Robot.get().getNTInst().getTable("Command Test").getEntry("ArmOverride").setNumber(0);
   }
 
   @Override
   protected void initialize() {
+    Robot.get().getNTInst().getTable("Command Test").getEntry("ArmOverride").setNumber(0);
   }
 
   @Override
   protected void execute() {
-    if (Robot.get().getOI().getBaseJoystick().getStartButton()&&Robot.get().getOI().getBaseJoystick().getBackButton())
+    if (Robot.get().getOI().getBaseJoystick().getStartButton()&&Robot.get().getOI().getBaseJoystick().getBackButton()){
       Robot.get().getLifterArm().overrideAngle(RobotConstants.DEGREE_START);
+      Robot.get().getNTInst().getTable("Command Test").getEntry("ArmOverride").setNumber(1);
+    }
   }
 
   @Override
@@ -36,9 +40,11 @@ public class ArmOverride extends Command {
 
   @Override
   protected void end() {
+    Robot.get().getNTInst().getTable("Command Test").getEntry("ArmOverride").setNumber(0);
   }
 
   @Override
   protected void interrupted() {
+    end();
   }
 }

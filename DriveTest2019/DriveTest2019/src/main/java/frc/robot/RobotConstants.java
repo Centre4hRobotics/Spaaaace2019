@@ -21,6 +21,9 @@ public final class RobotConstants {
     public static final double SLOW_SPEED_MULT = 0.375;
     public static final double SLOW_STEER_MULT = 0.5;
     public static final double REDUCE_PERCENT = 0.1;
+    public static final double START_REDUCE_SPEED_HEIGHT = 12.0;
+    public static final double REDUCE_SPEED_MULT = -1/40.0;
+    public static final double REDUCE_SPEED_CONST = 1.0;
 
     //Climber: 
     public static final double CLIMBER_SPEED_MULT = .7;
@@ -62,6 +65,7 @@ public final class RobotConstants {
     //FindTargets:
     public static final double TARGET_STEER_MULT = 0.4;
     public static final double TARGET_SPEED_MULT = 0.35;
+    public static final double TARGET_AREA = 0.012;
 
     //FollowCargo:
     public static final double CARGO_STEER_MULT = 0.4;

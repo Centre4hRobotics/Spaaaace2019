@@ -71,7 +71,6 @@ public class OI {
   public OI () {
     //buttonbA.whileHeld(new FollowCargo());
     buttonbA.whileHeld(new FindTargets());
-    buttonbB.whileHeld(new DriveStraight(-0.3));
     buttonbStart.whileHeld(new ArmOverride());
 
     cargoIn.whileHeld(new BallIn());
