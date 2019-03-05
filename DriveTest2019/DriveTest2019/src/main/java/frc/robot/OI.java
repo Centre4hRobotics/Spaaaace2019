@@ -76,8 +76,10 @@ public class OI {
 
     cargoIn.whileHeld(new BallIn());
     cargoOut.whileHeld(new BallOut());
-    hatch.whenPressed(new HatchToggle());
-
+    hatch.whenPressed(new HatchSet(false));
+    hatch.whenReleased(new HatchSet(true));
+    //hatch.whileHeld(new HatchToggle());
+   
     /*buttontB.whenPressed(new ArmDegree(0));
     buttontY.whenPressed(new ArmDegree(RobotConstants.DEGREE_START));
     buttontLB.whileHeld(new DriveClimberWheel(1.0));
