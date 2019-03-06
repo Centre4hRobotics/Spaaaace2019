@@ -7,6 +7,7 @@
 
 package frc.robot.commands.lifter;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
@@ -14,9 +15,10 @@ import frc.robot.RobotConstants;
 /**
  * A testing command that uses an xbox joystick to control the lift speed
  */
-public class MoveArmSetpoint extends Command {
-  public MoveArmSetpoint() {
+public class MoveLiftAndArmSetpoint extends Command {
+  public MoveLiftAndArmSetpoint() {
     // Use requires() here to declare subsystem dependencies
+    requires(Robot.get().getLifter());
     requires(Robot.get().getLifterArm());
   }
 
@@ -28,9 +30,19 @@ public class MoveArmSetpoint extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = Robot.get().getOI().getFn2Joystick().getY();  
+    double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
+    if (Math.abs(speed) > 0.3 &&!Robot.get().getClimber().isClimbMode()) {
+        Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightSetpoint()+speed*RobotConstants.LIFT_MANUAL_DELTA);
+    }
+    
+    speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
     if (Math.abs(speed)>0.3 &&!Robot.get().getClimber().isClimbMode()) {
-      Robot.get().getLifterArm().setDegree(Robot.get().getLifterArm().getDegreeSetpoint()+speed*RobotConstants.ARM_MANUAL_DELTA);
+        Robot.get().getLifterArm().setDegree(Robot.get().getLifterArm().getDegreeSetpoint()+speed*RobotConstants.ARM_MANUAL_DELTA);
+    }
+
+    if (Robot.get().getOI().getTestJoystick().getPOV() !=-1) {
+        Robot.get().getLifter().setHeightInches(0);
+        Robot.get().getLifterArm().setDegree(RobotConstants.DEGREE_START);
     }
   }
 
@@ -49,6 +61,6 @@ public class MoveArmSetpoint extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    //Robot.get().getLifterArm().setHeightInches(Robot.get().getLifterArm().getHeightInches());
+    //Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightInches());
   }
 }

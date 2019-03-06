@@ -53,6 +53,7 @@ public class HatchSet extends Command {
   @Override
   protected void end() {
     Robot.get().getHatchGripper().setHatchState(endState);
+    Robot.get().getHatchGripper().setHatchSpeed(0);
   }
 
   @Override

@@ -74,6 +74,7 @@ public class DriveFullClimber extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+        if (!Robot.get().getClimber().isClimbMode()) return false;
         for (int i = 0; i<4; i++) {
             if (Math.abs(dists[i]-height)>0.2) return false;
         }

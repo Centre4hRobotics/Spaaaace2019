@@ -7,7 +7,6 @@
 
 package frc.robot.commands.lifter;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
@@ -30,9 +29,6 @@ public class MoveLiftSetpoint extends Command {
   @Override
   protected void execute() {
     double speed = Robot.get().getOI().getFn1Joystick().getY();  
-    /*if (speed < Robot.get().getOI().getTestJoystick().getY(Hand.kLeft))
-      speed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);*/
-
     if (Math.abs(speed) > 0.3 &&!Robot.get().getClimber().isClimbMode()) {
       Robot.get().getLifter().setHeightInches(Robot.get().getLifter().getHeightSetpoint()+speed*RobotConstants.LIFT_MANUAL_DELTA);
     }

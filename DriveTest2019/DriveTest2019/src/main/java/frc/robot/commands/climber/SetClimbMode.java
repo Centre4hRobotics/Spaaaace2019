@@ -5,43 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.lifter;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 /**
- * A command to lift to a height parameter as a position.
+ * A command that toggles the state of the hatch input.
  */
-public class LiftHeight extends Command {
-    private double height;
+public class SetClimbMode extends Command {
+    private boolean state;
 
-  public LiftHeight(double height) {
-    this.height = height;
-    requires(Robot.get().getLifter());
+  public SetClimbMode(boolean state) {
+    this.state = state;
+    requires(Robot.get().getClimber());
   }
 
+  // Gets the time as it starts to run
   @Override
   protected void initialize() {
-    setTimeout(5);
+      Robot.get().getClimber().setClimbMode(state);
   }
 
-  //Sets the lift height to the passed-in parameter
-  @Override
-  protected void execute() {
-      Robot.get().getLifter().setHeightInches(height);
-  }
-
+  /** 
+   * Finishes after 0.4 seconds (long enough to trip limit switch on robot)
+   */
   @Override
   protected boolean isFinished() {
-    return isTimedOut()||Math.abs(Robot.get().getLifter().getHeightInches()-height) < 2;
-  }
-
-  @Override
-  protected void end() {
-  }
-
-  @Override
-  protected void interrupted() {
+    return true;
   }
 }

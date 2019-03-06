@@ -27,6 +27,7 @@ public final class RobotConstants {
 
     //Climber: 
     public static final double CLIMBER_SPEED_MULT = .7;
+    public static final double CLIMB_WHEEL_MULT = 0.5;
     public static final double CLIMBER_DPP = -0.00001158;
     public static final double CLIMBER_ENCODER_DPP_FL = -0.0000132823;//12.5/(-941100);
     public static final double CLIMBER_ENCODER_DPP_FR = -0.00001348;//12.5/(-927300)

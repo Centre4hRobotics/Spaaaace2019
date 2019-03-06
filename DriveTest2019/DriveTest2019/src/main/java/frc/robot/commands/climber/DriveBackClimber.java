@@ -14,7 +14,16 @@ import frc.robot.RobotConstants;
  * An example command. You can replace me with your own command.
  */
 public class DriveBackClimber extends Command {
-    private double height;
+    private double height, avg;
+    private final int len = 2;
+    /**Mults is either 1,0.5, or zero for each
+     * adjusts is the adjustment value for each motor from -1 to 1
+     * dists is the current encoder readings
+     * inputs is what is going into setSpeed
+     */
+    private double[] mults, adjusts, dists, inputs;
+    private int dir;
+
     public DriveBackClimber(double height) {
         // Use requires() here to declare subsystem dependencies
         this.height = height;
@@ -24,29 +33,49 @@ public class DriveBackClimber extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        dists = new double[len];
+        dists[0] = Robot.get().getClimber().getEncoderBL();
+        dists[1] = Robot.get().getClimber().getEncoderBR();
+        avg = 0;
+        mults = new double[len];
+        for (int i = 0; i<len; i++)  {
+            mults[i] = 1;
+            avg+=dists[i];
+        }
+        avg/=len;
+        adjusts = new double[len];
+        inputs = new double[len];
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        //diff is right minus left
-        double mult = 1;
-        if (Robot.get().getClimber().getEncoderBL()-height>0) mult = -1;
-        if (Math.abs(Robot.get().getClimber().getEncoderBL()-height)<2) {
-            mult*=.3;
+        dists[0] = Robot.get().getClimber().getEncoderBL();
+        dists[1] = Robot.get().getClimber().getEncoderBR();
+        avg = 0;
+        for (int i = 0; i<len; i++) avg+=dists[i];
+        avg/=len;
+        if (height<avg) dir = 1;
+        else dir = -1;
+        //pos 0 is fl, pos 1 is fr, pos 2 is bl, pos 3 is br
+        for (int i = 0; i<len; i++) {
+            if (Math.abs(dists[i]-height)<1) mults[i]=0.5;
+            if (Math.abs(dists[i]-height)<0.2) mults[i] = 0;
+            adjusts[i] = Math.max(Math.min(dists[i]-avg, 1), -1);
+            inputs[i] = mults[i]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[i]);
         }
-        double diff = Robot.get().getClimber().getEncoderBR()-Robot.get().getClimber().getEncoderBL();
-        Robot.get().getClimber().setBLSpeed(mult*RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED);
-        Robot.get().getClimber().setBRSpeed(mult*RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED);
+
+        Robot.get().getClimber().setBLSpeed(inputs[0]);
+        Robot.get().getClimber().setBRSpeed(inputs[1]);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if (Math.abs(Robot.get().getClimber().getEncoderBL()-height) < 0.2 
-            && Math.abs(Robot.get().getClimber().getEncoderBR()-height)<0.2) 
-                return true;
-        return false;
+        if (!Robot.get().getClimber().isClimbMode()) return false;
+        for (int i = 0; i<len; i++) {
+            if (Math.abs(dists[i]-height)>0.2) return false;
+        }
+        return true;
     }
 
     // Called once after isFinished returns true

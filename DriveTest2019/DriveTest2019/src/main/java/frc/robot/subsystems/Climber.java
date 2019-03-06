@@ -94,12 +94,12 @@ public class Climber extends Subsystem {
         return climbMode;
     }
 
-    public void toggleClimbMode () {
-        climbMode = !climbMode;
+    public void setClimbMode (boolean state) {
+        climbMode = state;
     }
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ClimberDriveManual());
+        setDefaultCommand(new ClimberEncoderDriveManual());
     }
 }
