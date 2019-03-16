@@ -35,8 +35,9 @@ public final class RobotConstants {
     public static final double CLIMBER_ENCODER_DPP_BR = -0.000013;//guess
 
     //DriveFront(/Back)Climber
-    public static final double CLIMBER_BASE_SPEED = 0.65;
-    public static final double CLIMBER_ADJUST_SPEED = 0.3;
+    public static final double CLIMBER_BASE_SPEED = 0.75;
+    public static final double CLIMBER_ADJUST_SPEED = 0.2;
+    public static final double CLIMBER_MANUAL_SPEED_MULT = 0.8;
     
     //Lifter:
     public static final double ROTATIONS_PER_INCH = 1.262;//1.196*20/17.625*20/21.5;
@@ -47,7 +48,7 @@ public final class RobotConstants {
     public static final double LIFT_SPEED_MULT = 0.5;
 
     //MoveLiftSetpoint
-    public static final double LIFT_MANUAL_DELTA = 0.25;
+    public static final double LIFT_MANUAL_DELTA = -0.25;
 
     //LifterArm:
     public static final double DEGREES_PER_ROTATION = 360/212.5;

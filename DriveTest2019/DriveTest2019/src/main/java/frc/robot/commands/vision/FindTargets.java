@@ -30,15 +30,21 @@ public class FindTargets extends Command {
         Robot.get().getDriveTrain().drive(0,0);
         return;
       }
-      double steer = 2*Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter").getDouble(-0.1)-0.9;
+      double steer = 2*Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter").getDouble(-0.1)-1;
+      
       if (steer > 1.0) steer = 1.0;
       if (steer < -1.0) steer = -1.0;
 
       double speed = 1-Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0)/RobotConstants.TARGET_AREA;
       if(speed < -0.2) speed = -0.2;
+      
       if (Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0) == 0 || 
           Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0) == 0) 
           speed = 0;
+
+      //correction factor
+      if (Math.abs(speed)>0.25) steer+=0.2;
+
       Robot.get().getDriveTrain().drive(-1.0*speed*RobotConstants.TARGET_SPEED_MULT,steer*RobotConstants.TARGET_STEER_MULT);
   }
 

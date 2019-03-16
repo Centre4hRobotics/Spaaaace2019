@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotConstants;
 import frc.robot.commands.lifter.MoveArmSetpoint;
+import frc.robot.commands.lifter.SetArmSpeed;
 //import frc.robot.commands.lifter.SetArmSpeed;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -74,6 +75,7 @@ public class LifterArm extends Subsystem {
 
   public void overrideAngle(double angleSet) {
     initialEncoderVal = m_encoder.getPosition() + angleSet/RobotConstants.DEGREES_PER_ROTATION;
+    point = RobotConstants.DEGREE_START;
   }
 
   public boolean willBeInsideFramePerimeter(double height) {

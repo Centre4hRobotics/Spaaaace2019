@@ -30,7 +30,6 @@ import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.cscore.CvSource;
 
-import org.opencv.core.Mat;
 import org.opencv.core.*;
 import org.opencv.imgproc.*;
 
@@ -217,7 +216,7 @@ public final class Main {
 
     public CargoPipeline(NetworkTableInstance ntinst, VideoSource cam) {
       this.ntinst = ntinst;
-      //this.outputStream = CameraServer.getInstance().putVideo("CargoCV", cam.getVideoMode().width, cam.getVideoMode().height);
+      this.outputStream = CameraServer.getInstance().putVideo("CargoCV", cam.getVideoMode().width, cam.getVideoMode().height);
     }
 
     public void publishCargo (ArrayList<MatOfPoint> contours) {
@@ -262,7 +261,7 @@ public final class Main {
       /*System.out.println("Drawing Line");
       Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(0, 255, 0), 3);
       System.out.println("Line Drawn");*/
-      
+      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(255, 203, 76), 1);
       outputStream.putFrame(mat);
     }
 
@@ -288,6 +287,7 @@ public final class Main {
       this.outputStream = CameraServer.getInstance().putVideo("TargetCV", cam.getVideoMode().width, cam.getVideoMode().height);
       PIXELS_ACROSS = cam.getVideoMode().width;
       PIXELS_HEIGHT = cam.getVideoMode().height;
+      val = 0;
     }
 
     /*public double findSlopeOfLine (Mat mat) {
@@ -304,6 +304,8 @@ public final class Main {
     }
 
     public void publishTargets (ArrayList<MatOfPoint> contours) {
+      val++;
+      ntinst.getTable("Vision Targets").getEntry("Publish iterations").setNumber(val);
       int foundContour = contours.size();
       double xCenter = PIXELS_ACROSS/2, area1 = 0.0, area2 = 0.0, xCenter1 = 0.0, xCenter2 = 0.0, qual1 = 0.0, qual2 = 0.0;
       if (foundContour == 1) {
@@ -356,8 +358,9 @@ public final class Main {
         Imgproc.drawContours(mat, contours, i, new Scalar(255,203,76), 2);
       }
       int xCenter = ntinst.getTable("Vision Targets").getEntry("XCenter").getNumber(0.0).intValue();
+      //Dot in center of targets
       Imgproc.line(mat, new Point(xCenter, 121), new Point(xCenter, 120), new Scalar(203,255,76), 2);
-      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(255, 203, 76), 3);
+      Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(255, 203, 76), 2);
       outputStream.putFrame(mat);
     }
 
@@ -401,13 +404,13 @@ public final class Main {
 
     // start image processing on camera 0 if present
     if (cameras.size() > 1) {
-      VisionThread visionThreadTarget = new VisionThread(cameras.get(0),
-              new TargetPipeline(ntinst, cameras.get(0)), pipeline -> {});
+      VisionThread visionThreadTarget = new VisionThread(cameras.get(1),
+              new TargetPipeline(ntinst, cameras.get(1)), pipeline -> {});
         // do something with pipeline results
       //});
       // something like this for GRIP:
-      VisionThread visionThreadCargo = new VisionThread(cameras.get(1),
-              new CargoPipeline(ntinst, cameras.get(1)), pipeline -> {
+      VisionThread visionThreadCargo = new VisionThread(cameras.get(0),
+              new CargoPipeline(ntinst, cameras.get(0)), pipeline -> {
        /*pipelineCargo.filterContoursOutputCargo();
        pipelineTarget.filterContoursOutputTarget();*/
       });

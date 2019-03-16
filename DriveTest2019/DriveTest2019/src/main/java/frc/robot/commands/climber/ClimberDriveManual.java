@@ -29,30 +29,33 @@ public class ClimberDriveManual extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      //double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
-      double fSpeed = Robot.get().getOI().getFn1Joystick().getY();
-      //double bSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
-      double bSpeed = Robot.get().getOI().getFn2Joystick().getY();
+    if (Robot.get().getClimber().isClimbMode()) {
+      double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
+      //double fSpeed = Robot.get().getOI().getFn1Joystick().getY();
+      double bSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
+      //double bSpeed = -1*Robot.get().getOI().getFn2Joystick().getY();
       /*double wSpeed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kLeft);
       if (wSpeed < Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)) {
         wSpeed = -1*Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight);
       }
 
-      /*if (Robot.get().getOI().getTestJoystick().getStartButtonPressed())
+      /*if (Robot.get().getOI().getTestJoystick().getSsdtartButtonPressed())
         Robot.get().getClimber().toggleClimbMode();*/
 
       if (Math.abs(fSpeed) < 0.3/*||!Robot.get().getClimber().isClimbMode()*/) fSpeed = 0;
       if (Math.abs(bSpeed) < 0.3/*||!Robot.get().getClimber().isClimbMode()*/) bSpeed = 0;
-      //if (Math.abs(wSpeed) < 0.3/*||!Robot.get().getClimber().isClimbMode()*/) wSpeed = 0;
-      if (fSpeed>0) fSpeed/=2;
-      if (bSpeed>0) bSpeed/=2;
 
-      Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.1);
-      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_SPEED_MULT*1.1);
-      Robot.get().getClimber().setBLSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT);
-      Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_SPEED_MULT*1);
+      if (fSpeed>0) fSpeed*=0.75;
+      if (bSpeed>0) bSpeed*=0.75;
+
+      Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_MANUAL_SPEED_MULT);
+      Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_MANUAL_SPEED_MULT);
+      Robot.get().getClimber().setBLSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*bSpeed);
+      Robot.get().getClimber().setBRSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*bSpeed);
       //Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMBER_SPEED_MULT);
-
+    } else {
+      end();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -64,15 +67,16 @@ public class ClimberDriveManual extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.get().getClimber().setFLSpeed(0);
+    Robot.get().getClimber().setFRSpeed(0);
+    Robot.get().getClimber().setBLSpeed(0);
+    Robot.get().getClimber().setBRSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getClimber().setFLSpeed(0);
-    Robot.get().getClimber().setFRSpeed(0);
-    Robot.get().getClimber().setBLSpeed(0);
-    Robot.get().getClimber().setBRSpeed(0);
+    end();
   }
 }

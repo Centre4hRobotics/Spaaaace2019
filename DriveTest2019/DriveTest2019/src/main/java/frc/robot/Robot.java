@@ -121,13 +121,16 @@ public class Robot extends TimedRobot {
     getLifter().publishValues(getNTInst());
     getLifterArm().publishValues(getNTInst());
     getClimber().publishValues(getNTInst());
-    if (getClimber().isClimbMode()) {
+    double dist = getNTInst().getTable("Vision Targets").getEntry("XCenter1").getDouble(0.0)
+                - getNTInst().getTable("Vision Targets").getEntry("XCenter2").getDouble(0.0);
+    getNTInst().getTable("Vision Targets").getEntry("XCenter Distance").setNumber(dist);
+    /*if (getClimber().isClimbMode()) {
       getOI().getTestJoystick().setRumble(RumbleType.kLeftRumble, 0.2);
       get().getOI().getTestJoystick().setRumble(RumbleType.kRightRumble, 0.2);
     } else {
       Robot.get().getOI().getTestJoystick().setRumble(RumbleType.kLeftRumble, 0);
       Robot.get().getOI().getTestJoystick().setRumble(RumbleType.kRightRumble, 0);
-    }
+    }*/
   }
 
   /**

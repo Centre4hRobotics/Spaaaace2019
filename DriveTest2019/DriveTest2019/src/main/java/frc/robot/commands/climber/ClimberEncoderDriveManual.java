@@ -23,31 +23,37 @@ public class ClimberEncoderDriveManual extends Command {
 
   @Override
   protected void execute() {
-    double fSpeed = Robot.get().getOI().getFn1Joystick().getY();
-    double bSpeed = Robot.get().getOI().getFn2Joystick().getY();
-    //double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
-    //double bSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
-    if (Math.abs(fSpeed) < 0.3 || !Robot.get().getClimber().isClimbMode()) fSpeed = 0;
-    if (Math.abs(bSpeed) < 0.3 || !Robot.get().getClimber().isClimbMode()) bSpeed = 0;
+    if (Robot.get().getClimber().isClimbMode()) {
+      double fSpeed = Robot.get().getOI().getFn1Joystick().getY();
+      double bSpeed = Robot.get().getOI().getFn2Joystick().getY();
+      //double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
+      //double bSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
+      if (Math.abs(fSpeed) < 0.3) fSpeed = 0;
+      if (Math.abs(bSpeed) < 0.3) bSpeed = 0;
     
-    
-    /*if (Robot.get().getOI().getTestJoystick().getStartButtonPressed()) 
+      /*if (Robot.get().getOI().getTestJoystick().getStartButtonPressed()) 
         Robot.get().getClimber().setClimbMode(!Robot.get().getClimber().isClimbMode());
 
-    /*double wSpeed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kLeft);
-    if (wSpeed < Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)) {
+      /*double wSpeed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kLeft);
+      if (wSpeed < Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)) {
         wSpeed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)*-1;
+      }
+      if (Math.abs(wSpeed) < 0.4 || !Robot.get().getClimber().isClimbMode()) wSpeed = 0;
+      Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMB_WHEEL_MULT);*/
+
+      double diff = Robot.get().getClimber().getEncoderFR()-Robot.get().getClimber().getEncoderFL();
+      Robot.get().getClimber().setFLSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*fSpeed*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+      Robot.get().getClimber().setFRSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*fSpeed*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+
+      diff = Robot.get().getClimber().getEncoderBR()-Robot.get().getClimber().getEncoderBL();
+      Robot.get().getClimber().setBLSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*bSpeed*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+      Robot.get().getClimber().setBRSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*bSpeed*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
+    } else {
+      Robot.get().getClimber().setFLSpeed(0);
+      Robot.get().getClimber().setFRSpeed(0);
+      Robot.get().getClimber().setBLSpeed(0);
+      Robot.get().getClimber().setBRSpeed(0);
     }
-    if (Math.abs(wSpeed) < 0.4 || !Robot.get().getClimber().isClimbMode()) wSpeed = 0;
-    Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMB_WHEEL_MULT);*/
-
-    double diff = Robot.get().getClimber().getEncoderFR()-Robot.get().getClimber().getEncoderFL();
-    Robot.get().getClimber().setFLSpeed(fSpeed*RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED);
-    Robot.get().getClimber().setFRSpeed(fSpeed*RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED);
-
-    diff = Robot.get().getClimber().getEncoderBR()-Robot.get().getClimber().getEncoderBL();
-    Robot.get().getClimber().setBLSpeed(bSpeed*RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED);
-    Robot.get().getClimber().setBRSpeed(bSpeed*RobotConstants.CLIMBER_BASE_SPEED-diff*RobotConstants.CLIMBER_ADJUST_SPEED);
   }
   @Override
   protected boolean isFinished() {

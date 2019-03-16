@@ -33,24 +33,24 @@ public class DriveTrain extends Subsystem {
         if (height>RobotConstants.START_REDUCE_SPEED_HEIGHT) {
             double mult = ((height-RobotConstants.START_REDUCE_SPEED_HEIGHT)
             *RobotConstants.REDUCE_SPEED_MULT+RobotConstants.REDUCE_SPEED_CONST);
-            if (mult < 0.25) mult = 0.25;
+            if (mult < 0.75) mult = 0.75;
             return speed*mult;
         }
         return speed;
     }
 
     public void drive(XboxController stick) {
-        double speed = stick.getTriggerAxis(Hand.kRight);
+        double speed = stick.getTriggerAxis(Hand.kLeft);
         double steer = 0;
 
-        if (speed<stick.getTriggerAxis(Hand.kLeft)) {
-            speed = stick.getTriggerAxis(Hand.kLeft)*-1;
+        if (speed<stick.getTriggerAxis(Hand.kRight)) {
+            speed = stick.getTriggerAxis(Hand.kRight)*-1;
         }
         
         double override_speed = stick.getY(Hand.kLeft);
         double override_steer = stick.getX(Hand.kLeft);
 
-        if (Math.abs(override_speed) > 0.15 || Math.abs(override_steer) > 0.15) {
+        if (Math.abs(override_speed) > 0.30 || Math.abs(override_steer) > 0.30) {
             speed = override_speed;
             steer = override_steer;
         }
@@ -59,6 +59,8 @@ public class DriveTrain extends Subsystem {
             speed = 0;
         if (Math.abs(steer) < 0.15)
             steer = 0;
+
+        if (speed>0.25) steer+=0.2;
 
         override_speed = stick.getY(Hand.kRight);
         override_steer = stick.getX(Hand.kRight);
@@ -69,7 +71,7 @@ public class DriveTrain extends Subsystem {
         }
 
         lastSpeed = RobotConstants.REDUCE_PERCENT * speed + (1 - RobotConstants.REDUCE_PERCENT) * lastSpeed;
-        drive(reduceSpeed(lastSpeed), steer);
+        drive(lastSpeed, steer);
     }
 
     public void drive(double speed, double steer) {

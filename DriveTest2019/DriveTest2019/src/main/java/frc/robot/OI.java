@@ -77,6 +77,7 @@ public class OI {
   public OI () {
     //buttonbA.whileHeld(new FollowCargo());
     buttonbA.whileHeld(new FindTargets());
+    buttonbB.whileHeld(new FindTargets());
     buttonbStart.whileHeld(new ArmOverride());
    
     /*buttontB.whenPressed(new ArmDegree(0));
@@ -107,11 +108,15 @@ public class OI {
     hatch.whenReleased(new HatchSet(true));
     hab3Climb.whileHeld(new DriveFullClimber(20));
     hab2Climb.whileHeld(new DriveFullClimber(9));
-    fup.whileHeld(new DriveFrontClimber(0));
+    fup.whileHeld(new DriveFrontClimber(-1));
     allUp.whileHeld(new DriveFullClimber(0));
-    climbWheel.whileHeld(new DriveClimberWheel(1.0));
+    climbWheel.whileHeld(new DriveClimberWheel(0.4));
     climbMode.whenPressed(new SetClimbMode(true));
     climbMode.whenReleased(new SetClimbMode(false));
+
+    buttontLB.whenPressed(new SetClimbMode(true));
+    buttontLB.whenReleased(new SetClimbMode(false));
+    buttontA.whenPressed(new LiftThenArm(0,-66.6));
 
     /*buttontA.whenPressed(new LiftThenArmToggle(0,0,0,-66.6));
     buttontX.whenPressed(new LiftThenArmToggle(28,0,16.25,-36));

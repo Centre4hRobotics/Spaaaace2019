@@ -39,9 +39,9 @@ public class SetArmSpeed extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-      //double speed = Robot.get().getOI().getFn1Joystick().getY();
-      double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
-      if (Math.abs(speed) < 0.07) {
+      double speed = Robot.get().getOI().getFn1Joystick().getY();
+      //double speed = Robot.get().getOI().getTestJoystick().getY(Hand.kRight);
+      if (Math.abs(speed) < 0.3) {
         speed = 0;
       }
       /*if (Math.abs(speed*RobotConstants.ARM_SPEED_MULT)<0.3||!heightRestrict(speed)) {
