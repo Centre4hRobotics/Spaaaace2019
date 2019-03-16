@@ -335,10 +335,20 @@ public final class Main {
       }
       ntinst.getTable("Vision Targets").getEntry("Contours Found").setNumber(foundContour);
       ntinst.getTable("Vision Targets").getEntry("XCenter").setNumber(xCenter/PIXELS_ACROSS);
-      ntinst.getTable("Vision Targets").getEntry("XCenter1").setNumber(xCenter1/PIXELS_ACROSS);
-      ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter2/PIXELS_ACROSS);
-      ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area1/(PIXELS_ACROSS*PIXELS_HEIGHT));
-      ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area2/(PIXELS_ACROSS*PIXELS_HEIGHT));
+      
+      //Area1 is area of left contour, area2 right 
+      //Areas times 100 so that there can be more significant digits passed over
+      if (xCenter1<xCenter2) {
+        ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area1/(PIXELS_ACROSS*PIXELS_HEIGHT)*100);
+        ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area2/(PIXELS_ACROSS*PIXELS_HEIGHT)*100);
+        ntinst.getTable("Vision Targets").getEntry("XCenter1").setNumber(xCenter1/PIXELS_ACROSS);
+        ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter2/PIXELS_ACROSS);
+      } else {
+        ntinst.getTable("Vision Targets").getEntry("Area2").setNumber(area1/(PIXELS_ACROSS*PIXELS_HEIGHT)*100);
+        ntinst.getTable("Vision Targets").getEntry("Area1").setNumber(area2/(PIXELS_ACROSS*PIXELS_HEIGHT)*100);
+        ntinst.getTable("Vision Targets").getEntry("XCenter1").setNumber(xCenter2/PIXELS_ACROSS);
+        ntinst.getTable("Vision Targets").getEntry("XCenter2").setNumber(xCenter1/PIXELS_ACROSS);
+      }
       /*double steer = 2*xCenter/PIXELS_ACROSS-1.0+.1;
       if (steer > 1.0) steer = 1.0;
       ntinst.getTable("Vision Targets").getEntry("Steer").setNumber(steer);
@@ -357,9 +367,9 @@ public final class Main {
       for (int i = 0; i<contours.size(); i++) {
         Imgproc.drawContours(mat, contours, i, new Scalar(255,203,76), 2);
       }
-      int xCenter = ntinst.getTable("Vision Targets").getEntry("XCenter").getNumber(0.0).intValue();
+      double xCenter = ntinst.getTable("Vision Targets").getEntry("XCenter").getDouble(0.0);
       //Dot in center of targets
-      Imgproc.line(mat, new Point(xCenter, 121), new Point(xCenter, 120), new Scalar(203,255,76), 2);
+      Imgproc.line(mat, new Point((int)(xCenter*PIXELS_ACROSS), 121), new Point((int)(xCenter*PIXELS_ACROSS), 120), new Scalar(203,255,76), 2);
       Imgproc.line(mat, new Point(160, 1), new Point(160, 239), new Scalar(255, 203, 76), 2);
       outputStream.putFrame(mat);
     }

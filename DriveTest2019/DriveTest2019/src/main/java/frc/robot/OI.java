@@ -78,6 +78,7 @@ public class OI {
     //buttonbA.whileHeld(new FollowCargo());
     buttonbA.whileHeld(new FindTargets());
     buttonbB.whileHeld(new FindTargets());
+    buttonbX.whileHeld(new FindTargetsStraight());
     buttonbStart.whileHeld(new ArmOverride());
    
     /*buttontB.whenPressed(new ArmDegree(0));
@@ -94,7 +95,8 @@ public class OI {
     buttonfY.whenPressed(new HatchToggle());*/
     floorHeight.whenPressed(new LiftThenArm(0, RobotConstants.ARM_FLOOR_DEGREE));
     hatch1.whenPressed(new LiftThenArm(0, -66.6));
-    hatch2.whenPressed(new LiftThenArm(18.5,-36));
+    //hatch2 was 18.5,-36 at mvr, too low
+    hatch2.whenPressed(new LiftThenArm(20,-36));
     hatch3.whenPressed(new LiftThenArm(38/*35.25*/,-36));
     cargo1.whenPressed(new LiftThenArm(0,0));
     cargo2.whenPressed(new LiftThenArm(26,0));

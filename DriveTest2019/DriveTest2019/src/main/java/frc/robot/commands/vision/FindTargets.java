@@ -43,8 +43,10 @@ public class FindTargets extends Command {
           speed = 0;
 
       //correction factor
-      if (Math.abs(speed)>0.25) steer+=0.2;
+      //if (Math.abs(speed)>0.25) steer+=0.2;
 
+      Robot.get().getNTInst().getTable("Find Target").getEntry("Speed").setNumber(-1.0*speed*RobotConstants.TARGET_SPEED_MULT);
+      Robot.get().getNTInst().getTable("Find Target").getEntry("Steer").setNumber(steer*RobotConstants.TARGET_STEER_MULT);
       Robot.get().getDriveTrain().drive(-1.0*speed*RobotConstants.TARGET_SPEED_MULT,steer*RobotConstants.TARGET_STEER_MULT);
   }
 

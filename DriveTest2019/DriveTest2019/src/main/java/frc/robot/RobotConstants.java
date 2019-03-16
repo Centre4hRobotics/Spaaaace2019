@@ -64,10 +64,14 @@ public final class RobotConstants {
     //MoveArmSetpoint
     public static final double ARM_MANUAL_DELTA = 0.6;
 
-    //FindTargets:
-    public static final double TARGET_STEER_MULT = 0.4;
-    public static final double TARGET_SPEED_MULT = 0.35;
-    public static final double TARGET_AREA = 0.012;
+    //FindTargets(Straight):
+    public static final double TARGET_STEER_MULT = 0.75;
+    public static final double TARGET_SPEED_MULT = 0.45;
+    public static final double TARGET_AREA = 3;
+    public static final double TARGET_ANGLE_MULT = 0.6;
+    public static final double TARGET_STRAIGHT_SPEED_MULT = 0.05;
+    public static final double TARGET_STRAIGHT_STEER_MULT = 0.75;
+    public static final double AREA_PERCENT_ERROR = 0.1;
 
     //FollowCargo:
     public static final double CARGO_STEER_MULT = 0.4;
