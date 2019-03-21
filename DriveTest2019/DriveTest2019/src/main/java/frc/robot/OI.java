@@ -108,8 +108,8 @@ public class OI {
     cargoOut.whileHeld(new BallOut());
     hatch.whenPressed(new HatchSet(false));
     hatch.whenReleased(new HatchSet(true));
-    hab3Climb.whileHeld(new DriveFullClimber(20));
-    hab2Climb.whileHeld(new DriveFullClimber(9));
+    //hab3Climb.whileHeld(new DriveFullClimber(20));
+    hab2Climb.whileHeld(new DriveFullClimber(1/*9*/));
     fup.whileHeld(new DriveFrontClimber(-1));
     allUp.whileHeld(new DriveFullClimber(0));
     climbWheel.whileHeld(new DriveClimberWheel(0.4));

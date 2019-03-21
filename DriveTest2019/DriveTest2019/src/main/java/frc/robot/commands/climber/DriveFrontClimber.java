@@ -36,7 +36,8 @@ public class DriveFrontClimber extends Command {
         dists = new double[len];
         dists[0] = Robot.get().getClimber().getEncoderFL();
         dists[1] = Robot.get().getClimber().getEncoderFR();
-        avg = 0;
+        Robot.get().getClimber().setPosition(height, 5);
+        /*avg = 0;
         mults = new double[len];
         for (int i = 0; i<len; i++)  {
             mults[i] = 1;
@@ -44,14 +45,15 @@ public class DriveFrontClimber extends Command {
         }
         avg/=len;
         adjusts = new double[len];
-        inputs = new double[len];
+        inputs = new double[len];*/
     }
 
     @Override
     protected void execute() {
         dists[0] = Robot.get().getClimber().getEncoderFL();
         dists[1] = Robot.get().getClimber().getEncoderFR();
-        avg = 0;
+        
+        /*avg = 0;
         for (int i = 0; i<len; i++) avg+=dists[i];
         avg/=len;
         if (height<avg) dir = 1;
@@ -64,8 +66,8 @@ public class DriveFrontClimber extends Command {
             inputs[i] = mults[i]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[i]);
         }
 
-        Robot.get().getClimber().setFLSpeed(inputs[0]);
-        Robot.get().getClimber().setFRSpeed(inputs[1]);
+        Robot.get().getClimber().setSpeed(inputs[0], 0);
+        Robot.get().getClimber().setSpeed(inputs[1], 1);*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -81,8 +83,7 @@ public class DriveFrontClimber extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.get().getClimber().setFLSpeed(0.0);
-        Robot.get().getClimber().setFRSpeed(0.0);
+        Robot.get().getClimber().setSpeed(0.0, 5);
     }
 
     // Called when another command which requires one or more of the same

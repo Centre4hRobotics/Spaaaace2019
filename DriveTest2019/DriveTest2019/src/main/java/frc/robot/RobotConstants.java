@@ -6,16 +6,16 @@ public final class RobotConstants {
     public static final int DRIVE_MOTOR_RIGHT = 1;  
     public static final int GRIPPER_BALL_MOTOR = 8;
     public static final int GRIPPER_HATCH_MOTOR = 7;
-    public static final int CLIMBER_FL_MOTOR = 2;
-    public static final int CLIMBER_FR_MOTOR = 3;
-    public static final int CLIMBER_BL_MOTOR = 4;
-    public static final int CLIMBER_BR_MOTOR = 5;
     public static final int CLIMBER_WHEEL_MOTOR = 6;
     
     //CAN IDs: 
     public static final int LIFTER_MASTER_MOTOR = 1;
     public static final int LIFTER_FOLLOWER_MOTOR = 2;
     public static final int LIFTER_ARM_MOTOR = 3;
+    public static final int CLIMBER_FL_MOTOR = 14;
+    public static final int CLIMBER_FR_MOTOR = 5;
+    public static final int CLIMBER_BL_MOTOR = 16;
+    public static final int CLIMBER_BR_MOTOR = 7;
 
     //DriveTrain:
     public static final double SLOW_SPEED_MULT = 0.375;
@@ -33,10 +33,12 @@ public final class RobotConstants {
     public static final double CLIMBER_ENCODER_DPP_FR = -0.00001348;//12.5/(-927300)
     public static final double CLIMBER_ENCODER_DPP_BL = -0.0000118525;//13.5/(-1139000);
     public static final double CLIMBER_ENCODER_DPP_BR = -0.000013;//guess
+    public static final double CLIMBER_KP = 0.05;
+    public static final double CLIMBER_INCHES_PER_TICK = 0.0000291618;
 
     //DriveFront(/Back)Climber
-    public static final double CLIMBER_BASE_SPEED = 0.75;
-    public static final double CLIMBER_ADJUST_SPEED = 0.2;
+    public static final double CLIMBER_BASE_SPEED = -0.75;
+    public static final double CLIMBER_ADJUST_SPEED = -0.2;
     public static final double CLIMBER_MANUAL_SPEED_MULT = 0.8;
     
     //Lifter:
@@ -68,10 +70,10 @@ public final class RobotConstants {
     public static final double TARGET_STEER_MULT = 0.75;
     public static final double TARGET_SPEED_MULT = 0.45;
     public static final double TARGET_AREA = 3;
-    public static final double TARGET_ANGLE_MULT = 0.6;
+    public static final double TARGET_ANGLE_MULT = 0.7;
     public static final double TARGET_STRAIGHT_SPEED_MULT = 0.05;
-    public static final double TARGET_STRAIGHT_STEER_MULT = 0.75;
-    public static final double AREA_PERCENT_ERROR = 0.1;
+    public static final double TARGET_STRAIGHT_STEER_MULT = 0.6;
+    public static final double DISTANCE_STRAIGHT_START = 0.175;
 
     //FollowCargo:
     public static final double CARGO_STEER_MULT = 0.4;

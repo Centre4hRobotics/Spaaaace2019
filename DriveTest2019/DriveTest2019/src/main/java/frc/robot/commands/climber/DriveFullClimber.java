@@ -37,6 +37,7 @@ public class DriveFullClimber extends Command {
         dists[1] = Robot.get().getClimber().getEncoderFR();
         dists[2] = Robot.get().getClimber().getEncoderBL(); 
         dists[3] = Robot.get().getClimber().getEncoderBR();
+        //Robot.get().getClimber().setPosition(height, 4);
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
         mults = new double[4];
         for (int i = 0; i<4; i++) mults[i] = 1;
@@ -50,6 +51,7 @@ public class DriveFullClimber extends Command {
         dists[1] = Robot.get().getClimber().getEncoderFR();
         dists[2] = Robot.get().getClimber().getEncoderBL(); 
         dists[3] = Robot.get().getClimber().getEncoderBR();
+        
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
         if (height<avg) dir = 1;
         else dir = -1;
@@ -62,13 +64,9 @@ public class DriveFullClimber extends Command {
             Robot.get().getNTInst().getTable("Climber Test").getEntry("Mult " + i).setNumber(mults[i]);
             Robot.get().getNTInst().getTable("Climber Test").getEntry("Input " + i).setNumber(inputs[i]);
             Robot.get().getNTInst().getTable("Climber Test").getEntry("Adjust " + i).setNumber(adjusts[i]);
+            Robot.get().getClimber().setSpeed(inputs[i], i);
         }
         Robot.get().getNTInst().getTable("Climber Test").getEntry("Dir").setNumber(dir);
-
-        Robot.get().getClimber().setFLSpeed(inputs[0]);
-        Robot.get().getClimber().setFRSpeed(inputs[1]);
-        Robot.get().getClimber().setBLSpeed(inputs[2]);
-        Robot.get().getClimber().setBRSpeed(inputs[3]);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -84,10 +82,7 @@ public class DriveFullClimber extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.get().getClimber().setFLSpeed(0.0);
-        Robot.get().getClimber().setFRSpeed(0.0);
-        Robot.get().getClimber().setBLSpeed(0.0);
-        Robot.get().getClimber().setBRSpeed(0.0);
+        Robot.get().getClimber().setSpeed(0.0,4);
     }
 
     // Called when another command which requires one or more of the same

@@ -23,7 +23,7 @@ public class ClimberEncoderDriveManual extends Command {
 
   @Override
   protected void execute() {
-    if (Robot.get().getClimber().isClimbMode()) {
+    /*if (Robot.get().getClimber().isClimbMode()) {
       double fSpeed = Robot.get().getOI().getFn1Joystick().getY();
       double bSpeed = Robot.get().getOI().getFn2Joystick().getY();
       //double fSpeed = Robot.get().getOI().getTestJoystick().getY(Hand.kLeft);
@@ -39,7 +39,7 @@ public class ClimberEncoderDriveManual extends Command {
         wSpeed = Robot.get().getOI().getTestJoystick().getTriggerAxis(Hand.kRight)*-1;
       }
       if (Math.abs(wSpeed) < 0.4 || !Robot.get().getClimber().isClimbMode()) wSpeed = 0;
-      Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMB_WHEEL_MULT);*/
+      Robot.get().getClimber().setWheelSpeed(wSpeed*RobotConstants.CLIMB_WHEEL_MULT);
 
       double diff = Robot.get().getClimber().getEncoderFR()-Robot.get().getClimber().getEncoderFL();
       Robot.get().getClimber().setFLSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*fSpeed*(RobotConstants.CLIMBER_BASE_SPEED+diff*RobotConstants.CLIMBER_ADJUST_SPEED));
@@ -53,7 +53,7 @@ public class ClimberEncoderDriveManual extends Command {
       Robot.get().getClimber().setFRSpeed(0);
       Robot.get().getClimber().setBLSpeed(0);
       Robot.get().getClimber().setBRSpeed(0);
-    }
+    }*/
   }
   @Override
   protected boolean isFinished() {
@@ -63,11 +63,11 @@ public class ClimberEncoderDriveManual extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.get().getClimber().setFLSpeed(0);
+    /*Robot.get().getClimber().setFLSpeed(0);
     Robot.get().getClimber().setFRSpeed(0);
     Robot.get().getClimber().setBLSpeed(0);
     Robot.get().getClimber().setBRSpeed(0);
-    //Robot.get().getClimber().setWheelSpeed(0);
+    //Robot.get().getClimber().setWheelSpeed(0);*/
   }
 
   // Called when another command which requires one or more of the same

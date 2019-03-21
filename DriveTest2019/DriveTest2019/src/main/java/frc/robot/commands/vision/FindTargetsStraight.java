@@ -31,16 +31,27 @@ public class FindTargetsStraight extends Command {
         return;
       }
       double xCenterDiff = Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter2").getDouble(0.0)-Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter1").getDouble(0.0);
+      Robot.get().getNTInst().getTable("Find Target").getEntry("xCenterDiff").setNumber(xCenterDiff);
       //left minus right
       double areaDiff = Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0)-Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0);
-      double areaAvg = 0.5*(Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0)+Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0));
-      if (Math.abs(areaDiff/areaAvg)<RobotConstants.AREA_PERCENT_ERROR) areaDiff = 0;
+      //double areaAvg = 0.5*(Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0)+Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0));
+      if (Math.abs(areaDiff)<0.015) areaDiff = 0;
+      Robot.get().getNTInst().getTable("Find Target").getEntry("areaDiff").setNumber(areaDiff);
       double targetAngle = areaDiff/xCenterDiff*RobotConstants.TARGET_ANGLE_MULT+0.5;
       
       if (targetAngle > 0.9) targetAngle = 0.9;
       if (targetAngle < 0.1) targetAngle = 0.1;
-
       double speed = Math.min(1,Math.max(RobotConstants.TARGET_STRAIGHT_SPEED_MULT/xCenterDiff,0));
+      if (Math.abs(xCenterDiff)>RobotConstants.DISTANCE_STRAIGHT_START)  {
+        targetAngle = 0.5;
+        speed = 0.3;
+      }
+      if (Math.abs(xCenterDiff)>0.3) {
+        speed = 0.15;
+      }
+      if (Math.abs(xCenterDiff)>0.365) {
+        speed = 0;
+      }
       double steer = Math.min(1,Math.max(-2*(targetAngle-Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter").getDouble(0.0)),-1));
 
       //correction factors

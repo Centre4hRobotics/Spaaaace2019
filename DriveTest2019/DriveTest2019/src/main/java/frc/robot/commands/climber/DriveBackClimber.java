@@ -64,8 +64,8 @@ public class DriveBackClimber extends Command {
             inputs[i] = mults[i]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[i]);
         }
 
-        Robot.get().getClimber().setBLSpeed(inputs[0]);
-        Robot.get().getClimber().setBRSpeed(inputs[1]);
+        Robot.get().getClimber().setSpeed(inputs[0], 2);
+        Robot.get().getClimber().setSpeed(inputs[1], 3);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -81,8 +81,7 @@ public class DriveBackClimber extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.get().getClimber().setBLSpeed(0.0);
-        Robot.get().getClimber().setBRSpeed(0.0);
+        Robot.get().getClimber().setSpeed(0,6);
     }
 
     // Called when another command which requires one or more of the same
