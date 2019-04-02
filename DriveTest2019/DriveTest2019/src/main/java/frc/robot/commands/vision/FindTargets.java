@@ -7,6 +7,7 @@
 
 package frc.robot.commands.vision;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
@@ -27,23 +28,24 @@ public class FindTargets extends Command {
   @Override
   protected void execute() {
       if (Robot.get().getNTInst().getTable("Vision Targets").getEntry("Contours Found").getDouble(0.0) < 2) {
-        Robot.get().getDriveTrain().drive(0,0);
+        end();
         return;
       }
-      double steer = 2*Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter").getDouble(-0.1)-1;
+      double steer = 2*(Robot.get().getNTInst().getTable("Vision Targets").getEntry("XCenter").getDouble(0.0)+0.08)-1;
       
       if (steer > 1.0) steer = 1.0;
       if (steer < -1.0) steer = -1.0;
 
-      double speed = 1-Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0)/RobotConstants.TARGET_AREA;
-      if(speed < -0.2) speed = -0.2;
-      
-      if (Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0) == 0 || 
+      double speed = (Robot.get().getOI().getBaseJoystick().getTriggerAxis(Hand.kLeft)+Robot.get().getOI().getBaseJoystick().getTriggerAxis(Hand.kRight))/2;
+      //double speed = 1-Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0)/RobotConstants.TARGET_AREA;
+      if(speed < 0.1) speed = 0;
+                                              
+      /*if (Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0) == 0 || 
           Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0) == 0) 
           speed = 0;
 
       //correction factor
-      //if (Math.abs(speed)>0.25) steer+=0.2;
+      //if (Math.abs(speed)>0.25) steer+=0.05;*/
 
       Robot.get().getNTInst().getTable("Find Target").getEntry("Speed").setNumber(-1.0*speed*RobotConstants.TARGET_SPEED_MULT);
       Robot.get().getNTInst().getTable("Find Target").getEntry("Steer").setNumber(steer*RobotConstants.TARGET_STEER_MULT);
@@ -66,6 +68,6 @@ public class FindTargets extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.get().getDriveTrain().drive(0,0);
+    end();
   }
 }

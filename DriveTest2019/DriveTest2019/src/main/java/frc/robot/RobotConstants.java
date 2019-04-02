@@ -37,8 +37,8 @@ public final class RobotConstants {
     public static final double CLIMBER_INCHES_PER_TICK = 0.0000291618;
 
     //DriveFront(/Back)Climber
-    public static final double CLIMBER_BASE_SPEED = -0.75;
-    public static final double CLIMBER_ADJUST_SPEED = -0.2;
+    public static final double CLIMBER_BASE_SPEED = 0.75;
+    public static final double CLIMBER_ADJUST_SPEED = 0.25;
     public static final double CLIMBER_MANUAL_SPEED_MULT = 0.8;
     
     //Lifter:
@@ -68,9 +68,9 @@ public final class RobotConstants {
 
     //FindTargets(Straight):
     public static final double TARGET_STEER_MULT = 0.75;
-    public static final double TARGET_SPEED_MULT = 0.45;
-    public static final double TARGET_AREA = 3;
-    public static final double TARGET_ANGLE_MULT = 0.7;
+    public static final double TARGET_SPEED_MULT = 1;//0.32;
+    public static final double TARGET_AREA = 2.2;
+    public static final double TARGET_ANGLE_MULT = 0.13;
     public static final double TARGET_STRAIGHT_SPEED_MULT = 0.05;
     public static final double TARGET_STRAIGHT_STEER_MULT = 0.6;
     public static final double DISTANCE_STRAIGHT_START = 0.175;

@@ -53,7 +53,7 @@ public class Climber extends Subsystem {
         motorBR = new TalonSRX(RobotConstants.CLIMBER_BR_MOTOR);
 
         motorFR.setInverted(true);
-        motorBR.setInverted(true);
+        motorBL.setInverted(true);
 
         motorFL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutConst);
         motorFR.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutConst);
@@ -62,8 +62,8 @@ public class Climber extends Subsystem {
 
         motorFL.setSensorPhase(true);
         motorFR.setSensorPhase(false);
-        motorBL.setSensorPhase(true);
-        motorBR.setSensorPhase(false);
+        motorBL.setSensorPhase(false);
+        motorBR.setSensorPhase(true);
 
         motorFL.setSelectedSensorPosition(0);
         motorFR.setSelectedSensorPosition(0);
@@ -144,16 +144,16 @@ public class Climber extends Subsystem {
     }*/
 
     public double getEncoderFL () {
-        return motorFL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK;
+        return motorFL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.875;
     }
 
     public double getEncoderFR () {
-        return motorFR.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK;
+        return motorFR.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.625;
         //return encoderFR.getDistance()-1;
     }
 
     public double getEncoderBL () {
-        return motorBL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK;
+        return motorBL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.25;
     }
 
     public double getEncoderBR () {

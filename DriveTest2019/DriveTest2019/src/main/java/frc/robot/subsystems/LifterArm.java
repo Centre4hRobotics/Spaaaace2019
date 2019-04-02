@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotConstants;
 import frc.robot.commands.lifter.MoveArmSetpoint;
-import frc.robot.commands.lifter.SetArmSpeed;
 //import frc.robot.commands.lifter.SetArmSpeed;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTableInstance;

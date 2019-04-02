@@ -9,6 +9,7 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /**
  * An example command. You can replace me with your own command.
@@ -36,8 +37,8 @@ public class DriveFrontClimber extends Command {
         dists = new double[len];
         dists[0] = Robot.get().getClimber().getEncoderFL();
         dists[1] = Robot.get().getClimber().getEncoderFR();
-        Robot.get().getClimber().setPosition(height, 5);
-        /*avg = 0;
+        //Robot.get().getClimber().setPosition(height, 5);
+        avg = 0;
         mults = new double[len];
         for (int i = 0; i<len; i++)  {
             mults[i] = 1;
@@ -45,7 +46,7 @@ public class DriveFrontClimber extends Command {
         }
         avg/=len;
         adjusts = new double[len];
-        inputs = new double[len];*/
+        inputs = new double[len];
     }
 
     @Override
@@ -53,7 +54,7 @@ public class DriveFrontClimber extends Command {
         dists[0] = Robot.get().getClimber().getEncoderFL();
         dists[1] = Robot.get().getClimber().getEncoderFR();
         
-        /*avg = 0;
+        avg = 0;
         for (int i = 0; i<len; i++) avg+=dists[i];
         avg/=len;
         if (height<avg) dir = 1;
@@ -64,10 +65,8 @@ public class DriveFrontClimber extends Command {
             if (Math.abs(dists[i]-height)<0.2) mults[i] = 0;
             adjusts[i] = Math.max(Math.min(dists[i]-avg, 1), -1);
             inputs[i] = mults[i]*(dir*RobotConstants.CLIMBER_BASE_SPEED+RobotConstants.CLIMBER_ADJUST_SPEED*adjusts[i]);
+            Robot.get().getClimber().setSpeed(inputs[i], i);
         }
-
-        Robot.get().getClimber().setSpeed(inputs[0], 0);
-        Robot.get().getClimber().setSpeed(inputs[1], 1);*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -77,6 +76,7 @@ public class DriveFrontClimber extends Command {
         for (int i = 0; i<len; i++) {
             if (Math.abs(dists[i]-height)>0.2) return false;
         }
+        Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0.2);
         return true;
     }
 

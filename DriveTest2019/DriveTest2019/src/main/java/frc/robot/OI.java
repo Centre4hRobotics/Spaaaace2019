@@ -97,7 +97,7 @@ public class OI {
     hatch1.whenPressed(new LiftThenArm(0, -66.6));
     //hatch2 was 18.5,-36 at mvr, too low
     hatch2.whenPressed(new LiftThenArm(20,-36));
-    hatch3.whenPressed(new LiftThenArm(38/*35.25*/,-36));
+    hatch3.whenPressed(new LiftThenArm(39.5/*35.25*/,-36));
     cargo1.whenPressed(new LiftThenArm(0,0));
     cargo2.whenPressed(new LiftThenArm(26,0));
     cargo3.whenPressed(new LiftThenArm(43,0));
@@ -108,10 +108,10 @@ public class OI {
     cargoOut.whileHeld(new BallOut());
     hatch.whenPressed(new HatchSet(false));
     hatch.whenReleased(new HatchSet(true));
-    //hab3Climb.whileHeld(new DriveFullClimber(20));
-    hab2Climb.whileHeld(new DriveFullClimber(1/*9*/));
-    fup.whileHeld(new DriveFrontClimber(-1));
-    allUp.whileHeld(new DriveFullClimber(0));
+    hab3Climb.whileHeld(new DriveFullClimber(20.5,0));
+    hab2Climb.whileHeld(new DriveFullClimber(8/*9*/,0));
+    fup.whileHeld(new DriveFrontClimber(-0.6));
+    allUp.whileHeld(new DriveFullClimber(0,0));
     climbWheel.whileHeld(new DriveClimberWheel(0.4));
     climbMode.whenPressed(new SetClimbMode(true));
     climbMode.whenReleased(new SetClimbMode(false));

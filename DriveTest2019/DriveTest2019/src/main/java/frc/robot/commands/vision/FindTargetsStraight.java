@@ -37,7 +37,7 @@ public class FindTargetsStraight extends Command {
       //double areaAvg = 0.5*(Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0)+Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area1").getDouble(0.0));
       if (Math.abs(areaDiff)<0.015) areaDiff = 0;
       Robot.get().getNTInst().getTable("Find Target").getEntry("areaDiff").setNumber(areaDiff);
-      double targetAngle = areaDiff/xCenterDiff*RobotConstants.TARGET_ANGLE_MULT+0.5;
+      double targetAngle = areaDiff/(xCenterDiff*xCenterDiff)*RobotConstants.TARGET_ANGLE_MULT+0.5;
       
       if (targetAngle > 0.9) targetAngle = 0.9;
       if (targetAngle < 0.1) targetAngle = 0.1;
@@ -60,7 +60,7 @@ public class FindTargetsStraight extends Command {
           Robot.get().getNTInst().getTable("Vision Targets").getEntry("Area2").getDouble(0.0) == 0) 
           end();
       steer*=RobotConstants.TARGET_STRAIGHT_STEER_MULT;
-      //if (Math.abs(speed)>0.25) steer+=0.2;
+      if (Math.abs(speed)>0.25) steer+=0.1;
       Robot.get().getNTInst().getTable("Find Target").getEntry("Speed (2)").setNumber(-1.0*speed);
       Robot.get().getNTInst().getTable("Find Target").getEntry("Steer (2)").setNumber(steer);
       Robot.get().getNTInst().getTable("Find Target").getEntry("Target Angle").setNumber(targetAngle);

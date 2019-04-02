@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Spark;
 import frc.robot.RobotConstants;
+import frc.robot.commands.gripper.ManualHatch;
 
 /**
  * An example subsystem. You can replace me with your own Subsystem.

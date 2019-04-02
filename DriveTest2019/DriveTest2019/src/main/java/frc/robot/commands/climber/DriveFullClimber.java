@@ -9,12 +9,14 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotConstants;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /**
  * An example command. You can replace me with your own command.
  */
 public class DriveFullClimber extends Command {
-    private double height, avg;
+    private double height, avg, backDiff;
+    //backDiff-how much different back target height is from front.
     /**Mults is either 1,0.5, or zero for each
      * adjusts is the adjustment value for each motor from -1 to 1
      * dists is the current encoder readings
@@ -23,7 +25,7 @@ public class DriveFullClimber extends Command {
     private double[] mults, adjusts, dists, inputs;
     private int dir;
 
-    public DriveFullClimber(double height) {
+    public DriveFullClimber(double height, double backDiff) {
         // Use requires() here to declare subsystem dependencies
         this.height = height;
         requires(Robot.get().getClimber());
@@ -35,8 +37,9 @@ public class DriveFullClimber extends Command {
         dists = new double[4];
         dists[0] = Robot.get().getClimber().getEncoderFL();
         dists[1] = Robot.get().getClimber().getEncoderFR();
-        dists[2] = Robot.get().getClimber().getEncoderBL(); 
-        dists[3] = Robot.get().getClimber().getEncoderBR();
+        dists[2] = Robot.get().getClimber().getEncoderBL()+backDiff; 
+        dists[3] = Robot.get().getClimber().getEncoderBR()+backDiff;
+        Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0);
         //Robot.get().getClimber().setPosition(height, 4);
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
         mults = new double[4];
@@ -49,8 +52,8 @@ public class DriveFullClimber extends Command {
     protected void execute() {
         dists[0] = Robot.get().getClimber().getEncoderFL();
         dists[1] = Robot.get().getClimber().getEncoderFR();
-        dists[2] = Robot.get().getClimber().getEncoderBL(); 
-        dists[3] = Robot.get().getClimber().getEncoderBR();
+        dists[2] = Robot.get().getClimber().getEncoderBL()+backDiff; 
+        dists[3] = Robot.get().getClimber().getEncoderBR()+backDiff;
         
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
         if (height<avg) dir = 1;

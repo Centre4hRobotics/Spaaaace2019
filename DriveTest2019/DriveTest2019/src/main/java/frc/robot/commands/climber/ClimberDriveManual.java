@@ -42,11 +42,11 @@ public class ClimberDriveManual extends Command {
       /*if (Robot.get().getOI().getTestJoystick().getSsdtartButtonPressed())
         Robot.get().getClimber().toggleClimbMode();*/
 
-      if (Math.abs(fSpeed) < 0.3) fSpeed = 0;
-      if (Math.abs(bSpeed) < 0.3) bSpeed = 0;
+      if (Math.abs(fSpeed) < 0.1) fSpeed = 0;
+      if (Math.abs(bSpeed) < 0.1) bSpeed = 0;
 
-      if (fSpeed>0) fSpeed*=0.3;
-      if (bSpeed>0) bSpeed*=0.3;
+      //if (fSpeed>0) fSpeed*=0.3;
+      //if (bSpeed>0) bSpeed*=0.3;
 
       Robot.get().getClimber().setSpeed(fSpeed*RobotConstants.CLIMBER_MANUAL_SPEED_MULT, 5);
       Robot.get().getClimber().setSpeed(RobotConstants.CLIMBER_MANUAL_SPEED_MULT*bSpeed, 6);
@@ -55,7 +55,7 @@ public class ClimberDriveManual extends Command {
       end();
     }
   }
-
+  
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {

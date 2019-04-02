@@ -70,6 +70,11 @@ public class DriveTrain extends Subsystem {
             steer = override_steer * RobotConstants.SLOW_STEER_MULT;
         }
 
+        if (stick.getBumper(Hand.kLeft)) {
+            speed*=-1;
+            //steer*=-1;
+        }
+
         lastSpeed = RobotConstants.REDUCE_PERCENT * speed + (1 - RobotConstants.REDUCE_PERCENT) * lastSpeed;
         drive(lastSpeed, steer);
     }
