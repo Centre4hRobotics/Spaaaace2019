@@ -74,9 +74,13 @@ public class DriveFrontClimber extends Command {
     protected boolean isFinished() {
         if (!Robot.get().getClimber().isClimbMode()) return false;
         for (int i = 0; i<len; i++) {
-            if (Math.abs(dists[i]-height)>0.2) return false;
+            
+            if (Math.abs(dists[i]-height)>0.2) {
+                System.out.println("i = " + i);
+                return false;
+            }
         }
-        Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0.2);
+        //Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0.2);
         return true;
     }
 

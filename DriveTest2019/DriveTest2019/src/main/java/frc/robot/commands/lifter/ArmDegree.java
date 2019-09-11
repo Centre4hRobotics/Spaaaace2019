@@ -35,7 +35,7 @@ public class ArmDegree extends Command {
   // This finishes immediately because it only happens once (just sets the setpoint and then quits)
   @Override
   protected boolean isFinished() {
-    System.out.println("Setpoint: " + degree + "\nDegree: " + Robot.get().getLifterArm().getDegree());
+    //System.out.println("Setpoint: " + degree + "\nDegree: " + Robot.get().getLifterArm().getDegree());
     return isTimedOut()||Math.abs(Robot.get().getLifterArm().getDegree()-degree)<3;
   }
 

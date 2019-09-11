@@ -47,7 +47,7 @@ public class Climber extends Subsystem {
         encoderFR.setDistancePerPulse(RobotConstants.CLIMBER_DPP);
         encoderBL.setDistancePerPulse(RobotConstants.CLIMBER_DPP);
         encoderBR.setDistancePerPulse(RobotConstants.CLIMBER_DPP);*/
-        motorFL = new TalonSRX(RobotConstants.CLIMBER_FL_MOTOR);
+     /*   motorFL = new TalonSRX(RobotConstants.CLIMBER_FL_MOTOR);
         motorFR = new TalonSRX(RobotConstants.CLIMBER_FR_MOTOR);
         motorBL = new TalonSRX(RobotConstants.CLIMBER_BL_MOTOR);
         motorBR = new TalonSRX(RobotConstants.CLIMBER_BR_MOTOR);
@@ -73,19 +73,20 @@ public class Climber extends Subsystem {
         motorFL.config_kP(0,RobotConstants.CLIMBER_KP, kTimeoutConst);
 
         motorWheel = new PWMVictorSPX(RobotConstants.CLIMBER_WHEEL_MOTOR);
-    }
+    */ 
+}
 
     public void publishValues(NetworkTableInstance ntinst) {
-        ntinst.getTable("Climber").getEntry("Encoder FL").setNumber(getEncoderFL());
+/*        ntinst.getTable("Climber").getEntry("Encoder FL").setNumber(getEncoderFL());
         ntinst.getTable("Climber").getEntry("Encoder FR").setNumber(getEncoderFR());
         ntinst.getTable("Climber").getEntry("Encoder BL").setNumber(getEncoderBL());
         ntinst.getTable("Climber").getEntry("Encoder BR").setNumber(getEncoderBR());
-        ntinst.getTable("Climber").getEntry("Climb Mode").setBoolean(isClimbMode());
+        ntinst.getTable("Climber").getEntry("Climb Mode").setBoolean(isClimbMode());*/
       }
 
     //module 4 is all, 5 is front, 6 is back
     public void setPosition(double position, int module) {
-        double pos = position/RobotConstants.CLIMBER_INCHES_PER_TICK;
+/*        double pos = position/RobotConstants.CLIMBER_INCHES_PER_TICK;
         if (module == 0) motorFL.set(ControlMode.Position, pos);
         else if (module == 1) motorFR.set(ControlMode.Position, pos);
         else if (module == 2) motorBL.set(ControlMode.Position, pos);
@@ -104,9 +105,11 @@ public class Climber extends Subsystem {
             motorBL.set(ControlMode.Position, pos);
             motorBR.set(ControlMode.Position, pos);
         }
+        */
     }
 
     public void setSpeed(double speed, int module) {
+        /*
         if (module == 0) motorFL.set(ControlMode.PercentOutput, speed);
         else if (module == 1) motorFR.set(ControlMode.PercentOutput, speed);
         else if (module == 2) motorBL.set(ControlMode.PercentOutput, speed);
@@ -124,7 +127,7 @@ public class Climber extends Subsystem {
         else if (module == 6) {
             motorBL.set(ControlMode.PercentOutput, speed);
             motorBR.set(ControlMode.PercentOutput, speed);
-        }
+        }*/
     }
 
     /*public void setFLSpeed(double speed) {
@@ -144,32 +147,32 @@ public class Climber extends Subsystem {
     }*/
 
     public double getEncoderFL () {
-        return motorFL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.875;
+        return 0;//motorFL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.875;
     }
 
     public double getEncoderFR () {
-        return motorFR.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.625;
+        return 0;//motorFR.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.625;
         //return encoderFR.getDistance()-1;
     }
 
     public double getEncoderBL () {
-        return motorBL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK-0.25;
+        return 0;//motorBL.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK*RobotConstants.CLIMBER_BACK_ADJUST-0.25;
     }
 
     public double getEncoderBR () {
-        return motorBR.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK;
+        return 0;//motorBR.getSelectedSensorPosition()*RobotConstants.CLIMBER_INCHES_PER_TICK*RobotConstants.CLIMBER_BACK_ADJUST;
     }
 
     public void setWheelSpeed (double speed) {
-        motorWheel.set(speed);
+        //motorWheel.set(speed);
     }
 
     public boolean isClimbMode () {
-        return climbMode;
+        return false;//climbMode;
     }
 
     public void setClimbMode (boolean state) {
-        climbMode = state;
+        //climbMode = state;
     }
 
     @Override

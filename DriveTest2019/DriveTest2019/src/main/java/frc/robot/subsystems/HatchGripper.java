@@ -36,6 +36,6 @@ public class HatchGripper extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(null);
+        setDefaultCommand(new ManualHatch());
     }
 }

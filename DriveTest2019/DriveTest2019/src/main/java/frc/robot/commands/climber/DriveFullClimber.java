@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
  * An example command. You can replace me with your own command.
  */
 public class DriveFullClimber extends Command {
-    private double height, avg, backDiff;
+    private double height, backDiff, avg;
     //backDiff-how much different back target height is from front.
     /**Mults is either 1,0.5, or zero for each
      * adjusts is the adjustment value for each motor from -1 to 1
      * dists is the current encoder readings
      * inputs is what is going into setSpeed
      */
-    private double[] mults, adjusts, dists, inputs;
+    private double[] mults, adjusts, dists, inputs;//, avgs;
     private int dir;
 
     public DriveFullClimber(double height, double backDiff) {
@@ -42,6 +42,9 @@ public class DriveFullClimber extends Command {
         Robot.get().getOI().getBaseJoystick().setRumble(RumbleType.kRightRumble, 0);
         //Robot.get().getClimber().setPosition(height, 4);
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
+        /*avgs = new double[2];
+        avgs[0] = 0.5*(dists[0]+dists[1]);
+        avgs[1] = 0.5*(dists[2]+dists[3]);*/
         mults = new double[4];
         for (int i = 0; i<4; i++) mults[i] = 1;
         adjusts = new double[4];
@@ -56,6 +59,8 @@ public class DriveFullClimber extends Command {
         dists[3] = Robot.get().getClimber().getEncoderBR()+backDiff;
         
         avg = 0.25*(dists[0]+dists[1]+dists[2]+dists[3]);
+        /*avgs[0] = 0.5*(dists[0]+dists[1]);
+        avgs[1] = 0.5*(dists[2]+dists[3]);*/
         if (height<avg) dir = 1;
         else dir = -1;
         //pos 0 is fl, pos 1 is fr, pos 2 is bl, pos 3 is br

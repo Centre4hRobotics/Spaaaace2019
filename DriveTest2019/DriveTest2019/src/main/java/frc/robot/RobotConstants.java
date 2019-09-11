@@ -35,6 +35,7 @@ public final class RobotConstants {
     public static final double CLIMBER_ENCODER_DPP_BR = -0.000013;//guess
     public static final double CLIMBER_KP = 0.05;
     public static final double CLIMBER_INCHES_PER_TICK = 0.0000291618;
+    public static final double CLIMBER_BACK_ADJUST = 0.9;
 
     //DriveFront(/Back)Climber
     public static final double CLIMBER_BASE_SPEED = 0.75;
@@ -71,7 +72,7 @@ public final class RobotConstants {
     public static final double TARGET_SPEED_MULT = 1;//0.32;
     public static final double TARGET_AREA = 2.2;
     public static final double TARGET_ANGLE_MULT = 0.13;
-    public static final double TARGET_STRAIGHT_SPEED_MULT = 0.05;
+    public static final double TARGET_STRAIGHT_SPEED_MULT = 0.035;
     public static final double TARGET_STRAIGHT_STEER_MULT = 0.6;
     public static final double DISTANCE_STRAIGHT_START = 0.175;
 
